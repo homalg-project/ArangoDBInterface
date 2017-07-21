@@ -1,0 +1,10 @@
+#
+# ArangoDB: An interface to ArangoDB
+#
+# Implementations
+#
+InstallGlobalFunction( ArangoDB_Example,
+function()
+	Print( "This is a placeholder function, replace it with your own code.\n" );
+end );
+
