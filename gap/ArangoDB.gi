@@ -36,12 +36,15 @@ InstallMethod( SaveToDataBase,
         [ IsRecord, IsString, IsRecord ],
 
   function( keys_values, collection, stream )
-    local key, string;
+    local key, SEP, string;
     
     string := [ ];
     
+    SEP := "";
+    
     for key in NamesOfComponents( keys_values ) do
-        Append( string, [ key, ":",  "\"", String( keys_values.(key) ), "\"" ] );
+        Append( string, [ SEP, key, " : ",  "\"", String( keys_values.(key) ), "\"" ] );
+        SEP := ", ";
     od;
     
     string := Concatenation( string );
