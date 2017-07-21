@@ -10,8 +10,14 @@ SetPackageInfo( rec(
 
 PackageName := "ArangoDB",
 Subtitle := "An interface to ArangoDB",
-Version := "0.1",
-Date := "21/07/2017", # dd/mm/yyyy format
+Version := Maximum( [
+                   "2017.07.21", ## Mohamed's version
+                   ## this line prevents merge conflicts
+                   "2017.07.21", ## Lukas's version
+                   ] ),
+
+Date := ~.Version{[ 1 .. 10 ]},
+Date := Concatenation( ~.Date{[ 9, 10 ]}, "/", ~.Date{[ 6, 7 ]}, "/", ~.Date{[ 1 .. 4 ]} ),
 
 Persons := [
   rec(
@@ -32,11 +38,11 @@ Persons := [
 
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/mohamed-barakat/", ~.PackageName ),
+    URL := Concatenation( "https://github.com/homalg-project/", ~.PackageName ),
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
 #SupportEmail   := "TODO",
-PackageWWWHome  := "https://mohamed-barakat.github.io/ArangoDB/",
+PackageWWWHome  := "https://homalg-project.github.io/ArangoDB/",
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "README.md" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
@@ -68,7 +74,10 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.8",
-  NeededOtherPackages := [ [ "GAPDoc", ">= 1.5" ] ],
+  NeededOtherPackages := [
+                   [ "GAPDoc", ">= 1.5" ],
+                   [  "IO_ForHomalg", ">= 2017.04.01" ],
+                   ],
   SuggestedOtherPackages := [ ],
   ExternalConditions := [ ],
 ),
@@ -79,7 +88,7 @@ AvailabilityTest := function()
 
 TestFile := "tst/testall.g",
 
-#Keywords := [ "TODO" ],
+Keywords := [ "ArangoDB", "arangosh", "interface" ],
 
 ));
 
