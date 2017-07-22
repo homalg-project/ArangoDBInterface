@@ -63,6 +63,29 @@ InstallMethod( SaveToDataBase,
 end );
 
 ##
+InstallMethod( UpdateDataBase,
+        [ IsString, IsRecord, IsString, IsRecord ],
+
+  function( id, keys_values_rec, collection, stream )
+    local string;
+    
+    string := _ArangoDB_create_keys_values_string( keys_values_rec );
+    
+    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection, "')" ], "need_command", stream );
+    
+end );
+
+##
+InstallMethod( RemoveFromDataBase,
+        [ IsString, IsString, IsRecord ],
+
+  function( id, collection, stream )
+    
+    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection, "')" ], "need_command", stream );
+    
+end );
+
+##
 InstallMethod( QueryDataBase,
         [ IsString, IsRecord ],
 
@@ -150,28 +173,5 @@ InstallMethod( QueryDataBase,
                     end );
     
     return result;
-    
-end );
-
-##
-InstallMethod( UpdateDataBase,
-        [ IsString, IsRecord, IsString, IsRecord ],
-
-  function( id, keys_values_rec, collection, stream )
-    local string;
-    
-    string := _ArangoDB_create_keys_values_string( keys_values_rec );
-    
-    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection, "')" ], "need_command", stream );
-    
-end );
-
-##
-InstallMethod( RemoveFromDataBase,
-        [ IsString, IsString, IsRecord ],
-
-  function( id, collection, stream )
-    
-    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection, "')" ], "need_command", stream );
     
 end );

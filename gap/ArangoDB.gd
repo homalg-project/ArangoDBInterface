@@ -25,20 +25,6 @@ DeclareOperation( "SaveToDataBase",
 
 #! @Description
 #!  
-#! @Arguments query_string, stream
-#! @Returns a string
-DeclareOperation( "QueryDataBase",
-        [ IsString, IsRecord ] );
-
-#! @Description
-#!  
-#! @Arguments query_rec, result_rec, collection, stream
-#! @Returns a list
-DeclareOperation( "QueryDataBase",
-        [ IsRecord, IsRecord, IsString, IsRecord ] );
-
-#! @Description
-#!  
 #! @Arguments id, keys_values_rec, collection, stream
 #! @Returns none
 DeclareOperation( "UpdateDataBase",
@@ -50,3 +36,17 @@ DeclareOperation( "UpdateDataBase",
 #! @Returns none
 DeclareOperation( "RemoveFromDataBase",
         [ IsString, IsString, IsRecord ] );
+
+#! @Description
+#!  
+#! @Arguments query_string, stream
+#! @Returns a string
+DeclareOperation( "QueryDataBase",
+        [ IsString, IsRecord ] );
+
+#! @Description
+#!  
+#! @Arguments query_rec, result_rec, collection, stream
+#! @Returns a list
+DeclareOperation( "QueryDataBase",
+        [ IsRecord, IsRecord, IsString, IsRecord ] );
