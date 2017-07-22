@@ -16,7 +16,7 @@ DeclareGlobalVariable( "HOMALG_IO_ArangoShell" );
 
 #! @Description
 #!  
-#! @Arguments query_string, collection, stream
+#! @Arguments keys_values_rec, collection, stream
 #! @Returns none
 DeclareOperation( "SaveToDataBase",
         [ IsRecord, IsString, IsRecord ] );
