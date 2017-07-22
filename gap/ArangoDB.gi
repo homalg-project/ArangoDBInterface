@@ -506,3 +506,21 @@ InstallMethod( QueryDatabase,
     return QueryDatabase( string, collection );
     
 end );
+
+##
+InstallMethod( AsIterator,
+        "for a database cursor",
+        [ IsDatabaseCursorRep ],
+        
+  function( cursor )
+    local iter;
+    
+    iter := rec(
+                NextIterator := iter -> cursor.next(),
+                IsDoneIterator := iter -> not cursor.hasNext(),
+                ShallowCopy := IdFunc
+                );
+    
+    return IteratorByFunctions( iter );
+    
+end );
