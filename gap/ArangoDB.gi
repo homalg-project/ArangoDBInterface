@@ -69,7 +69,7 @@ InstallMethod( QueryDataBase,
   function( query_rec, result_rec, collection, stream )
     local string, keys, AND, i, key, value, func, SEP, result;
     
-    string := [ "for d in ", collection, " FILTER " ];
+    string := [ "FOR d IN ", collection, " FILTER " ];
     
     keys := NamesOfComponents( query_rec );
     
