@@ -12,6 +12,8 @@
 #!  <C>stream := LaunchCAS( "HOMALG_IO_ArangoShell" );</C>
 DeclareGlobalVariable( "HOMALG_IO_ArangoShell" );
 
+DeclareGlobalFunction( "_ArangoDB_create_keys_values_string" );
+
 #! @Section Query operations
 
 #! @Description

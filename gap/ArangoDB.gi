@@ -32,22 +32,31 @@ InstallValue( HOMALG_IO_ArangoShell,
 HOMALG_IO_ArangoShell.READY_LENGTH := Length( HOMALG_IO_ArangoShell.READY );
 
 ##
-InstallMethod( SaveToDataBase,
-        [ IsRecord, IsString, IsRecord ],
-
-  function( keys_values, collection, stream )
+InstallGlobalFunction( _ArangoDB_create_keys_values_string,
+  function( keys_values_rec )
     local key, SEP, string;
     
     string := [ ];
     
     SEP := "";
     
-    for key in NamesOfComponents( keys_values ) do
-        Append( string, [ SEP, key, " : ",  "\"", String( keys_values.(key) ), "\"" ] );
+    for key in NamesOfComponents( keys_values_rec ) do
+        Append( string, [ SEP, key, " : ",  "\"", String( keys_values_rec.(key) ), "\"" ] );
         SEP := ", ";
     od;
     
-    string := Concatenation( string );
+    return Concatenation( string );
+    
+end );
+
+##
+InstallMethod( SaveToDataBase,
+        [ IsRecord, IsString, IsRecord ],
+
+  function( keys_values_rec, collection, stream )
+    local string;
+    
+    string := _ArangoDB_create_keys_values_string( keys_values_rec );
     
     homalgSendBlocking( [ "db.", collection, ".save({", string, "})" ], "need_command", stream );
     
