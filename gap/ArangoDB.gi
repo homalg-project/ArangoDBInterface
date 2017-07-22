@@ -52,6 +52,7 @@ InstallMethod( SaveToDataBase,
     homalgSendBlocking( [ "db.", collection, ".save({", string, "})" ], "need_command", stream );
     
 end );
+
 ##
 InstallMethod( QueryDataBase,
         [ IsString, IsRecord ],
