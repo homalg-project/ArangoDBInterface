@@ -6,7 +6,11 @@
 
 #! @Chapter ArangoDB
 
+####################################
+#
 #! @Section Global variables
+#
+####################################
 
 #! @Description
 #!  <C>stream := LaunchCAS( "HOMALG_IO_ArangoShell" );</C>
