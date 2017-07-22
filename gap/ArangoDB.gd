@@ -36,3 +36,17 @@ DeclareOperation( "QueryDataBase",
 #! @Returns a list
 DeclareOperation( "QueryDataBase",
         [ IsRecord, IsRecord, IsString, IsRecord ] );
+
+#! @Description
+#!  
+#! @Arguments id, keys_values_rec, collection, stream
+#! @Returns none
+DeclareOperation( "UpdateDataBase",
+        [ IsString, IsRecord, IsString, IsRecord ] );
+
+#! @Description
+#!  
+#! @Arguments id, collection, stream
+#! @Returns none
+DeclareOperation( "RemoveFromDataBase",
+        [ IsString, IsString, IsRecord ] );
