@@ -281,14 +281,25 @@ InstallMethod( \.,
     if name = "toArray" then
         
         return function( )
-            local pointer, ext_obj;
+            local pointer, str, ext_obj, array;
             
             pointer := cursor!.pointer;
             
-            ext_obj := homalgSendBlocking( [ cursor!.pointer, ".toArray()" ] );
+            str := homalgSendBlocking( [ pointer ], "need_output" );
+            
+            str := SplitString( str, "," )[2];
+            str := SplitString( str, ":" )[2];
+            
+            ext_obj := homalgSendBlocking( [ pointer, ".toArray()" ] );
             ext_obj!.collection := pointer!.collection;
             
-            return CreateDatabaseArray( ext_obj );
+            array := CreateDatabaseArray( ext_obj );
+            
+            SetLength( array, EvalString( str ) );
+            
+            array!.Name := Concatenation( "<An array of length ", str, " in ", Name( ext_obj!.collection ), ">" );
+            
+            return array;
             
         end;
         

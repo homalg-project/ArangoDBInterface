@@ -16,7 +16,9 @@ t := DatabaseStatement( "FOR e IN examples RETURN e", l );
 c := t.execute();
 #! <A cursor in <Database collection "examples">>
 a := c.toArray();
-#! <An array in <Database collection "examples">>
+#! <An array of length 3 in <Database collection "examples">>
+Length( a );
+#! 3
 a[1].TP;
 #! "x-y"
 a[2].TP;
