@@ -524,3 +524,17 @@ InstallMethod( AsIterator,
     return IteratorByFunctions( iter );
     
 end );
+
+##
+InstallMethod( DatabaseDocumentToRecord,
+        "for a database document",
+        [ IsDatabaseDocumentRep ],
+
+  function( document )
+    local str;
+    
+    str := homalgSendBlocking( [ document!.pointer ], "need_output" );
+    
+    return JsonStringToGap( str );
+    
+end );

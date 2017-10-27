@@ -167,3 +167,10 @@ DeclareOperation( "QueryDatabase",
 #! @Returns an iterator
 DeclareOperation( "AsIterator",
         [ IsDatabaseCursor ] );
+
+#! @Description
+#!  Convert <A>document</A> into a &GAP; record.
+#! @Arguments document
+#! @Returns a record
+DeclareOperation( "DatabaseDocumentToRecord",
+        [ IsDatabaseDocument ] );

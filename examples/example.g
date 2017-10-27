@@ -38,6 +38,13 @@ d3 := NextIterator( i );
 #! <A document in <Database collection "examples">>
 d3.TP;
 #! "x+y"
+r3 := DatabaseDocumentToRecord( d3 );;
+IsRecord( r3 );
+#! true
+NamesOfComponents( r3 );
+#! [ "_key", "TP", "_id", "_rev" ]
+[ r3._id, r3._key, r3.TP ];
+#! [ "examples/3", "3", "x+y" ]
 RemoveFromDatabase( "1", l );
 RemoveFromDatabase( "2", l );
 RemoveFromDatabase( "3", l );
