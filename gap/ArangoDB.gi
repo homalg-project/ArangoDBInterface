@@ -372,7 +372,7 @@ InstallMethod( UpdateDatabase,
     
     string := _ArangoDB_create_keys_values_string( keys_values_rec );
     
-    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection, "')" ], "need_command", collection!.stream );
+    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection!.name, "')" ], "need_command", collection!.stream );
     
 end );
 
@@ -383,7 +383,7 @@ InstallMethod( RemoveFromDatabase,
 
   function( id, collection )
     
-    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection, "')" ], "need_command", collection!.stream );
+    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection!.name, "')" ], "need_command", collection!.stream );
     
 end );
 
