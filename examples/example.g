@@ -1,0 +1,44 @@
+#! @System example
+
+LoadPackage( "ArangoDB" );
+
+#! @Example
+stream := LaunchCAS( "HOMALG_IO_ArangoShell" );;
+l := DatabaseCollection( "examples", stream );
+#! <Database collection "examples">
+InsertIntoDatabase( rec( _key := 1, TP := "x-y" ), l );
+InsertIntoDatabase( rec( _key := 2, TP := "x*y" ), l );
+InsertIntoDatabase( rec( _key := 3, TP := "x+2*y" ), l );
+UpdateDatabase( "3", rec( TP := "x+y" ), l );
+t := DatabaseStatement( "FOR e IN examples RETURN e", l );
+#! <A statement in <Database collection "examples">>
+c := t.execute();
+#! <A cursor in <Database collection "examples">>
+a := c.toArray();
+#! <An array in <Database collection "examples">>
+a[1].TP;
+#! "x-y"
+a[2].TP;
+#! "x*y"
+a[3].TP;
+#! "x+y"
+c := t.execute();
+#! <A cursor in <Database collection "examples">>
+i := AsIterator( c );
+#! <iterator>
+d1 := NextIterator( i );
+#! <A document in <Database collection "examples">>
+d1.TP;
+#! "x-y"
+d2 := NextIterator( i );
+#! <A document in <Database collection "examples">>
+d2.TP;
+#! "x*y"
+d3 := NextIterator( i );
+#! <A document in <Database collection "examples">>
+d3.TP;
+#! "x+y"
+RemoveFromDatabase( "1", l );
+RemoveFromDatabase( "2", l );
+RemoveFromDatabase( "3", l );
+#! @EndExample

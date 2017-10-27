@@ -20,6 +20,7 @@ AutoDoc(
             maketest := rec( folder := ".",
                              commands :=
                              [ "LoadPackage( \"ArangoDBInterface\" );",
+                               "HOMALG_IO.show_banners := false;",
                              ],
                            ),
             )
