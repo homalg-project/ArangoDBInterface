@@ -133,6 +133,17 @@ InstallMethod( DatabaseCollection,
 end );
 
 ##
+InstallMethod( TruncateDatabaseCollection,
+        "for a database collection",
+        [ IsDatabaseCollectionRep ],
+
+  function( collection )
+    
+    homalgSendBlocking( [ "db._truncate(", collection!.pointer, ")" ], "need_command" );
+    
+end );
+
+##
 InstallMethod( DatabaseStatement,
         "for a string and a database collection",
         [ IsString, IsDatabaseCollectionRep ],

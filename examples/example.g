@@ -6,6 +6,7 @@ LoadPackage( "ArangoDB" );
 stream := LaunchCAS( "HOMALG_IO_ArangoShell" );;
 l := DatabaseCollection( "examples", stream );
 #! <Database collection "examples">
+TruncateDatabaseCollection( l );
 InsertIntoDatabase( rec( _key := 1, TP := "x-y" ), l );
 InsertIntoDatabase( rec( _key := 2, TP := "x*y" ), l );
 InsertIntoDatabase( rec( _key := 3, TP := "x+2*y" ), l );
@@ -47,5 +48,4 @@ NamesOfComponents( r3 );
 #! [ "examples/3", "3", "x+y" ]
 RemoveFromDatabase( "1", l );
 RemoveFromDatabase( "2", l );
-RemoveFromDatabase( "3", l );
 #! @EndExample
