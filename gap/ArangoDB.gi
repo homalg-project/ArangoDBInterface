@@ -589,3 +589,16 @@ InstallMethod( DatabaseDocumentToRecord,
     return JsonStringToGap( str );
     
 end );
+
+##
+InstallMethod( DisplayInDatabase,
+        "for a database document",
+        [ IsObject ],
+        
+  function( obj )
+    
+    if IsBound( obj!.pointer ) then
+        homalgDisplay( obj!.pointer );
+    fi;
+    
+end );

@@ -198,3 +198,10 @@ DeclareOperation( "ListOp",
 #! @Returns a record
 DeclareOperation( "DatabaseDocumentToRecord",
         [ IsDatabaseDocument ] );
+
+#! @Description
+#!  Display in the database.
+#! @Arguments object
+#! @Returns none
+DeclareOperation( "DisplayInDatabase",
+        [ IsObject ] );
