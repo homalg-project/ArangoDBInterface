@@ -69,6 +69,14 @@ DeclareOperation( "DatabaseCollection",
         [ IsString, IsRecord ] );
 
 #! @Description
+#!  Create a new database collection with name <A>collection_name</A>
+#!  available through the stream record <A>stream</A>.
+#! @Arguments collection
+#! @Returns a database collection
+DeclareOperation( "CreateDatabaseCollection",
+        [ IsString, IsRecord ] );
+
+#! @Description
 #!  Truncate an existing database collection with name <A>collection_name</A>
 #!  available through the stream record <A>stream</A>.
 #! @Arguments collection_name, stream

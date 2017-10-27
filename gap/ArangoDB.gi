@@ -133,6 +133,19 @@ InstallMethod( DatabaseCollection,
 end );
 
 ##
+InstallMethod( CreateDatabaseCollection,
+        "for a string and a record",
+        [ IsString, IsRecord ],
+
+  function( collection_name, stream )
+    
+    homalgSendBlocking( [ "db._create(\"", collection_name, "\")" ], "need_command", stream );
+    
+    return DatabaseCollection( collection_name, stream );
+    
+end );
+
+##
 InstallMethod( TruncateDatabaseCollection,
         "for a database collection",
         [ IsDatabaseCollectionRep ],
