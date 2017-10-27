@@ -19,6 +19,8 @@ a := c.toArray();
 #! <An array of length 3 in <Database collection "examples">>
 Length( a );
 #! 3
+Length( List( a ) );
+#! 3
 a[1].TP;
 #! "x-y"
 a[2].TP;

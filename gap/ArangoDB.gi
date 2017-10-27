@@ -563,6 +563,20 @@ InstallMethod( AsIterator,
 end );
 
 ##
+InstallMethod( ListOp,
+        "for a database array",
+        [ IsDatabaseArrayRep ],
+
+  function( array )
+    local str;
+    
+    str := homalgSendBlocking( [ array!.pointer ], "need_output" );
+    
+    return JsonStringToGap( str );
+    
+end );
+
+##
 InstallMethod( DatabaseDocumentToRecord,
         "for a database document",
         [ IsDatabaseDocumentRep ],
