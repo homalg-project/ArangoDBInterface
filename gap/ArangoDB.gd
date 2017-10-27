@@ -61,7 +61,7 @@ DeclareCategory( "IsDatabaseDocument",
 ####################################
 
 #! @Description
-#!  Create a database collection with name <A>collection_name</A>
+#!  Attach an existing database collection with name <A>collection_name</A>
 #!  available through the stream record <A>stream</A>.
 #! @Arguments collection_name, stream
 #! @Returns a database collection
