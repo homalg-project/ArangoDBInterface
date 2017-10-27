@@ -1,7 +1,7 @@
 #
-# ArangoDB: An interface to ArangoDB
+# ArangoDBInterface: An interface to ArangoDB
 #
 # Reading the declaration part of the package.
 #
 
-ReadPackage( "ArangoDB", "gap/ArangoDB.gd");
+ReadPackage( "ArangoDBInterface", "gap/ArangoDB.gd");

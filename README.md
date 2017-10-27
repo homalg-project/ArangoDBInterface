@@ -1,3 +1,3 @@
-The GAP 4 package `ArangoDB'
+The GAP 4 package `ArangoDBInterface'
 ==============================
 

@@ -1,5 +1,5 @@
 #
-# ArangoDB: The elementary topos of finite sets
+# ArangoDBInterface: An interface to ArangoDB
 #
 # This file is a script which compiles the package manual.
 #
@@ -19,7 +19,7 @@ AutoDoc(
 
             maketest := rec( folder := ".",
                              commands :=
-                             [ "LoadPackage( \"ArangoDB\" );",
+                             [ "LoadPackage( \"ArangoDBInterface\" );",
                              ],
                            ),
             )

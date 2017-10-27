@@ -1,5 +1,5 @@
 #
-# ArangoDB: An interface to ArangoDB
+# ArangoDBInterface: An interface to ArangoDB
 #
 # Declarations
 #

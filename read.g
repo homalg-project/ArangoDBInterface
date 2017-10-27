@@ -1,9 +1,9 @@
 #
-# ArangoDB: An interface to ArangoDB
+# ArangoDBInterface: An interface to ArangoDB
 #
 # Reading the implementation part of the package.
 #
-ReadPackage( "ArangoDB", "gap/ArangoDB.gi");
+ReadPackage( "ArangoDBInterface", "gap/ArangoDB.gi");
 
 if IsBound( MakeThreadLocal ) then
     Perform(

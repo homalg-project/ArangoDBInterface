@@ -1,5 +1,5 @@
 #
-# ArangoDB: An interface to ArangoDB
+# ArangoDBInterface: An interface to ArangoDB
 #
 # This file contains package meta data. For additional information on
 # the meaning and correct usage of these fields, please consult the
@@ -8,10 +8,10 @@
 #
 SetPackageInfo( rec(
 
-PackageName := "ArangoDB",
+PackageName := "ArangoDBInterface",
 Subtitle := "An interface to ArangoDB",
 Version := Maximum( [
-                   "2017.07.23", ## Mohamed's version
+                   "2017.08.24", ## Mohamed's version
                    ## this line prevents merge conflicts
                    "2017.07.21", ## Lukas's version
                    ] ),
@@ -42,7 +42,7 @@ SourceRepository := rec(
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
 #SupportEmail   := "TODO",
-PackageWWWHome  := "https://homalg-project.github.io/ArangoDB/",
+PackageWWWHome  := "https://homalg-project.github.io/ArangoDBInterface/",
 PackageInfoURL  := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
 README_URL      := Concatenation( ~.PackageWWWHome, "README.md" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
@@ -64,7 +64,7 @@ Status := "dev",
 AbstractHTML   :=  "",
 
 PackageDoc := rec(
-  BookName  := "ArangoDB",
+  BookName  := "ArangoDBInterface",
   ArchiveURLSubset := ["doc"],
   HTMLStart := "doc/chap0.html",
   PDFFile   := "doc/manual.pdf",
