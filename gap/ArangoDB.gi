@@ -118,9 +118,11 @@ InstallMethod( DatabaseCollection,
         [ IsString, IsRecord ],
 
   function( collection_name, stream )
-    local collection;
+    local pointer, collection;
     
-    collection := rec( stream := stream, name := collection_name );
+    pointer := homalgSendBlocking( [ "db.", collection_name ], stream );
+    
+    collection := rec( pointer := pointer, name := collection_name );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
             Name, Concatenation( "<Database collection \"", collection_name, "\">" )
@@ -138,7 +140,7 @@ InstallMethod( DatabaseStatement,
   function( statement_string, collection )
     local ext_obj, statement;
     
-    ext_obj := homalgSendBlocking( [ "db._createStatement({ \"query\": \"", statement_string, "\" })" ], collection!.stream );
+    ext_obj := homalgSendBlocking( [ "db._createStatement({ \"query\": \"", statement_string, "\" })" ], collection!.pointer );
     
     ext_obj!.collection := collection;
     
@@ -358,7 +360,7 @@ InstallMethod( InsertIntoDatabase,
     
     string := _ArangoDB_create_keys_values_string( keys_values_rec );
     
-    homalgSendBlocking( [ "db.", collection!.name, ".save({", string, "})" ], "need_command", collection!.stream );
+    homalgSendBlocking( [ "db.", collection!.name, ".save({", string, "})" ], "need_command", collection!.pointer );
     
 end );
 
@@ -372,7 +374,7 @@ InstallMethod( UpdateDatabase,
     
     string := _ArangoDB_create_keys_values_string( keys_values_rec );
     
-    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection!.name, "')" ], "need_command", collection!.stream );
+    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection!.name, "')" ], "need_command", collection!.pointer );
     
 end );
 
@@ -383,7 +385,7 @@ InstallMethod( RemoveFromDatabase,
 
   function( id, collection )
     
-    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection!.name, "')" ], "need_command", collection!.stream );
+    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection!.name, "')" ], "need_command", collection!.pointer );
     
 end );
 
@@ -395,7 +397,7 @@ InstallMethod( QueryDatabase,
   function( query, collection )
     local ext_obj;
     
-    ext_obj := homalgSendBlocking( [ "db._query('", query, "')" ], collection!.stream );
+    ext_obj := homalgSendBlocking( [ "db._query('", query, "')" ], collection!.pointer );
     ext_obj!.collection := collection;
     
     return CreateDatabaseCursor( ext_obj );
