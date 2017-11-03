@@ -582,11 +582,19 @@ InstallMethod( DatabaseDocumentToRecord,
         [ IsDatabaseDocumentRep ],
 
   function( document )
-    local str;
+    local str, doc, i;
     
     str := homalgSendBlocking( [ document!.pointer ], "need_output" );
     
-    return JsonStringToGap( str );
+    doc := JsonStringToGap( str );
+    
+    ## long values of keys will probably be corrupt
+    ## so get everything again after knowing all keys
+    for i in NamesOfComponents( doc ) do
+        doc.(i) := document.(i);
+    od;
+    
+    return doc;
     
 end );
 
