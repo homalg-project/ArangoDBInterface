@@ -13,14 +13,6 @@
 ####################################
 
 #! @Description
-#!  Modify default value of
-#!  <P/>
-#!  <C>HOMALG_IO_ArangoShell.options;</C>
-#!  <P/>
-#!  if it does not match your settings.
-#!  Then invoke
-#!  <P/>
-#!  <C>stream := LaunchCAS( "HOMALG_IO_ArangoShell" );</C>
 DeclareGlobalVariable( "HOMALG_IO_ArangoShell" );
 
 ####################################
@@ -28,6 +20,11 @@ DeclareGlobalVariable( "HOMALG_IO_ArangoShell" );
 #! @Section GAP categories
 #
 ####################################
+
+#! @Description
+#!  The &GAP; category of Arango databases.
+DeclareCategory( "IsArangoDatabase",
+        IsAttributeStoringRep );
 
 #! @Description
 #!  The &GAP; category of collections in a database.
@@ -61,20 +58,28 @@ DeclareCategory( "IsDatabaseDocument",
 ####################################
 
 #! @Description
-#!  Attach an existing database collection with name <A>collection_name</A>
-#!  available through the stream record <A>stream</A>.
-#! @Arguments collection_name, stream
-#! @Returns a database collection
-DeclareOperation( "DatabaseCollection",
-        [ IsString, IsRecord ] );
+#!  Attach an existing database by invoking <C>arangosh</C> with
+#!  an optional list of options <A>opts</A> which if not provided
+#!  defaults to <C>HOMALG_IO_ArangoShell.options</C>.
+#! @Arguments opts
+#! @Returns an Arango database
+DeclareGlobalFunction( "AttachAnArangoDatabase" );
 
 #! @Description
-#!  Create a new database collection with name <A>collection_name</A>
-#!  available through the stream record <A>stream</A>.
-#! @Arguments collection
+#!  Attach an existing database collection with name <A>collection_name</A>
+#!  available in the Arango database <A>db</A>.
+#! @Arguments collection_name, db
+#! @Returns a database collection
+DeclareOperation( "DatabaseCollection",
+        [ IsString, IsArangoDatabase ] );
+
+#! @Description
+#!  Create a new collection named <A>collection_name</A>
+#!  in the Arango database <A>db</A>.
+#! @Arguments collection_name, db
 #! @Returns a database collection
 DeclareOperation( "CreateDatabaseCollection",
-        [ IsString, IsRecord ] );
+        [ IsString, IsArangoDatabase ] );
 
 #! @Description
 #!  Truncate an existing database collection with name <A>collection_name</A>

@@ -3,8 +3,9 @@
 LoadPackage( "ArangoDB" );
 
 #! @Example
-stream := LaunchCAS( "HOMALG_IO_ArangoShell" );;
-l := DatabaseCollection( "examples", stream );
+db := AttachAnArangoDatabase( );
+#! <Arango database "example">
+l := DatabaseCollection( "examples", db );
 #! <Database collection "examples">
 TruncateDatabaseCollection( l );
 InsertIntoDatabase( rec( _key := 1, TP := "x-y" ), l );

@@ -10,6 +10,10 @@
 #
 ####################################
 
+DeclareRepresentation( "IsArangoDatabaseRep",
+        IsArangoDatabase,
+        [ ] );
+
 DeclareRepresentation( "IsDatabaseCollectionRep",
         IsDatabaseCollection,
         [ ] );
@@ -37,6 +41,9 @@ DeclareRepresentation( "IsDatabaseDocumentRep",
 ####################################
 
 # new families:
+BindGlobal( "TheFamilyOfArangoDatabases",
+        NewFamily( "TheFamilyOfArangoDatabases" ) );
+
 BindGlobal( "TheFamilyOfDatabaseCollections",
         NewFamily( "TheFamilyOfDatabaseCollections" ) );
 
@@ -53,6 +60,10 @@ BindGlobal( "TheFamilyOfDatabaseDocuments",
         NewFamily( "TheFamilyOfDatabaseDocuments" ) );
 
 # new types:
+BindGlobal( "TheTypeArangoDatabase",
+        NewType( TheFamilyOfArangoDatabases,
+                IsArangoDatabaseRep ) );
+
 BindGlobal( "TheTypeDatabaseCollection",
         NewType( TheFamilyOfDatabaseCollections,
                 IsDatabaseCollectionRep ) );
@@ -113,14 +124,50 @@ HOMALG_IO_ArangoShell.READY_LENGTH := Length( HOMALG_IO_ArangoShell.READY );
 ####################################
 
 ##
-InstallMethod( DatabaseCollection,
-        "for a string and a record",
-        [ IsString, IsRecord ],
+InstallGlobalFunction( AttachAnArangoDatabase,
+  function( arg )
+    local nargs, save, options, stream, name, db;
+    
+    nargs := Length( arg );
+    
+    if nargs = 1 and IsList( arg[1] ) then
+        save := HOMALG_IO_ArangoShell.options;
+        HOMALG_IO_ArangoShell.options := arg[1];
+    fi;
+    
+    options := HOMALG_IO_ArangoShell.options;
+    
+    stream := LaunchCAS( "HOMALG_IO_ArangoShell" );
+    
+    if IsBound( save ) then
+        HOMALG_IO_ArangoShell.options := save;
+    fi;
+    
+    name := homalgSendBlocking( [ "db" ], "need_output", stream );
+    name := SplitString( name, "\"" )[2];
+    
+    db := rec( stream := stream,
+               options := options,
+               pointer := "db",
+               name := name );
+    
+    ObjectifyWithAttributes( db, TheTypeArangoDatabase,
+            Name, Concatenation( "<Arango database \"", name, "\">" )
+            );
+    
+    return db;
+    
+end );
 
-  function( collection_name, stream )
+##
+InstallMethod( DatabaseCollection,
+        "for a string and an Arango database",
+        [ IsString, IsArangoDatabaseRep ],
+
+  function( collection_name, db )
     local pointer, collection;
     
-    pointer := homalgSendBlocking( [ "db.", collection_name ], stream );
+    pointer := homalgSendBlocking( [ db!.pointer, ".", collection_name ], db!.stream );
     
     collection := rec( pointer := pointer, name := collection_name );
     
@@ -134,14 +181,14 @@ end );
 
 ##
 InstallMethod( CreateDatabaseCollection,
-        "for a string and a record",
-        [ IsString, IsRecord ],
+        "for a string and an Arango database",
+        [ IsString, IsArangoDatabaseRep ],
 
-  function( collection_name, stream )
+  function( collection_name, db )
     
-    homalgSendBlocking( [ "db._create(\"", collection_name, "\")" ], "need_command", stream );
+    homalgSendBlocking( [ db!.pointer, "._create(\"", collection_name, "\")" ], "need_command", db!.stream );
     
-    return DatabaseCollection( collection_name, stream );
+    return DatabaseCollection( collection_name, db );
     
 end );
 
