@@ -167,6 +167,10 @@ InstallMethod( DatabaseCollection,
   function( collection_name, db )
     local pointer, collection;
     
+    if homalgSendBlocking( [ db!.pointer, ".", collection_name ], "need_output", db!.stream ) = "" then
+        Error( "no collection named \"", collection_name, "\" is loadable in the database \"", db!.name, "\"" );
+    fi;
+    
     pointer := homalgSendBlocking( [ db!.pointer, ".", collection_name ], db!.stream );
     
     collection := rec( pointer := pointer, name := collection_name );
