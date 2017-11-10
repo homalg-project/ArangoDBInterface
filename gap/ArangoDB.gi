@@ -424,7 +424,12 @@ InstallGlobalFunction( _ArangoDB_create_keys_values_string,
     SEP := "";
     
     for key in NamesOfComponents( keys_values_rec ) do
-        Append( string, [ SEP, key, " : ",  "\"", String( keys_values_rec.(key) ), "\"" ] );
+        if IsString( keys_values_rec.(key) ) then
+            Append( string, [ SEP, key, " : ",  "\"", keys_values_rec.(key), "\"" ] );
+        else
+            Append( string, [ SEP, key, " : ",  String( keys_values_rec.(key) ) ] );
+        fi;
+        
         SEP := ", ";
     od;
     
