@@ -419,29 +419,6 @@ InstallMethod( \.,
 end );
 
 ##
-InstallGlobalFunction( _ArangoDB_create_keys_values_string,
-  function( keys_values_rec )
-    local key, SEP, string;
-    
-    string := [ ];
-    
-    SEP := "";
-    
-    for key in NamesOfComponents( keys_values_rec ) do
-        if IsString( keys_values_rec.(key) ) then
-            Append( string, [ SEP, key, " : ",  "\"", keys_values_rec.(key), "\"" ] );
-        else
-            Append( string, [ SEP, key, " : ",  String( keys_values_rec.(key) ) ] );
-        fi;
-        
-        SEP := ", ";
-    od;
-    
-    return Concatenation( string );
-    
-end );
-
-##
 InstallMethod( InsertIntoDatabase,
         "for a record and a database collection",
         [ IsRecord, IsDatabaseCollectionRep ],
@@ -449,9 +426,9 @@ InstallMethod( InsertIntoDatabase,
   function( keys_values_rec, collection )
     local string;
     
-    string := _ArangoDB_create_keys_values_string( keys_values_rec );
+    string := GapToJsonString( keys_values_rec );
     
-    homalgSendBlocking( [ "db.", collection!.name, ".save({", string, "})" ], "need_command", collection!.pointer );
+    homalgSendBlocking( [ "db.", collection!.name, ".save(", string, ")" ], "need_command", collection!.pointer );
     
 end );
 
@@ -463,9 +440,9 @@ InstallMethod( UpdateDatabase,
   function( id, keys_values_rec, collection )
     local string;
     
-    string := _ArangoDB_create_keys_values_string( keys_values_rec );
+    string := GapToJsonString( keys_values_rec );
     
-    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH {", string, "} IN ", collection!.name, "')" ], "need_command", collection!.pointer );
+    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH ", string, " IN ", collection!.name, "')" ], "need_command", collection!.pointer );
     
 end );
 

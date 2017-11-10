@@ -117,8 +117,6 @@ DeclareOperation( "CreateDatabaseDocument",
 #
 ####################################
 
-DeclareGlobalFunction( "_ArangoDB_create_keys_values_string" );
-
 #! @Description
 #!  Insert a new document into <A>collection</A> with keys and values
 #!  given by the record <A>keys_values_rec</A>.
