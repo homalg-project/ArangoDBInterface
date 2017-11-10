@@ -291,6 +291,34 @@ end );
 
 ##
 InstallMethod( \.,
+        "for a database collections and a positive integer",
+        [ IsDatabaseCollectionRep, IsPosInt ],
+        
+  function( collection, string_as_int )
+    local command;
+    
+    command := NameRNam( string_as_int );
+    
+    return
+      function( keys_values_rec )
+        local string, output;
+        
+        string := GapToJsonString( keys_values_rec );
+        
+        output := homalgSendBlocking( [ collection!.pointer, ".", command, "(", string, ")" ], "need_output" );
+        
+        if not output[1] = '{' then
+            Error( output );
+        fi;
+        
+        return JsonStringToGap( output );
+        
+    end;
+    
+end );
+
+##
+InstallMethod( \.,
         "for a database statement and a positive integer",
         [ IsDatabaseStatementRep, IsPosInt ],
         
@@ -424,11 +452,8 @@ InstallMethod( InsertIntoDatabase,
         [ IsRecord, IsDatabaseCollectionRep ],
 
   function( keys_values_rec, collection )
-    local string;
     
-    string := GapToJsonString( keys_values_rec );
-    
-    homalgSendBlocking( [ "db.", collection!.name, ".save(", string, ")" ], "need_command", collection!.pointer );
+    return collection.save( keys_values_rec );
     
 end );
 

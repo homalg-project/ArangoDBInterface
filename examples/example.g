@@ -8,10 +8,11 @@ db := AttachAnArangoDatabase( );
 l := DatabaseCollection( "examples", db );
 #! <Database collection "examples">
 TruncateDatabaseCollection( l );
-InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), l );
-InsertIntoDatabase( rec( _key := "2", TP := "x*y" ), l );
-InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), l );
+InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), l );;
+l.save( rec( _key := "2", TP := "x*y" ) );;
+InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), l );;
 UpdateDatabase( "3", rec( TP := "x+y" ), l );
+l.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
 t := DatabaseStatement( "FOR e IN examples RETURN e", l );
 #! <A statement in <Database collection "examples">>
 c := t.execute();
