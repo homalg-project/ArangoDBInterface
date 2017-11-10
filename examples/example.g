@@ -5,7 +5,7 @@ LoadPackage( "ArangoDB" );
 #! @Example
 db := AttachAnArangoDatabase( );
 #! <Arango database "example">
-l := DatabaseCollection( "examples", db );
+l := db.examples;
 #! <Database collection "examples">
 TruncateDatabaseCollection( l );
 InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), l );;

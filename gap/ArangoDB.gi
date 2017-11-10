@@ -160,30 +160,6 @@ InstallGlobalFunction( AttachAnArangoDatabase,
 end );
 
 ##
-InstallMethod( DatabaseCollection,
-        "for a string and an Arango database",
-        [ IsString, IsArangoDatabaseRep ],
-
-  function( collection_name, db )
-    local pointer, collection;
-    
-    if homalgSendBlocking( [ db!.pointer, ".", collection_name ], "need_output", db!.stream ) = "" then
-        Error( "no collection named \"", collection_name, "\" is loadable in the database \"", db!.name, "\"" );
-    fi;
-    
-    pointer := homalgSendBlocking( [ db!.pointer, ".", collection_name ], db!.stream );
-    
-    collection := rec( pointer := pointer, name := collection_name );
-    
-    ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
-            Name, Concatenation( "<Database collection \"", collection_name, "\">" )
-            );
-    
-    return collection;
-    
-end );
-
-##
 InstallMethod( CreateDatabaseCollection,
         "for a string and an Arango database",
         [ IsString, IsArangoDatabaseRep ],
@@ -192,7 +168,7 @@ InstallMethod( CreateDatabaseCollection,
     
     homalgSendBlocking( [ db!.pointer, "._create(\"", collection_name, "\")" ], "need_command", db!.stream );
     
-    return DatabaseCollection( collection_name, db );
+    return db.(collection_name);
     
 end );
 
@@ -288,6 +264,38 @@ end );
 # methods for operations:
 #
 ####################################
+
+##
+InstallMethod( \.,
+        "for an Arango database and a positive integer",
+        [ IsArangoDatabaseRep, IsPosInt ],
+        
+  function( db, string_as_int )
+    local name, pointer, collection;
+    
+    name := NameRNam( string_as_int );
+    
+    if name[1] = '_' then
+        
+        Error( "not yet supported\n" );
+        
+    fi;
+    
+    if homalgSendBlocking( [ db!.pointer, ".", name ], "need_output", db!.stream ) = "" then
+        Error( "no collection named \"", name, "\" is loadable in the database \"", db!.name, "\"" );
+    fi;
+    
+    pointer := homalgSendBlocking( [ db!.pointer, ".", name ], db!.stream );
+    
+    collection := rec( pointer := pointer, name := name );
+    
+    ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
+            Name, Concatenation( "<Database collection \"", name, "\">" )
+            );
+    
+    return collection;
+    
+end );
 
 ##
 InstallMethod( \.,
