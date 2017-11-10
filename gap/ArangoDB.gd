@@ -205,8 +205,8 @@ DeclareOperation( "DatabaseDocumentToRecord",
         [ IsDatabaseDocument ] );
 
 #! @Description
-#!  Display in the database.
+#!  Display in <C>arangosh</C>, the Arango shell.
 #! @Arguments object
 #! @Returns none
-DeclareOperation( "DisplayInDatabase",
+DeclareOperation( "DisplayInArangoSh",
         [ IsObject ] );

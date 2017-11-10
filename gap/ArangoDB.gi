@@ -651,7 +651,7 @@ InstallMethod( DatabaseDocumentToRecord,
 end );
 
 ##
-InstallMethod( DisplayInDatabase,
+InstallMethod( DisplayInArangoSh,
         "for a database document",
         [ IsObject ],
         
