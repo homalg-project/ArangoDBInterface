@@ -196,7 +196,7 @@ end );
 InstallMethod( TruncateDatabaseCollection,
         "for a database collection",
         [ IsDatabaseCollectionRep ],
-
+        
   function( collection )
     
     homalgSendBlocking( [ "db._truncate(", collection!.pointer, ")" ], "need_command" );
