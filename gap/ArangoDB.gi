@@ -171,7 +171,7 @@ InstallMethod( DatabaseCollection,
         Error( "the pointer has no component called `name'\n" );
     fi;
     
-    collection := rec( pointer := pointer, name := pointer!.name );
+    collection := rec( pointer := pointer, name := pointer!.name, database := db );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
             Name, Concatenation( "<Database collection \"", pointer!.name, "\">" )
