@@ -160,6 +160,28 @@ InstallGlobalFunction( AttachAnArangoDatabase,
 end );
 
 ##
+InstallMethod( DatabaseCollection,
+        "for a homalg external object and an Arango database",
+        [ IshomalgExternalObjectRep, IsArangoDatabaseRep ],
+
+  function( pointer, db )
+    local collection;
+    
+    if not IsBound( pointer!.name ) then
+        Error( "the pointer has no component called `name'\n" );
+    fi;
+    
+    collection := rec( pointer := pointer, name := pointer!.name );
+    
+    ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
+            Name, Concatenation( "<Database collection \"", pointer!.name, "\">" )
+            );
+    
+    return collection;
+    
+end );
+
+##
 InstallMethod( CreateDatabaseCollection,
         "for a string and an Arango database",
         [ IsString, IsArangoDatabaseRep ],
@@ -271,7 +293,7 @@ InstallMethod( \.,
         [ IsArangoDatabaseRep, IsPosInt ],
         
   function( db, string_as_int )
-    local name, pointer, collection;
+    local name, pointer;
     
     name := NameRNam( string_as_int );
     
@@ -287,13 +309,9 @@ InstallMethod( \.,
     
     pointer := homalgSendBlocking( [ db!.pointer, ".", name ], db!.stream );
     
-    collection := rec( pointer := pointer, name := name );
+    pointer!.name := name;
     
-    ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
-            Name, Concatenation( "<Database collection \"", name, "\">" )
-            );
-    
-    return collection;
+    return DatabaseCollection( pointer, db );
     
 end );
 
