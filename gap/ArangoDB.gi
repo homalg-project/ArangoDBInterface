@@ -188,9 +188,7 @@ InstallMethod( CreateDatabaseCollection,
 
   function( collection_name, db )
     
-    homalgSendBlocking( [ db!.pointer, "._create(\"", collection_name, "\")" ], "need_command", db!.stream );
-    
-    return db.(collection_name);
+    return db._create( collection_name );
     
 end );
 
@@ -297,9 +295,47 @@ InstallMethod( \.,
     
     name := NameRNam( string_as_int );
     
-    if name[1] = '_' then
+    if name = "_create" then
         
-        Error( "not yet supported\n" );
+        return
+          function( collection_name )
+            local extobj;
+            
+            extobj := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream );
+            
+            extobj!.name := collection_name;
+            
+            return DatabaseCollection( extobj, db );
+            
+        end;
+        
+    elif name = "_drop" then
+        
+        return
+          function( collection_name )
+            local output;
+            
+            output := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream, "need_output" );
+            
+            if not output = "" then
+                Error( output, "\n" );
+            fi;
+            
+            return true;
+            
+        end;
+        
+    elif name[1] = '_' then
+        
+        return
+          function( keys_values_rec )
+            local string;
+            
+            string := GapToJsonString( keys_values_rec );
+            
+            return homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
+            
+        end;
         
     fi;
     

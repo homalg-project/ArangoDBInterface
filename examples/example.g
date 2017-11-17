@@ -5,7 +5,11 @@ LoadPackage( "ArangoDB" );
 #! @Example
 db := AttachAnArangoDatabase( );
 #! <Arango database "example">
-coll := db.examples;
+db._drop( "examples" );
+#! true
+coll := db._create( "examples" );
+#! <Database collection "examples">
+db.examples;
 #! <Database collection "examples">
 TruncateDatabaseCollection( coll );
 coll.count();
