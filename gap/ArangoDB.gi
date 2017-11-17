@@ -198,8 +198,11 @@ InstallMethod( TruncateDatabaseCollection,
         [ IsDatabaseCollectionRep ],
         
   function( collection )
+    local db;
     
-    homalgSendBlocking( [ "db._truncate(", collection!.pointer, ")" ], "need_command" );
+    db := collection!.database;
+    
+    db._truncate( collection!.name );
     
 end );
 
@@ -309,7 +312,7 @@ InstallMethod( \.,
             
         end;
         
-    elif name = "_drop" then
+    elif name in [ "_truncate", "_drop" ] then
         
         return
           function( collection_name )
