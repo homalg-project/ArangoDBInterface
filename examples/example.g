@@ -5,15 +5,21 @@ LoadPackage( "ArangoDB" );
 #! @Example
 db := AttachAnArangoDatabase( );
 #! <Arango database "example">
-l := db.examples;
+coll := db.examples;
 #! <Database collection "examples">
-TruncateDatabaseCollection( l );
-InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), l );;
-l.save( rec( _key := "2", TP := "x*y" ) );;
-InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), l );;
-UpdateDatabase( "3", rec( TP := "x+y" ), l );
-l.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
-t := DatabaseStatement( "FOR e IN examples RETURN e", l );
+TruncateDatabaseCollection( coll );
+coll.count();
+#! 0
+db.examples.count();
+#! 0
+InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );;
+coll.save( rec( _key := "2", TP := "x*y" ) );;
+InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );;
+coll.count();
+#! 3
+UpdateDatabase( "3", rec( TP := "x+y" ), coll );
+coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
+t := DatabaseStatement( "FOR e IN examples RETURN e", coll );
 #! <A statement in <Database collection "examples">>
 c := t.execute();
 #! <A cursor in <Database collection "examples">>
@@ -52,6 +58,6 @@ NamesOfComponents( r3 );
 #! [ "_key", "TP", "_id", "_rev" ]
 [ r3._id, r3._key, r3.TP ];
 #! [ "examples/3", "3", "x+y" ]
-RemoveFromDatabase( "1", l );
-RemoveFromDatabase( "2", l );
+RemoveFromDatabase( "1", coll );
+RemoveFromDatabase( "2", coll );
 #! @EndExample

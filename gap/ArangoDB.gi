@@ -308,12 +308,26 @@ InstallMethod( \.,
     command := NameRNam( string_as_int );
     
     return
-      function( keys_values_rec )
-        local string, output;
+      function( arg )
+        local nargs, string, keys_values_rec, output;
         
-        string := GapToJsonString( keys_values_rec );
+        nargs := Length( arg );
+        
+        if nargs = 0 then
+            string := "";
+        else
+            keys_values_rec := arg[1];
+            string := GapToJsonString( keys_values_rec );
+        fi;
         
         output := homalgSendBlocking( [ collection!.pointer, ".", command, "(", string, ")" ], "need_output" );
+        
+        if nargs = 0 then
+            if command in [ "count" ] then
+                return Int( output );
+            fi;
+            return output;
+        fi;
         
         if not output[1] = '{' then
             Error( output );
