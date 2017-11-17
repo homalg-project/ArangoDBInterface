@@ -11,12 +11,25 @@ coll := db._create( "examples" );
 #! <Database collection "examples">
 db.examples;
 #! <Database collection "examples">
-TruncateDatabaseCollection( coll );
 coll.count();
 #! 0
 db.examples.count();
 #! 0
 InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );;
+coll.count();
+#! 1
+TruncateDatabaseCollection( coll );
+#! true
+coll.count();
+#! 0
+coll.save( rec( _key := "1", TP := "x-y" ) );;
+coll.count();
+#! 1
+db._truncate( coll );
+#! true
+coll.count();
+#! 0
+coll.save( rec( _key := "1", TP := "x-y" ) );;
 coll.save( rec( _key := "2", TP := "x*y" ) );;
 InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );;
 coll.count();

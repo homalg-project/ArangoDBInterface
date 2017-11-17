@@ -202,7 +202,7 @@ InstallMethod( TruncateDatabaseCollection,
     
     db := collection!.database;
     
-    db._truncate( collection!.name );
+    return db._truncate( collection );
     
 end );
 
@@ -315,8 +315,16 @@ InstallMethod( \.,
     elif name in [ "_truncate", "_drop" ] then
         
         return
-          function( collection_name )
-            local output;
+          function( collection )
+            local collection_name, output;
+            
+            if IsDatabaseCollectionRep( collection ) then
+                collection_name := collection!.name;
+            elif IsString( collection ) then
+                collection_name := collection;
+            else
+                Error( "the input should either be a collection or its name as a string\n" );
+            fi;
             
             output := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream, "need_output" );
             
