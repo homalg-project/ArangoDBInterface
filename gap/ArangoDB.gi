@@ -336,6 +336,24 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "_executeTransaction" ] then
+        
+        return
+          function( keys_values_rec )
+            local string, output;
+            
+            string := GapToJsonString( keys_values_rec );
+            
+            output := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream, "need_output" );
+            
+            if not output = "null" then
+                Error( output, "\n" );
+            fi;
+            
+            return true;
+            
+        end;
+        
     elif name[1] = '_' then
         
         return

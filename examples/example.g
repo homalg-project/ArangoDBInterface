@@ -77,4 +77,17 @@ NamesOfComponents( r3 );
 #! [ "examples/3", "3", "x+y" ]
 RemoveFromDatabase( "1", coll );
 RemoveFromDatabase( "2", coll );
+coll.count();
+#! 1
+r := rec( collections := rec( write := [ "examples" ] ),
+          action := "function () { \
+          var db = require(\"@arangodb\").db;\
+          for (var i = 4; i < 10; ++i)\
+            { db.examples.save({ _key: \"\" + i }); }\
+            db.examples.count();\
+          }" );;
+db._executeTransaction( r );
+#! true
+coll.count();
+#! 7
 #! @EndExample
