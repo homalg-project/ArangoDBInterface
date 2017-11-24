@@ -186,21 +186,25 @@ InstallMethod( CreateDatabaseCollection,
 end );
 
 ##
-InstallMethod( DatabaseStatement,
-        "for a string and a database collection",
-        [ IsString, IsDatabaseCollectionRep ],
+InstallMethod( CreateDatabaseStatement,
+        "for a homalg external object",
+        [ IshomalgExternalObjectRep ],
 
-  function( statement_string, collection )
-    local ext_obj, statement;
+  function( ext_obj )
+    local statement;
     
-    ext_obj := homalgSendBlocking( [ "db._createStatement({ \"query\": \"", statement_string, "\" })" ], collection!.pointer );
+    if not IsBound( ext_obj!.statement ) then
+        Error( "the external object has no component called `statement_string'\n" );
+    elif not IsBound( ext_obj!.database ) then
+        Error( "the external object has no component called `database'\n" );
+    elif not IsArangoDatabaseRep( ext_obj!.database ) then
+        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
+    fi;
     
-    ext_obj!.collection := collection;
-    
-    statement := rec( pointer := ext_obj, string := statement_string );
+    statement := rec( pointer := ext_obj, statement := ext_obj!.statement, database := ext_obj!.database );
     
     ObjectifyWithAttributes( statement, TheTypeDatabaseStatement,
-            Name, Concatenation( "<A statement in ", Name( collection ), ">" )
+            Name, Concatenation( "<A statement in ", Name( ext_obj!.database ), ">" )
             );
     
     return statement;
@@ -215,10 +219,16 @@ InstallMethod( CreateDatabaseCursor,
   function( ext_obj )
     local cursor;
     
-    cursor := rec( pointer := ext_obj );
+    if not IsBound( ext_obj!.database ) then
+        Error( "the external object has no component called `database'\n" );
+    elif not IsArangoDatabaseRep( ext_obj!.database ) then
+        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
+    fi;
+    
+    cursor := rec( pointer := ext_obj, database := ext_obj!.database );
     
     ObjectifyWithAttributes( cursor, TheTypeDatabaseCursor,
-            Name, Concatenation( "<A cursor in ", Name( ext_obj!.collection ), ">" )
+            Name, Concatenation( "<A cursor in ", Name( ext_obj!.database ), ">" )
             );
     
     return cursor;
@@ -236,7 +246,7 @@ InstallMethod( CreateDatabaseArray,
     array := rec( pointer := ext_obj );
     
     ObjectifyWithAttributes( array, TheTypeDatabaseArray,
-            Name, Concatenation( "<An array in ", Name( ext_obj!.collection ), ">" )
+            Name, Concatenation( "<An array in ", Name( ext_obj!.database ), ">" )
             );
     
     return array;
@@ -254,7 +264,7 @@ InstallMethod( CreateDatabaseDocument,
     document := rec( pointer := ext_obj );
     
     ObjectifyWithAttributes( document, TheTypeDatabaseDocument,
-            Name, Concatenation( "<A document in ", Name( ext_obj!.collection ), ">" )
+            Name, Concatenation( "<A document in ", Name( ext_obj!.database ), ">" )
             );
     
     return document;
@@ -313,6 +323,23 @@ InstallMethod( \.,
             fi;
             
             return true;
+            
+        end;
+        
+    elif name in [ "_createStatement" ] then
+        
+        return
+          function( keys_values_rec )
+            local string, output;
+            
+            string := GapToJsonString( keys_values_rec );
+            
+            extobj := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
+            
+            extobj!.statement := keys_values_rec;
+            extobj!.database := db;
+            
+            return CreateDatabaseStatement( extobj );
             
         end;
         
@@ -421,7 +448,8 @@ InstallMethod( \.,
             pointer := statement!.pointer;
             
             ext_obj := homalgSendBlocking( [ pointer, ".execute()" ] );
-            ext_obj!.collection := pointer!.collection;
+            
+            ext_obj!.database := statement!.database;
             
             return CreateDatabaseCursor( ext_obj );
             
@@ -456,13 +484,14 @@ InstallMethod( \.,
             str := SplitString( str, ":" )[2];
             
             ext_obj := homalgSendBlocking( [ pointer, ".toArray()" ] );
-            ext_obj!.collection := pointer!.collection;
+            
+            ext_obj!.database := pointer!.database;
             
             array := CreateDatabaseArray( ext_obj );
             
             SetLength( array, EvalString( str ) );
             
-            array!.Name := Concatenation( "<An array of length ", str, " in ", Name( ext_obj!.collection ), ">" );
+            array!.Name := Concatenation( "<An array of length ", str, " in ", Name( ext_obj!.database ), ">" );
             
             return array;
             
@@ -487,7 +516,8 @@ InstallMethod( \.,
             pointer := cursor!.pointer;
             
             ext_obj := homalgSendBlocking( [ cursor!.pointer, ".next()" ] );
-            ext_obj!.collection := pointer!.collection;
+            
+            ext_obj!.database := cursor!.database;
             
             return CreateDatabaseDocument( ext_obj );
             
@@ -510,7 +540,8 @@ InstallOtherMethod( \[\],
     pointer := array!.pointer;
     
     ext_obj := homalgSendBlocking( [ array!.pointer, "[", String( n - 1 ), "]" ] );
-    ext_obj!.collection := pointer!.collection;
+    
+    ext_obj!.database := pointer!.database;
     
     return CreateDatabaseDocument( ext_obj );
     
@@ -577,7 +608,8 @@ InstallMethod( QueryDatabase,
     local ext_obj;
     
     ext_obj := homalgSendBlocking( [ "db._query('", query, "')" ], collection!.pointer );
-    ext_obj!.collection := collection;
+    
+    ext_obj!.database := collection!.database;
     
     return CreateDatabaseCursor( ext_obj );
     

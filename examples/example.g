@@ -36,12 +36,12 @@ coll.count();
 #! 3
 UpdateDatabase( "3", rec( TP := "x+y" ), coll );
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
-t := DatabaseStatement( "FOR e IN examples RETURN e", coll );
-#! <A statement in <Database collection "examples">>
+t := db._createStatement( rec( query := "FOR e IN examples RETURN e" ) );
+#! <A statement in <Arango database "example">>
 c := t.execute();
-#! <A cursor in <Database collection "examples">>
+#! <A cursor in <Arango database "example">>
 a := c.toArray();
-#! <An array of length 3 in <Database collection "examples">>
+#! <An array of length 3 in <Arango database "example">>
 Length( a );
 #! 3
 Length( List( a ) );
@@ -53,19 +53,19 @@ a[2].TP;
 a[3].TP;
 #! "x+y"
 c := t.execute();
-#! <A cursor in <Database collection "examples">>
+#! <A cursor in <Arango database "example">>
 i := AsIterator( c );
 #! <iterator>
 d1 := NextIterator( i );
-#! <A document in <Database collection "examples">>
+#! <A document in <Arango database "example">>
 d1.TP;
 #! "x-y"
 d2 := NextIterator( i );
-#! <A document in <Database collection "examples">>
+#! <A document in <Arango database "example">>
 d2.TP;
 #! "x*y"
 d3 := NextIterator( i );
-#! <A document in <Database collection "examples">>
+#! <A document in <Arango database "example">>
 d3.TP;
 #! "x+y"
 r3 := DatabaseDocumentToRecord( d3 );;

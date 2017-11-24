@@ -70,12 +70,10 @@ DeclareGlobalFunction( "AttachAnArangoDatabase" );
 DeclareOperation( "CreateDatabaseCollection",
         [ IshomalgExternalObject ] );
 
-#! @Description
-#!  Create a database sta
-#! @Arguments statement_string, collection
-#! @Returns a database statement
-DeclareOperation( "DatabaseStatement",
-        [ IsString, IsDatabaseCollection ] );
+# @Arguments ext_obj
+# @Returns a database statement
+DeclareOperation( "CreateDatabaseStatement",
+        [ IshomalgExternalObject ] );
 
 # @Arguments ext_obj
 # @Returns a database cursor
