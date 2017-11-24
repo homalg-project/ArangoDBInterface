@@ -647,9 +647,15 @@ end );
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_return_string,
   function( query_rec, result_rec, collection )
-    local string, keys, AND, SEP, func, i, key, value, val;
+    local string, limit, keys, AND, SEP, func, i, key, value, val;
     
     string := [ "FOR d IN ", collection ];
+    
+    limit := ValueOption( "LIMIT_PRE" );
+    
+    if IsInt( limit ) then
+        Append( string, [ " LIMIT ", String( limit ) ] );
+    fi;
     
     keys := NamesOfComponents( query_rec );
     
