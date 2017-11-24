@@ -69,14 +69,6 @@ DeclareOperation( "CreateDatabaseCollection",
         [ IshomalgExternalObject, IsArangoDatabase ] );
 
 #! @Description
-#!  Truncate an existing database collection with name <A>collection_name</A>
-#!  available through the stream record <A>stream</A>.
-#! @Arguments collection_name, stream
-#! @Returns none
-DeclareOperation( "TruncateDatabaseCollection",
-        [ IsDatabaseCollection ] );
-
-#! @Description
 #!  Create a database sta
 #! @Arguments statement_string, collection
 #! @Returns a database statement

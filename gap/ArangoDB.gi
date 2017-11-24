@@ -182,20 +182,6 @@ InstallMethod( CreateDatabaseCollection,
 end );
 
 ##
-InstallMethod( TruncateDatabaseCollection,
-        "for a database collection",
-        [ IsDatabaseCollectionRep ],
-        
-  function( collection )
-    local db;
-    
-    db := collection!.database;
-    
-    return db._truncate( collection );
-    
-end );
-
-##
 InstallMethod( DatabaseStatement,
         "for a string and a database collection",
         [ IsString, IsDatabaseCollectionRep ],

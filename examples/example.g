@@ -18,7 +18,7 @@ db.examples.count();
 InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );;
 coll.count();
 #! 1
-TruncateDatabaseCollection( coll );
+db._truncate( coll );
 #! true
 coll.count();
 #! 0
