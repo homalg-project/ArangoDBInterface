@@ -161,17 +161,21 @@ end );
 
 ##
 InstallMethod( CreateDatabaseCollection,
-        "for a homalg external object and an Arango database",
-        [ IshomalgExternalObjectRep, IsArangoDatabaseRep ],
+        "for a homalg external object",
+        [ IshomalgExternalObjectRep ],
 
-  function( extobj, db )
+  function( extobj )
     local collection;
     
     if not IsBound( extobj!.name ) then
         Error( "the external object has no component called `name'\n" );
+    elif not IsBound( extobj!.database ) then
+        Error( "the external object has no component called `database'\n" );
+    elif not IsArangoDatabaseRep( extobj!.database ) then
+        Error( "the component extobj!.database is not an IsArangoDatabaseRep\n" );
     fi;
     
-    collection := rec( pointer := extobj, name := extobj!.name, database := db );
+    collection := rec( pointer := extobj, name := extobj!.name, database := extobj!.database );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
             Name, Concatenation( "<Database collection \"", extobj!.name, "\">" )
@@ -282,8 +286,9 @@ InstallMethod( \.,
             extobj := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream );
             
             extobj!.name := collection_name;
+            extobj!.database := db;
             
-            return CreateDatabaseCollection( extobj, db );
+            return CreateDatabaseCollection( extobj );
             
         end;
         
@@ -350,8 +355,9 @@ InstallMethod( \.,
     extobj := homalgSendBlocking( [ db!.pointer, ".", name ], db!.stream );
     
     extobj!.name := name;
+    extobj!.database := db;
     
-    return CreateDatabaseCollection( extobj, db );
+    return CreateDatabaseCollection( extobj );
     
 end );
 

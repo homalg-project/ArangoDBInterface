@@ -65,8 +65,10 @@ DeclareCategory( "IsDatabaseDocument",
 #! @Returns an Arango database
 DeclareGlobalFunction( "AttachAnArangoDatabase" );
 
+# @Arguments ext_obj
+# @Returns a database collection
 DeclareOperation( "CreateDatabaseCollection",
-        [ IshomalgExternalObject, IsArangoDatabase ] );
+        [ IshomalgExternalObject ] );
 
 #! @Description
 #!  Create a database sta
