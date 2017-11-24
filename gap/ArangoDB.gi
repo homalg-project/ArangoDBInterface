@@ -647,7 +647,7 @@ end );
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_return_string,
   function( query_rec, result_rec, collection )
-    local string, keys, AND, SEP, func, i, key, value;
+    local string, keys, AND, SEP, func, i, key, value, val;
     
     string := [ "FOR d IN ", collection ];
     
@@ -663,9 +663,19 @@ InstallGlobalFunction( _ArangoDB_create_filter_return_string,
         key := keys[i];
         value := query_rec.(key);
         if not IsString( value ) and IsList( value ) and Length( value ) = 2 then
-            Append( string, [ AND, "d.", key, value[1], "\"", String( value[2] ), "\"" ] );
+            if value[2] = fail then
+                val := "null";
+            else
+                val := Concatenation( [ "\"", String( value[2] ), "\"" ] );
+            fi;
+            Append( string, [ AND, "d.", key, value[1], val ] );
         elif IsString( value ) or not IsList( value ) then
-            Append( string, [ AND, "d.", key, "==", "\"", String( value ), "\"" ] );
+            if value = fail then
+                val := "null";
+            else
+                val := Concatenation( [ "\"", String( value ), "\"" ] );
+            fi;
+            Append( string, [ AND, "d.", key, "==", val ] );
         else
             Error( "wrong syntax of query value: ", value, "\n" );
         fi;

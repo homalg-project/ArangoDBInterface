@@ -124,6 +124,8 @@ DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 #! @Description
 #!  Return the cursor defined by the query within <A>collection</A>
 #!  given by the compoents of the record <A>query_rec</A>.
+#!  A value <C>fail</C> is translated to <C>null</C>.
+#!  This is the way to query for nonbound keys.
 #! @Arguments query_rec, collection
 #! @Returns a database cursor
 #! @Group QueryDatabase
