@@ -77,6 +77,13 @@ NamesOfComponents( r3 );
 #! [ "_key", "TP", "_id", "_rev" ]
 [ r3._id, r3._key, r3.TP ];
 #! [ "examples/3", "3", "x+y" ]
+UpdateDatabase( "1", rec( TP := "x+y" ), coll );
+q := QueryDatabase( rec( TP := "x+y" ), rec( _key := "_key", TP := "TP" ), coll );
+#! <A cursor in <Arango database "example">>
+a := q.toArray();
+#! <An array of length 2 in <Arango database "example">>
+Set( List( a ) );
+#! [ rec( TP := "x+y", _key := "1" ), rec( TP := "x+y", _key := "3" ) ]
 RemoveFromDatabase( "1", coll );
 RemoveFromDatabase( "2", coll );
 coll.count();

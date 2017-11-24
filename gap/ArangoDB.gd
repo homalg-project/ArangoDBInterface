@@ -123,15 +123,7 @@ DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 
 #! @Description
 #!  Return the cursor defined by the query within <A>collection</A>
-#!  given by <A>query_string</A>
-#! @Arguments query_string, collection
-#! @Returns a database cursor
-#! @Group QueryDatabase
-DeclareOperation( "QueryDatabase",
-        [ IsString, IsDatabaseCollection ] );
-
-#! @Description
-#!  or by the compoents of the record <A>query_rec</A>.
+#!  given by the compoents of the record <A>query_rec</A>.
 #! @Arguments query_rec, collection
 #! @Returns a database cursor
 #! @Group QueryDatabase

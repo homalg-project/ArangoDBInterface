@@ -343,6 +343,21 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "_query" ] then
+        
+        return
+          function( query_string )
+            local output;
+            
+            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "('", query_string, "')" ], db!.stream );
+            
+            ext_obj!.query := query_string;
+            ext_obj!.database := db;
+            
+            return CreateDatabaseCursor( ext_obj );
+            
+        end;
+        
     elif name in [ "_executeTransaction" ] then
         
         return
@@ -630,22 +645,6 @@ InstallMethod( RemoveFromDatabase,
 end );
 
 ##
-InstallMethod( QueryDatabase,
-        "for a string and a database collection",
-        [ IsString, IsDatabaseCollectionRep ],
-
-  function( query, collection )
-    local ext_obj;
-    
-    ext_obj := homalgSendBlocking( [ "db._query('", query, "')" ], collection!.pointer );
-    
-    ext_obj!.database := collection!.database;
-    
-    return CreateDatabaseCursor( ext_obj );
-    
-end );
-
-##
 InstallGlobalFunction( _ArangoDB_create_filter_return_string,
   function( query_rec, result_rec, collection )
     local string, keys, AND, SEP, func, i, key, value;
@@ -714,11 +713,13 @@ InstallMethod( QueryDatabase,
         [ IsRecord, IsDatabaseCollectionRep ],
 
   function( query_rec, collection )
-    local string;
+    local string, db;
     
     string := _ArangoDB_create_filter_return_string( query_rec, "", collection!.name );
     
-    return QueryDatabase( string, collection );
+    db := collection!.database;
+    
+    return db._query( string );
     
 end );
 
@@ -739,14 +740,21 @@ InstallMethod( QueryDatabase,
         [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
 
   function( query_rec, result_rec, collection )
-    local string, func;
+    local string, func, db, cursor;
     
     string := _ArangoDB_create_filter_return_string( query_rec, result_rec, collection!.name );
     
     func := string[2];
     string := string[1];
     
-    return QueryDatabase( string, collection );
+    db := collection!.database;
+    
+    cursor := db._query( string );
+    
+    ## TODO: still need to apply func
+    cursor!.conversions := func;
+    
+    return cursor;
     
 end );
 
