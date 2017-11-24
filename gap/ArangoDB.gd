@@ -65,17 +65,8 @@ DeclareCategory( "IsDatabaseDocument",
 #! @Returns an Arango database
 DeclareGlobalFunction( "AttachAnArangoDatabase" );
 
-DeclareOperation( "DatabaseCollection",
-        [ IshomalgExternalObject, IsArangoDatabase ] );
-
-#! @Description
-#!  Create a new collection named <A>collection_name</A>
-#!  in the Arango database <A>db</A>.
-#!  An existing collection in <A>db</A> can be accessed by <A>db</A>.<A>name</A>.
-#! @Arguments collection_name, db
-#! @Returns a database collection
 DeclareOperation( "CreateDatabaseCollection",
-        [ IsString, IsArangoDatabase ] );
+        [ IshomalgExternalObject, IsArangoDatabase ] );
 
 #! @Description
 #!  Truncate an existing database collection with name <A>collection_name</A>

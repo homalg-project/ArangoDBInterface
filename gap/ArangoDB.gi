@@ -160,7 +160,7 @@ InstallGlobalFunction( AttachAnArangoDatabase,
 end );
 
 ##
-InstallMethod( DatabaseCollection,
+InstallMethod( CreateDatabaseCollection,
         "for a homalg external object and an Arango database",
         [ IshomalgExternalObjectRep, IsArangoDatabaseRep ],
 
@@ -178,17 +178,6 @@ InstallMethod( DatabaseCollection,
             );
     
     return collection;
-    
-end );
-
-##
-InstallMethod( CreateDatabaseCollection,
-        "for a string and an Arango database",
-        [ IsString, IsArangoDatabaseRep ],
-
-  function( collection_name, db )
-    
-    return db._create( collection_name );
     
 end );
 
@@ -308,7 +297,7 @@ InstallMethod( \.,
             
             extobj!.name := collection_name;
             
-            return DatabaseCollection( extobj, db );
+            return CreateDatabaseCollection( extobj, db );
             
         end;
         
@@ -376,7 +365,7 @@ InstallMethod( \.,
     
     extobj!.name := name;
     
-    return DatabaseCollection( extobj, db );
+    return CreateDatabaseCollection( extobj, db );
     
 end );
 
