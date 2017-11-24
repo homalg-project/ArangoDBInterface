@@ -645,17 +645,11 @@ InstallMethod( RemoveFromDatabase,
 end );
 
 ##
-InstallGlobalFunction( _ArangoDB_create_filter_return_string,
-  function( query_rec, result_rec, collection )
-    local string, limit, keys, AND, SEP, func, i, key, value, val;
+InstallGlobalFunction( _ArangoDB_create_filter_string,
+  function( query_rec, collection )
+    local string, limit, keys, AND, i, key, value, val;
     
     string := [ "FOR d IN ", collection ];
-    
-    limit := ValueOption( "LIMIT_PRE" );
-    
-    if IsInt( limit ) then
-        Append( string, [ " LIMIT ", String( limit ) ] );
-    fi;
     
     keys := NamesOfComponents( query_rec );
     
@@ -687,6 +681,23 @@ InstallGlobalFunction( _ArangoDB_create_filter_return_string,
         fi;
         AND := " && ";
     od;
+    
+    limit := ValueOption( "LIMIT" );
+    
+    if IsInt( limit ) then
+        Append( string, [ " LIMIT ", String( limit ) ] );
+    fi;
+    
+    return string;
+    
+end );
+
+##
+InstallGlobalFunction( _ArangoDB_create_filter_return_string,
+  function( query_rec, result_rec, collection )
+    local string, keys, SEP, func, key, value;
+    
+    string := _ArangoDB_create_filter_string( query_rec, collection );
     
     Add( string, " RETURN " );
     

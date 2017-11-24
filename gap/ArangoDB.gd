@@ -119,6 +119,8 @@ DeclareOperation( "UpdateDatabase",
 DeclareOperation( "RemoveFromDatabase",
         [ IsString, IsDatabaseCollection ] );
 
+DeclareGlobalFunction( "_ArangoDB_create_filter_string" );
+
 DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 
 #! @Description
