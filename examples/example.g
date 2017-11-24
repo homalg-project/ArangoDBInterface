@@ -36,10 +36,12 @@ coll.count();
 #! 3
 UpdateDatabase( "3", rec( TP := "x+y" ), coll );
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
-t := db._createStatement( rec( query := "FOR e IN examples RETURN e" ) );
+t := db._createStatement( rec( query := "FOR e IN examples RETURN e", count := true ) );
 #! <A statement in <Arango database "example">>
 c := t.execute();
 #! <A cursor in <Arango database "example">>
+c.count();
+#! 3
 a := c.toArray();
 #! <An array of length 3 in <Arango database "example">>
 Length( a );

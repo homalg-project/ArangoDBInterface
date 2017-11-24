@@ -455,6 +455,17 @@ InstallMethod( \.,
             
         end;
         
+    elif name = "getCount" then
+        
+        return function( )
+            local pointer, output;
+            
+            pointer := statement!.pointer;
+            
+            return EvalString( homalgSendBlocking( [ pointer, ".", name, "()" ], "need_output" ) );
+            
+        end;
+        
     fi;
     
     Error( name, " is an unknown or yet unsupported method for database collections\n" );
@@ -494,6 +505,25 @@ InstallMethod( \.,
             array!.Name := Concatenation( "<An array of length ", str, " in ", Name( ext_obj!.database ), ">" );
             
             return array;
+            
+        end;
+        
+    elif name = "count" then
+        
+        return function( )
+            local pointer, output;
+            
+            pointer := cursor!.pointer;
+            
+            output := homalgSendBlocking( [ pointer, ".", name, "()" ], "need_output" );
+            
+            if output = "" then
+                Error( "cursor.count() returned nothing\n" );
+            elif Int( output ) = fail then
+                Error( "arangosh returned ", output, " instead of an integer\n" );
+            fi;
+            
+            return Int( output );
             
         end;
         
