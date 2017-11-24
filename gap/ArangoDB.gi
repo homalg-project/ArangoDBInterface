@@ -164,21 +164,21 @@ InstallMethod( CreateDatabaseCollection,
         "for a homalg external object",
         [ IshomalgExternalObjectRep ],
 
-  function( extobj )
+  function( ext_obj )
     local collection;
     
-    if not IsBound( extobj!.name ) then
+    if not IsBound( ext_obj!.name ) then
         Error( "the external object has no component called `name'\n" );
-    elif not IsBound( extobj!.database ) then
+    elif not IsBound( ext_obj!.database ) then
         Error( "the external object has no component called `database'\n" );
-    elif not IsArangoDatabaseRep( extobj!.database ) then
-        Error( "the component extobj!.database is not an IsArangoDatabaseRep\n" );
+    elif not IsArangoDatabaseRep( ext_obj!.database ) then
+        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
     fi;
     
-    collection := rec( pointer := extobj, name := extobj!.name, database := extobj!.database );
+    collection := rec( pointer := ext_obj, name := ext_obj!.name, database := ext_obj!.database );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
-            Name, Concatenation( "<Database collection \"", extobj!.name, "\">" )
+            Name, Concatenation( "<Database collection \"", ext_obj!.name, "\">" )
             );
     
     return collection;
@@ -283,7 +283,7 @@ InstallMethod( \.,
         [ IsArangoDatabaseRep, IsPosInt ],
         
   function( db, string_as_int )
-    local name, extobj;
+    local name, ext_obj;
     
     name := NameRNam( string_as_int );
     
@@ -291,14 +291,14 @@ InstallMethod( \.,
         
         return
           function( collection_name )
-            local extobj;
+            local ext_obj;
             
-            extobj := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream );
+            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream );
             
-            extobj!.name := collection_name;
-            extobj!.database := db;
+            ext_obj!.name := collection_name;
+            ext_obj!.database := db;
             
-            return CreateDatabaseCollection( extobj );
+            return CreateDatabaseCollection( ext_obj );
             
         end;
         
@@ -334,12 +334,12 @@ InstallMethod( \.,
             
             string := GapToJsonString( keys_values_rec );
             
-            extobj := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
+            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
             
-            extobj!.statement := keys_values_rec;
-            extobj!.database := db;
+            ext_obj!.statement := keys_values_rec;
+            ext_obj!.database := db;
             
-            return CreateDatabaseStatement( extobj );
+            return CreateDatabaseStatement( ext_obj );
             
         end;
         
@@ -379,12 +379,12 @@ InstallMethod( \.,
         Error( "no collection named \"", name, "\" is loadable in the database \"", db!.name, "\"" );
     fi;
     
-    extobj := homalgSendBlocking( [ db!.pointer, ".", name ], db!.stream );
+    ext_obj := homalgSendBlocking( [ db!.pointer, ".", name ], db!.stream );
     
-    extobj!.name := name;
-    extobj!.database := db;
+    ext_obj!.name := name;
+    ext_obj!.database := db;
     
-    return CreateDatabaseCollection( extobj );
+    return CreateDatabaseCollection( ext_obj );
     
 end );
 
