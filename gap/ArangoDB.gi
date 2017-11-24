@@ -802,6 +802,80 @@ InstallMethod( QueryDatabase,
 end );
 
 ##
+InstallMethod( LockFirstDocument,
+        "for a record, a list, and a database collection",
+        [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
+
+  function( query_rec, lock_rec, collection )
+    local keys, key, key_lock, coll, query, lock, rec_lock, SEP, action, r, db, trans, c, a;
+    
+    query_rec := ShallowCopy( query_rec );
+    
+    keys := NamesOfComponents( lock_rec );
+    
+    for key in keys do
+        key_lock := Concatenation( key, "_lock" );
+        query_rec.(key_lock) := fail;
+    od;
+    
+    coll := collection!.name;
+    
+    query := _ArangoDB_create_filter_string( query_rec, coll : LIMIT := 1 );
+    
+    lock := [ " UPDATE d WITH { " ];
+    
+    rec_lock := rec( );
+    
+    SEP := "";
+    
+    for key in keys do
+        key_lock := Concatenation( key, "_lock" );
+        rec_lock.(key_lock) := lock_rec.(key);
+        Append( lock, [  SEP, key_lock, ": \"", lock_rec.(key), "\"" ] );
+        SEP := ", ";
+    od;
+    
+    Append( lock, [ " } IN ", coll ] );
+    
+    query := Concatenation( query );
+    
+    lock := Concatenation( lock );
+    
+    action := [ "function () { ",
+                "  var db = require(\"@arangodb\").db;",
+                "  var coll = db.", coll, ";",
+                "  var c = db._query('", query, lock, "');",
+                "}",
+                ];
+    
+    r := rec( collections := rec( write := [ coll ] ),
+              waitForSync := true,
+              action := Concatenation( action )
+              );
+    
+    db := collection!.database;
+    
+    trans := db._executeTransaction( r );
+    
+    if not trans = true then
+        Error( "the transaction returned ", String( trans ), "\n" );
+    fi;
+    
+    c := QueryDatabase( rec_lock, collection );
+    
+    a := c.toArray( );
+    
+    if Length( a ) = 0 then
+        return fail;
+    elif not Length( a ) = 1 then
+        Error( "expected exactly one document but found ", Length( a ), "\n" );
+    fi;
+    
+    return a[1];
+    
+end );
+
+##
 InstallMethod( AsIterator,
         "for a database cursor",
         [ IsDatabaseCursorRep ],

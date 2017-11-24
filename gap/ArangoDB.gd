@@ -166,6 +166,16 @@ DeclareOperation( "QueryDatabase",
         [ IsRecord, IsList, IsDatabaseCollection ] );
 
 #! @Description
+#!  <Q>Lock</Q> the document found by
+#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A>, <C>LIMIT_PRE</C>=1 )
+#!  and return the value of its <C>_key</C> as a string.
+#!  The operation is transactional.
+#! @Arguments query_rec, collection
+#! @Returns a string
+DeclareOperation( "LockFirstDocument",
+        [ IsRecord, IsRecord, IsDatabaseCollection ] );
+
+#! @Description
 #!  Convert <A>cursor</A> into a &GAP; iterator.
 #! @Arguments cursor
 #! @Returns an iterator

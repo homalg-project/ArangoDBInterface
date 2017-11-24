@@ -99,4 +99,8 @@ db._executeTransaction( r );
 #! true
 coll.count();
 #! 7
+LockFirstDocument( rec( TP := fail ), rec( TP := "me1" ), coll );
+#! <A document in <Arango database "example">>
+LockFirstDocument( rec( TP := fail ), rec( TP := "me2" ), coll );
+#! <A document in <Arango database "example">>
 #! @EndExample
