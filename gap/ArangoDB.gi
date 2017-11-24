@@ -447,7 +447,7 @@ InstallMethod( \.,
             
             pointer := statement!.pointer;
             
-            ext_obj := homalgSendBlocking( [ pointer, ".execute()" ] );
+            ext_obj := homalgSendBlocking( [ pointer, ".", name, "()" ] );
             
             ext_obj!.database := statement!.database;
             
