@@ -685,16 +685,16 @@ InstallGlobalFunction( _ArangoDB_create_filter_return_string,
     
     SEP := "";
     
-    func := [ ];
+    func := rec( );
     
     for key in keys do
         value := result_rec.(key);
         if not IsString( value ) and IsList( value ) and Length( value ) = 2 then
             Append( string, [ SEP, key, " : d.", value[1] ] );
-            Add( func, value[2] );
+            func.(key) := value[2];
         elif IsString( value ) or not IsList( value ) then
             Append( string, [ SEP, key, " : d.", value ] );
-            Add( func, IdFunc );
+            func.(key) := IdFunc;
         else
             Error( "wrong syntax of result key: ", value, "\n" );
         fi;
