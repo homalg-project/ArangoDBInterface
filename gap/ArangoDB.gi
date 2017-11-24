@@ -759,6 +759,22 @@ InstallMethod( QueryDatabase,
 end );
 
 ##
+InstallMethod( QueryDatabase,
+        "for a record, a list, and a database collection",
+        [ IsRecord, IsList, IsDatabaseCollectionRep ],
+
+  function( query_rec, result_list, collection )
+    local result_rec;
+    
+    result_rec := rec( );
+    
+    Perform( result_list, function( key ) result_rec.(key) := key; end );
+    
+    return QueryDatabase( query_rec, result_rec, collection );
+    
+end );
+
+##
 InstallMethod( AsIterator,
         "for a database cursor",
         [ IsDatabaseCursorRep ],

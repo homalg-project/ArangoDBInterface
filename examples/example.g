@@ -78,7 +78,7 @@ NamesOfComponents( r3 );
 [ r3._id, r3._key, r3.TP ];
 #! [ "examples/3", "3", "x+y" ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
-q := QueryDatabase( rec( TP := "x+y" ), rec( _key := "_key", TP := "TP" ), coll );
+q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP" ], coll );
 #! <A cursor in <Arango database "example">>
 a := q.toArray();
 #! <An array of length 2 in <Arango database "example">>

@@ -152,6 +152,16 @@ DeclareOperation( "QueryDatabase",
         [ IsRecord, IsRecord, IsDatabaseCollection ] );
 
 #! @Description
+#!  If instead a result list <A>result_list</A>=<C>[ "key1", "key2", ... ]</C>
+#!  is provided then it is automatically converted into
+#!  <A>result_rec</A>:=<C>rec( key1 := "key1", key2 := "key2"... )</C>.
+#! @Arguments query_rec, result_list, collection
+#! @Returns a database cursor
+#! @Group QueryDatabase
+DeclareOperation( "QueryDatabase",
+        [ IsRecord, IsList, IsDatabaseCollection ] );
+
+#! @Description
 #!  Convert <A>cursor</A> into a &GAP; iterator.
 #! @Arguments cursor
 #! @Returns an iterator
