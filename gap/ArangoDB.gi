@@ -412,7 +412,7 @@ InstallMethod( \.,
     fi;
     
     if homalgSendBlocking( [ db!.pointer, ".", name ], "need_output", db!.stream ) = "" then
-        Error( "no collection named \"", name, "\" is loadable in the database \"", db!.name, "\"" );
+        return fail;
     fi;
     
     ext_obj := homalgSendBlocking( [ db!.pointer, ".", name ], db!.stream );
