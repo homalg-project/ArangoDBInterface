@@ -1,6 +1,6 @@
 #! @System example
 
-LoadPackage( "ArangoDB" );
+LoadPackage( "ArangoDBInterface" );
 
 #! @Example
 db := AttachAnArangoDatabase( );
