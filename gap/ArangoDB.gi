@@ -119,6 +119,25 @@ HOMALG_IO_ArangoShell.READY_LENGTH := Length( HOMALG_IO_ArangoShell.READY );
 
 ####################################
 #
+# rewrite a Json method
+#
+####################################
+
+InstallMethod(_GapToJsonStreamInternal, [IsOutputStream, IsBool],
+function(o, b)
+  if b = true then
+      PrintTo(o, "true");
+  elif b = false then
+      PrintTo(o, "false");
+  elif b = fail then
+      PrintTo(o, "null");
+  else
+      Error("Invalid Boolean");
+  fi;
+end );
+
+####################################
+#
 # methods for constructors:
 #
 ####################################
