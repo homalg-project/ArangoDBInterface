@@ -166,13 +166,15 @@ DeclareOperation( "QueryDatabase",
         [ IsRecord, IsList, IsDatabaseCollection ] );
 
 #! @Description
-#!  <Q>Lock</Q> the document found by
-#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A>, <C>LIMIT_PRE</C>=1 )
-#!  and return the value of its <C>_key</C> as a string.
-#!  The operation is transactional.
-#! @Arguments query_rec, collection
-#! @Returns a string
-DeclareOperation( "LockFirstDocument",
+#!  Mark the first document found by
+#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A> : <C>LIMIT</C>=1 )
+#!  by the entries of <A>mark_rec</A> and return it.
+#!  If no such document exists return <C>false</C>.
+#!  If some of the markings already exist return <C>fail</C>.
+#!  The operation is atomic.
+#! @Arguments query_rec, mark_rec, collection
+#! @Returns a string, <C>fail</C> or <C>false</C>
+DeclareOperation( "MarkFirstDocument",
         [ IsRecord, IsRecord, IsDatabaseCollection ] );
 
 #! @Description

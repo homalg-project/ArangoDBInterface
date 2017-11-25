@@ -802,49 +802,54 @@ InstallMethod( QueryDatabase,
 end );
 
 ##
-InstallMethod( LockFirstDocument,
-        "for a record, a list, and a database collection",
+InstallMethod( MarkFirstDocument,
+        "for two records and a database collection",
         [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
 
-  function( query_rec, lock_rec, collection )
-    local keys, key, key_lock, coll, query, lock, rec_lock, SEP, action, r, db, trans, c, a;
+  function( query_rec, mark_rec, collection )
+    local c, a, keys, key, coll, query, mark, SEP, action, r, db, trans;
+    
+    c := QueryDatabase( query_rec, collection : LIMIT := 1 );
+    
+    a := c.toArray( );
+    
+    if Length( a ) = 0 then
+        return false;
+    fi;
     
     query_rec := ShallowCopy( query_rec );
     
-    keys := NamesOfComponents( lock_rec );
+    keys := NamesOfComponents( mark_rec );
     
     for key in keys do
-        key_lock := Concatenation( key, "_lock" );
-        query_rec.(key_lock) := fail;
+        if not IsBound( query_rec.(key) ) then
+            query_rec.(key) := fail;
+        fi;
     od;
     
     coll := collection!.name;
     
     query := _ArangoDB_create_filter_string( query_rec, coll : LIMIT := 1 );
     
-    lock := [ " UPDATE d WITH { " ];
-    
-    rec_lock := rec( );
+    mark := [ " UPDATE d WITH { " ];
     
     SEP := "";
     
     for key in keys do
-        key_lock := Concatenation( key, "_lock" );
-        rec_lock.(key_lock) := lock_rec.(key);
-        Append( lock, [  SEP, key_lock, ": \"", lock_rec.(key), "\"" ] );
+        Append( mark, [  SEP, key, ": \"", mark_rec.(key), "\"" ] );
         SEP := ", ";
     od;
     
-    Append( lock, [ " } IN ", coll ] );
+    Append( mark, [ " } IN ", coll ] );
     
     query := Concatenation( query );
     
-    lock := Concatenation( lock );
+    mark := Concatenation( mark );
     
     action := [ "function () { ",
                 "  var db = require(\"@arangodb\").db;",
                 "  var coll = db.", coll, ";",
-                "  var c = db._query('", query, lock, "');",
+                "  var c = db._query('", query, mark, "');",
                 "}",
                 ];
     
@@ -861,7 +866,7 @@ InstallMethod( LockFirstDocument,
         Error( "the transaction returned ", String( trans ), "\n" );
     fi;
     
-    c := QueryDatabase( rec_lock, collection );
+    c := QueryDatabase( mark_rec, collection );
     
     a := c.toArray( );
     
