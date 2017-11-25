@@ -160,22 +160,42 @@ InstallGlobalFunction( AttachAnArangoDatabase,
 end );
 
 ##
+InstallMethod( _ExtractDatabase,
+        "for a homalg external object",
+        [ IshomalgExternalObjectRep ],
+
+  function( ext_obj )
+    local database;
+    
+    if not IsBound( ext_obj!.database ) then
+        Error( "the external object has no component called `database'\n" );
+    fi;
+    
+    database := ext_obj!.database;
+    
+    if not IsArangoDatabaseRep( database ) then
+        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
+    fi;
+    
+    return database;
+    
+end );
+
+##
 InstallMethod( CreateDatabaseCollection,
         "for a homalg external object",
         [ IshomalgExternalObjectRep ],
 
   function( ext_obj )
-    local collection;
+    local database, collection;
     
     if not IsBound( ext_obj!.name ) then
         Error( "the external object has no component called `name'\n" );
-    elif not IsBound( ext_obj!.database ) then
-        Error( "the external object has no component called `database'\n" );
-    elif not IsArangoDatabaseRep( ext_obj!.database ) then
-        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
     fi;
     
-    collection := rec( pointer := ext_obj, name := ext_obj!.name, database := ext_obj!.database );
+    database := _ExtractDatabase( ext_obj );
+    
+    collection := rec( pointer := ext_obj, name := ext_obj!.name, database := database );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
             Name, Concatenation( "<Database collection \"", ext_obj!.name, "\">" )
@@ -191,20 +211,18 @@ InstallMethod( CreateDatabaseStatement,
         [ IshomalgExternalObjectRep ],
 
   function( ext_obj )
-    local statement;
+    local database, statement;
     
     if not IsBound( ext_obj!.statement ) then
         Error( "the external object has no component called `statement_string'\n" );
-    elif not IsBound( ext_obj!.database ) then
-        Error( "the external object has no component called `database'\n" );
-    elif not IsArangoDatabaseRep( ext_obj!.database ) then
-        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
     fi;
     
-    statement := rec( pointer := ext_obj, statement := ext_obj!.statement, database := ext_obj!.database );
+    database := _ExtractDatabase( ext_obj );
+    
+    statement := rec( pointer := ext_obj, statement := ext_obj!.statement, database := database );
     
     ObjectifyWithAttributes( statement, TheTypeDatabaseStatement,
-            Name, Concatenation( "<A statement in ", Name( ext_obj!.database ), ">" )
+            Name, Concatenation( "<A statement in ", Name( database ), ">" )
             );
     
     return statement;
@@ -217,18 +235,14 @@ InstallMethod( CreateDatabaseCursor,
         [ IshomalgExternalObjectRep ],
 
   function( ext_obj )
-    local cursor;
+    local database, cursor;
     
-    if not IsBound( ext_obj!.database ) then
-        Error( "the external object has no component called `database'\n" );
-    elif not IsArangoDatabaseRep( ext_obj!.database ) then
-        Error( "the component ext_obj!.database is not an IsArangoDatabaseRep\n" );
-    fi;
+    database := _ExtractDatabase( ext_obj );
     
-    cursor := rec( pointer := ext_obj, database := ext_obj!.database );
+    cursor := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( cursor, TheTypeDatabaseCursor,
-            Name, Concatenation( "<A cursor in ", Name( ext_obj!.database ), ">" )
+            Name, Concatenation( "<A cursor in ", Name( database ), ">" )
             );
     
     return cursor;
@@ -241,12 +255,14 @@ InstallMethod( CreateDatabaseArray,
         [ IshomalgExternalObjectRep ],
 
   function( ext_obj )
-    local array;
+    local database, array;
     
-    array := rec( pointer := ext_obj );
+    database := _ExtractDatabase( ext_obj );
+    
+    array := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( array, TheTypeDatabaseArray,
-            Name, Concatenation( "<An array in ", Name( ext_obj!.database ), ">" )
+            Name, Concatenation( "<An array in ", Name( database ), ">" )
             );
     
     return array;
@@ -259,12 +275,14 @@ InstallMethod( CreateDatabaseDocument,
         [ IshomalgExternalObjectRep ],
 
   function( ext_obj )
-    local document;
+    local database, document;
     
-    document := rec( pointer := ext_obj );
+    database := _ExtractDatabase( ext_obj );
+    
+    document := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( document, TheTypeDatabaseDocument,
-            Name, Concatenation( "<A document in ", Name( ext_obj!.database ), ">" )
+            Name, Concatenation( "<A document in ", Name( database ), ">" )
             );
     
     return document;

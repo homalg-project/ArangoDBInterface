@@ -65,6 +65,9 @@ DeclareCategory( "IsDatabaseDocument",
 #! @Returns an Arango database
 DeclareGlobalFunction( "AttachAnArangoDatabase" );
 
+DeclareOperation( "_ExtractDatabase",
+        [ IshomalgExternalObject ] );
+
 # @Arguments ext_obj
 # @Returns a database collection
 DeclareOperation( "CreateDatabaseCollection",
