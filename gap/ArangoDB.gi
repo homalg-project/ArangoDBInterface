@@ -287,7 +287,28 @@ InstallMethod( \.,
     
     name := NameRNam( string_as_int );
     
-    if name = "_create" then
+    if name in [ "_createDatabase", "_useDatabase", "_dropDatabase" ] then
+        
+        return
+          function( database_name )
+            local output;
+            
+            output := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", database_name, "\")" ], db!.stream, "need_output" );
+            
+            return EvalString( output );
+            
+        end;
+        
+    elif name in [ "_help" ] then
+        
+        return
+          function( )
+            
+            Print( homalgSendBlocking( [ db!.pointer, ".", name, "()" ], db!.stream, "need_display" ) );
+            
+        end;
+        
+    elif name = "_create" then
         
         return
           function( collection_name )
