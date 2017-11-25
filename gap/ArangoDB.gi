@@ -618,14 +618,12 @@ InstallMethod( \.,
         "for a database document and a positive integer",
         [ IsDatabaseDocumentRep, IsPosInt ],
         
-  function( cursor, string_as_int )
-    local name, pointer, ext_obj;
+  function( document, string_as_int )
+    local name;
     
     name := NameRNam( string_as_int );
     
-    pointer := cursor!.pointer;
-    
-    return homalgSendBlocking( [ cursor!.pointer, ".", name ], "need_output" );
+    return homalgSendBlocking( [ document!.pointer, ".", name ], "need_output" );
     
 end );
 
