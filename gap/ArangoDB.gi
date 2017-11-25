@@ -540,6 +540,10 @@ InstallMethod( \.,
             
             array!.Name := Concatenation( "<An array of length ", str, " in ", Name( ext_obj!.database ), ">" );
             
+            if IsBound( cursor!.conversions ) then
+                array!.conversions := cursor!.conversions;
+            fi;
+            
             return array;
             
         end;
@@ -572,13 +576,19 @@ InstallMethod( \.,
     elif name = "next" then
         
         return function( )
-            local ext_obj;
+            local ext_obj, document;
             
             ext_obj := homalgSendBlocking( [ cursor!.pointer, ".next()" ] );
             
             ext_obj!.database := cursor!.database;
             
-            return CreateDatabaseDocument( ext_obj );
+            document := CreateDatabaseDocument( ext_obj );
+            
+            if IsBound( cursor!.conversions ) then
+                document!.conversions := cursor!.conversions;
+            fi;
+            
+            return document;
             
         end;
         
@@ -594,7 +604,7 @@ InstallOtherMethod( \[\],
         [ IsDatabaseArrayRep, IsPosInt ],
         
   function( array, n )
-    local pointer, ext_obj;
+    local pointer, ext_obj, document;
     
     pointer := array!.pointer;
     
@@ -602,7 +612,13 @@ InstallOtherMethod( \[\],
     
     ext_obj!.database := pointer!.database;
     
-    return CreateDatabaseDocument( ext_obj );
+    document := CreateDatabaseDocument( ext_obj );
+    
+    if IsBound( array!.conversions ) then
+        document!.conversions := array!.conversions;
+    fi;
+    
+    return document;
     
 end );
 
@@ -612,11 +628,19 @@ InstallMethod( \.,
         [ IsDatabaseDocumentRep, IsPosInt ],
         
   function( document, string_as_int )
-    local name;
+    local name, output, func;
     
     name := NameRNam( string_as_int );
     
-    return homalgSendBlocking( [ document!.pointer, ".", name ], "need_output" );
+    output := homalgSendBlocking( [ document!.pointer, ".", name ], "need_output" );
+    
+    if IsBound( document!.conversions ) and IsBound( document!.conversions.(name) ) then
+        func := document!.conversions.(name);
+    else
+        func := IdFunc;
+    fi;
+    
+    return func( output );
     
 end );
 
