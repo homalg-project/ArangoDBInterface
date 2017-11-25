@@ -687,14 +687,22 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
             if value[2] = fail then
                 val := "null";
             else
-                val := Concatenation( [ "\"", String( value[2] ), "\"" ] );
+                if IsString( value[2] ) then
+                    val := Concatenation( [ "\"", String( value[2] ), "\"" ] );
+                else
+                    val := GapToJsonString( value[2] );
+                fi;
             fi;
             Append( string, [ AND, "d.", key, value[1], val ] );
         elif IsString( value ) or not IsList( value ) then
             if value = fail then
                 val := "null";
             else
-                val := Concatenation( [ "\"", String( value ), "\"" ] );
+                if IsString( value ) then
+                    val := Concatenation( [ "\"", String( value ), "\"" ] );
+                else
+                    val := GapToJsonString( value );
+                fi;
             fi;
             Append( string, [ AND, "d.", key, "==", val ] );
         else
@@ -828,7 +836,7 @@ InstallMethod( MarkFirstDocument,
         [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
 
   function( query_rec, mark_rec, collection )
-    local c, a, keys, key, coll, query, mark, SEP, action, r, db, trans;
+    local c, a, keys, key, coll, query, mark, action, r, db, trans;
     
     c := QueryDatabase( query_rec, collection : LIMIT := 1 );
     
@@ -852,16 +860,11 @@ InstallMethod( MarkFirstDocument,
     
     query := _ArangoDB_create_filter_string( query_rec, coll : LIMIT := 1 );
     
-    mark := [ " UPDATE d WITH { " ];
+    mark := [ " UPDATE d WITH " ];
     
-    SEP := "";
+    Add( mark, GapToJsonString( mark_rec ) );
     
-    for key in keys do
-        Append( mark, [  SEP, key, ": \"", mark_rec.(key), "\"" ] );
-        SEP := ", ";
-    od;
-    
-    Append( mark, [ " } IN ", coll ] );
+    Append( mark, [ " IN ", coll ] );
     
     query := Concatenation( query );
     
