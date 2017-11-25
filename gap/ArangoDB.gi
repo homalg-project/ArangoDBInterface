@@ -679,11 +679,21 @@ InstallMethod( UpdateDatabase,
         [ IsString, IsRecord, IsDatabaseCollectionRep ],
 
   function( id, keys_values_rec, collection )
-    local string;
+    local db, string, options;
+    
+    db := collection!.database;
     
     string := GapToJsonString( keys_values_rec );
     
-    homalgSendBlocking( [ "db._query('UPDATE \"", id, "\" WITH ", string, " IN ", collection!.name, "')" ], "need_command", collection!.pointer );
+    string := [ "UPDATE \"", id, "\" WITH ", string, " IN ", collection!.name ];
+    
+    options := ValueOption( "OPTIONS" );
+    
+    if not options = fail then
+        Append( string, [ " OPTIONS ", GapToJsonString( options ) ] );
+    fi;
+    
+    return db._query( Concatenation( string ) );
     
 end );
 
@@ -693,8 +703,19 @@ InstallMethod( RemoveFromDatabase,
         [ IsString, IsDatabaseCollectionRep ],
 
   function( id, collection )
+    local db, string, options;
     
-    homalgSendBlocking( [ "db._query('REMOVE \"", id, "\" IN ", collection!.name, "')" ], "need_command", collection!.pointer );
+    db := collection!.database;
+    
+    string := [ "REMOVE \"", id, "\" IN ", collection!.name ];
+    
+    options := ValueOption( "OPTIONS" );
+    
+    if not options = fail then
+        Append( string, [ " OPTIONS ", GapToJsonString( options ) ] );
+    fi;
+    
+    return db._query( Concatenation( string ) );
     
 end );
 

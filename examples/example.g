@@ -35,6 +35,7 @@ InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );;
 coll.count();
 #! 3
 UpdateDatabase( "3", rec( TP := "x+y" ), coll );
+#! <A cursor in <Arango database "example">>
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
 t := db._createStatement( rec( query := "FOR e IN examples RETURN e", count := true ) );
 #! <A statement in <Arango database "example">>
@@ -78,6 +79,7 @@ NamesOfComponents( r3 );
 [ r3._id, r3._key, r3.TP ];
 #! [ "examples/3", "3", "x+y" ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
+#! <A cursor in <Arango database "example">>
 q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP" ], coll );
 #! <A cursor in <Arango database "example">>
 a := q.toArray();
@@ -85,7 +87,9 @@ a := q.toArray();
 Set( List( a ) );
 #! [ rec( TP := "x+y", _key := "1" ), rec( TP := "x+y", _key := "3" ) ]
 RemoveFromDatabase( "1", coll );
+#! <A cursor in <Arango database "example">>
 RemoveFromDatabase( "2", coll );
+#! <A cursor in <Arango database "example">>
 coll.count();
 #! 1
 r := rec( collections := rec( write := [ "examples" ] ),
