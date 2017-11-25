@@ -547,11 +547,9 @@ InstallMethod( \.,
     elif name = "count" then
         
         return function( )
-            local pointer, output;
+            local output;
             
-            pointer := cursor!.pointer;
-            
-            output := homalgSendBlocking( [ pointer, ".", name, "()" ], "need_output" );
+            output := homalgSendBlocking( [ cursor!.pointer, ".", name, "()" ], "need_output" );
             
             if output = "" then
                 Error( "cursor.count() returned nothing\n" );
@@ -566,9 +564,6 @@ InstallMethod( \.,
     elif name = "hasNext" then
         
         return function( )
-            local pointer, ext_obj;
-            
-            pointer := cursor!.pointer;
             
             return EvalString( homalgSendBlocking( [ cursor!.pointer, ".hasNext()" ], "need_output" ) );
             
@@ -577,9 +572,7 @@ InstallMethod( \.,
     elif name = "next" then
         
         return function( )
-            local pointer, ext_obj;
-            
-            pointer := cursor!.pointer;
+            local ext_obj;
             
             ext_obj := homalgSendBlocking( [ cursor!.pointer, ".next()" ] );
             
