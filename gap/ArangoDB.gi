@@ -422,6 +422,28 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "_exists" ] then
+        
+        return
+          function( _id )
+            
+            return EvalString( homalgSendBlocking( [ db!.pointer, ".", name, "('", _id, "')" ], db!.stream, "need_output" ) );
+            
+        end;
+        
+    elif name in [ "_document" ] then
+        
+        return
+          function( _id )
+            
+            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "('", _id, "')" ], db!.stream );
+            
+            ext_obj!.database := db;
+            
+            return CreateDatabaseDocument( ext_obj );
+            
+        end;
+        
     elif name in [ "_executeTransaction" ] then
         
         return

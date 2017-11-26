@@ -92,6 +92,12 @@ RemoveFromDatabase( "2", coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.count();
 #! 1
+db._exists( "test/1" );
+#! false
+db._exists( "test/3" );
+#! true
+db._document( "test/3" );
+#! [Document in [object ArangoDatabase "example"]]
 r := rec( collections := rec( write := [ "test" ] ),
           action := "function () { \
           var db = require(\"@arangodb\").db;\
