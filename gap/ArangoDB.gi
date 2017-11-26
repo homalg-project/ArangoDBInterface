@@ -338,6 +338,20 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "_databases" ] then
+        
+        return
+          function( )
+            local ext_obj;
+            
+            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "()" ], db!.stream );
+            
+            ext_obj!.database := db;
+            
+            return CreateDatabaseArray( ext_obj );
+            
+        end;
+        
     elif name in [ "_help" ] then
         
         return
