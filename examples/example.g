@@ -19,28 +19,34 @@ coll.count();
 #! 0
 db.test.count();
 #! 0
-InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );;
+InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );
+#! [ArangoDocument]
 coll.count();
 #! 1
 db._truncate( coll );
 #! true
 coll.count();
 #! 0
-coll.save( rec( _key := "1", TP := "x-y" ) );;
+coll.save( rec( _key := "1", TP := "x-y" ) );
+#! [ArangoDocument]
 coll.count();
 #! 1
 db._truncate( coll );
 #! true
 coll.count();
 #! 0
-coll.save( rec( _key := "1", TP := "x-y" ) );;
-coll.save( rec( _key := "2", TP := "x*y" ) );;
-InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );;
+coll.save( rec( _key := "1", TP := "x-y" ) );
+#! [ArangoDocument]
+coll.save( rec( _key := "2", TP := "x*y" ) );
+#! [ArangoDocument]
+InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );
+#! [ArangoDocument]
 coll.count();
 #! 3
 UpdateDatabase( "3", rec( TP := "x+y" ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
-coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
+coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));
+#! [ArangoDocument]
 t := db._createStatement( rec( query := "FOR e IN test RETURN e", count := true ) );
 #! [ArangoStatement in [object ArangoDatabase "example"]]
 c := t.execute();
@@ -101,6 +107,8 @@ db._exists( "test/1" );
 db._exists( "test/3" );
 #! true
 db._document( "test/3" );
+#! [ArangoDocument]
+coll.document( "3" );
 #! [ArangoDocument]
 r := rec( collections := rec( write := [ "test" ] ),
           action := "function () { \

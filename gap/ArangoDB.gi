@@ -545,39 +545,65 @@ InstallMethod( \.,
         [ IsDatabaseCollectionRep, IsPosInt ],
         
   function( collection, string_as_int )
-    local command;
+    local name;
     
-    command := NameRNam( string_as_int );
+    name := NameRNam( string_as_int );
     
-    return
-      function( arg )
-        local nargs, string, keys_values_rec, output;
+    if name in [ "rename" ] then
         
-        nargs := Length( arg );
+        return
+          function( new_collection_name )
+            
+            homalgSendBlocking( [ collection!.pointer, ".", name, "(\"", new_collection_name, "\")" ], "need_command" );
+            
+            Concatenation( "[ArangoCollection \"", new_collection_name, "\"]" );
+            
+            return collection;
+            
+        end;
         
-        if nargs = 0 then
-            string := "";
-        else
-            keys_values_rec := arg[1];
+    elif name in [ "document" ] then
+        
+        return
+          function( _key )
+            local ext_obj;
+            
+            ext_obj := homalgSendBlocking( [ collection!.pointer, ".", name, "('", _key, "')" ] );
+            
+            ext_obj!.database := collection!.database;
+            
+            return CreateDatabaseDocument( ext_obj );
+            
+        end;
+        
+    elif name in [ "count" ] then
+        
+        return
+          function( )
+            
+            return Int( homalgSendBlocking( [ collection!.pointer, ".", name, "()" ], "need_output" ) );
+            
+        end;
+        
+    elif name in [ "save", "ensureIndex" ] then
+        
+        return
+          function( keys_values_rec )
+            local string, ext_obj;
+            
             string := GapToJsonString( keys_values_rec );
-        fi;
+            
+            ext_obj := homalgSendBlocking( [ collection!.pointer, ".", name, "(", string, ")" ] );
+            
+            ext_obj!.database := collection!.database;
+            
+            return CreateDatabaseDocument( ext_obj );
+            
+        end;
         
-        output := homalgSendBlocking( [ collection!.pointer, ".", command, "(", string, ")" ], "need_output" );
-        
-        if nargs = 0 then
-            if command in [ "count" ] then
-                return Int( output );
-            fi;
-            return output;
-        fi;
-        
-        if not output[1] = '{' then
-            Error( output );
-        fi;
-        
-        return JsonStringToGap( output );
-        
-    end;
+    fi;
+    
+    Error( "collection.", name, " is not supported yet\n" );
     
 end );
 
