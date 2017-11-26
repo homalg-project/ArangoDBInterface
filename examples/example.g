@@ -43,7 +43,7 @@ InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );
 #! [ArangoDocument]
 coll.count();
 #! 3
-UpdateDatabase( "3", rec( TP := "x+y" ), coll );
+UpdateDatabase( "3", rec( TP := "x+y", a := 42 ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));
 #! [ArangoDocument]
@@ -65,6 +65,8 @@ a[2].TP;
 #! "x*y"
 a[3].TP;
 #! "x+y"
+a[3].a;
+#! 42
 c := t.execute();
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 i := AsIterator( c );
@@ -81,21 +83,24 @@ d3 := NextIterator( i );
 #! [ArangoDocument]
 d3.TP;
 #! "x+y"
+d3.a;
+#! 42
 r3 := DatabaseDocumentToRecord( d3 );;
 IsRecord( r3 );
 #! true
 NamesOfComponents( r3 );
-#! [ "_key", "TP", "_id", "_rev" ]
+#! [ "a", "_key", "TP", "_id", "_rev" ]
 [ r3._id, r3._key, r3.TP ];
 #! [ "test/3", "3", "x+y" ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
-q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP" ], coll );
+q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP", "a" ], coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 a := q.toArray();
 #! [ArangoArray of length 2]
 Set( List( a ) );
-#! [ rec( TP := "x+y", _key := "1" ), rec( TP := "x+y", _key := "3" ) ]
+#! [ rec( TP := "x+y", _key := "3", a := 42 ),
+#!   rec( TP := "x+y", _key := "1", a := fail) ]
 RemoveFromDatabase( "1", coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 RemoveFromDatabase( "2", coll );

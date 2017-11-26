@@ -769,11 +769,23 @@ InstallMethod( \.,
         [ IsDatabaseDocumentRep, IsPosInt ],
         
   function( document, string_as_int )
-    local name, output, func;
+    local name, v, output, doc, func;
     
     name := NameRNam( string_as_int );
     
-    output := homalgSendBlocking( [ document!.pointer, ".", name ], "need_output" );
+    v := document!.pointer!.stream.variable_name;
+    
+    ## arangosh prevents you from doing both in one step
+    output := homalgSendBlocking( [ v, "_d = { \"", name, "\" : ", document!.pointer, ".", name, " }" ], "need_output" );
+    
+    doc := JsonStringToGap( output );
+    
+    if IsString( doc.(name) ) then
+        ## get the string again through a direct method as it might be truncated
+        output := homalgSendBlocking( [ document!.pointer, ".", name ], "need_output" );
+    else
+        output := doc.(name);
+    fi;
     
     if IsBound( document!.conversions ) and IsBound( document!.conversions.(name) ) then
         func := document!.conversions.(name);

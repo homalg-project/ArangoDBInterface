@@ -44,7 +44,7 @@ ComputeIsAbelian := function( )
           Sleep( 1 );
       fi;
       
-      attr_rec := rec( IsAbelian := IsAbelian( SmallGroup( EvalString( d.IdGroup ) ) ),
+      attr_rec := rec( IsAbelian := IsAbelian( SmallGroup( d.IdGroup ) ),
                        IsAbelian_lock := fail );
       
       UpdateDatabase( d._key, attr_rec, sg : OPTIONS := rec( keepNull := false ) );
