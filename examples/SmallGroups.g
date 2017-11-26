@@ -10,6 +10,8 @@ if sg = fail then
     Assert( 0, sg.count() = 0 );
 fi;
 
+Assert( 0, sg.count( ) = 6847 );
+
 KeyIdGroup := function( G )
   local key;
   
@@ -28,27 +30,78 @@ AddSmallGroupsToCollection := function( n )
   
 end;
 
-ComputeIsAbelian := function( )
-  local query_rec, lock_rec, d, attr_rec;
+##
+ComputeAttributeForSmallGroups := function( attr, collection, arg... )
+  local query_rec, attr_lock, lock_rec, d, a_rec, attr_rec;
   
-  query_rec := rec( IsAbelian := fail );
+  if not IsString( attr ) then
+      Error( "the first argument is not a string\n" );
+  elif not IsBoundGlobal( attr ) then
+      Error( "ValueGlobal( the first argument ) is not bound\n" );
+  elif not IsDatabaseCollectionRep( collection ) then
+      Error( "the second argument is not a database collection\n" );
+  fi;
   
-  lock_rec := rec( IsAbelian_lock := FingerprintOfGapProcess( ) );
+  query_rec := rec( );
+  
+  query_rec.(attr) := fail;
+  
+  attr_lock := Concatenation( attr, "_lock" );
+  
+  lock_rec := rec( );
+  
+  lock_rec.(attr_lock) := CallFuncList( FingerprintOfGapProcess, arg );
+  
+  a_rec := rec( );
+  
+  a_rec.(attr_lock) := fail;
   
   while true do
-      d := MarkFirstDocument( query_rec, lock_rec, sg );
+      
+      d := MarkFirstDocument( query_rec, lock_rec, collection );
       
       if d = false then
-          return;
+          return true;
       elif d = fail then
           Sleep( 1 );
       fi;
       
-      attr_rec := rec( IsAbelian := IsAbelian( SmallGroup( d.IdGroup ) ),
-                       IsAbelian_lock := fail );
+      attr_rec := ShallowCopy( a_rec );
       
-      UpdateDatabase( d._key, attr_rec, sg : OPTIONS := rec( keepNull := false ) );
+      attr_rec.(attr) := ValueGlobal( attr )( SmallGroup( d.IdGroup ) );
+      
+      UpdateDatabase( d._key, attr_rec, collection : OPTIONS := rec( keepNull := false ) );
       
   od;
   
+end;
+
+ComputeIsAbelian := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsAbelian", sg, arg );
+    
+end;
+
+ComputeIsNilpotent := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsNilpotent", sg, arg );
+    
+end;
+
+ComputeIsSolvable := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsSolvable", sg, arg );
+    
+end;
+
+ComputeIsSupersolvable := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsSupersolvable", sg, arg );
+    
+end;
+
+ComputeIsSimple := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsSimple", sg, arg );
+    
 end;
