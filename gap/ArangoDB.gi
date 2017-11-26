@@ -283,7 +283,7 @@ InstallMethod( CreateDatabaseArray,
     array := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( array, TheTypeDatabaseArray,
-            Name, Concatenation( "[Array in ", Name( database ), "]" )
+            Name, "[ArangoArray]"
             );
     
     return array;
@@ -303,7 +303,7 @@ InstallMethod( CreateDatabaseDocument,
     document := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( document, TheTypeDatabaseDocument,
-            Name, Concatenation( "[Document in ", Name( database ), "]" )
+            Name, "[ArangoDocument]"
             );
     
     return document;
@@ -603,7 +603,7 @@ InstallMethod( \.,
             
             SetLength( array, EvalString( str ) );
             
-            array!.Name := Concatenation( "[Array of length ", str, " in ", Name( ext_obj!.database ), "]" );
+            array!.Name := Concatenation( "[ArangoArray of length ", str, "]" );
             
             if IsBound( cursor!.conversions ) then
                 array!.conversions := cursor!.conversions;

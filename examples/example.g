@@ -44,7 +44,7 @@ c := t.execute();
 c.count();
 #! 3
 a := c.toArray();
-#! [Array of length 3 in [object ArangoDatabase "example"]]
+#! [ArangoArray of length 3]
 Length( a );
 #! 3
 Length( List( a ) );
@@ -60,15 +60,15 @@ c := t.execute();
 i := AsIterator( c );
 #! <iterator>
 d1 := NextIterator( i );
-#! [Document in [object ArangoDatabase "example"]]
+#! [ArangoDocument]
 d1.TP;
 #! "x-y"
 d2 := NextIterator( i );
-#! [Document in [object ArangoDatabase "example"]]
+#! [ArangoDocument]
 d2.TP;
 #! "x*y"
 d3 := NextIterator( i );
-#! [Document in [object ArangoDatabase "example"]]
+#! [ArangoDocument]
 d3.TP;
 #! "x+y"
 r3 := DatabaseDocumentToRecord( d3 );;
@@ -83,7 +83,7 @@ UpdateDatabase( "1", rec( TP := "x+y" ), coll );
 q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP" ], coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 a := q.toArray();
-#! [Array of length 2 in [object ArangoDatabase "example"]]
+#! [ArangoArray of length 2]
 Set( List( a ) );
 #! [ rec( TP := "x+y", _key := "1" ), rec( TP := "x+y", _key := "3" ) ]
 RemoveFromDatabase( "1", coll );
@@ -97,7 +97,7 @@ db._exists( "test/1" );
 db._exists( "test/3" );
 #! true
 db._document( "test/3" );
-#! [Document in [object ArangoDatabase "example"]]
+#! [ArangoDocument]
 r := rec( collections := rec( write := [ "test" ] ),
           action := "function () { \
           var db = require(\"@arangodb\").db;\
@@ -110,7 +110,7 @@ db._executeTransaction( r );
 coll.count();
 #! 7
 MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me1" ), coll );
-#! [A document in [object ArangoDatabase "example"]]
+#! [ArangoDocument]
 MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me2" ), coll );
-#! [A document in [object ArangoDatabase "example"]]
+#! [ArangoDocument]
 #! @EndExample
