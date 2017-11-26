@@ -5,6 +5,10 @@ LoadPackage( "ArangoDBInterface" );
 #! @Example
 db := AttachAnArangoDatabase( );
 #! [object ArangoDatabase "example"]
+db._isSystem();
+#! false
+db._name();
+#! "example"
 db._drop( "test" );
 #! true
 coll := db._create( "test" );

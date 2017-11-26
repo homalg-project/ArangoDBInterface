@@ -338,6 +338,28 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "_isSystem" ] then
+        
+        return
+          function( )
+            local output;
+            
+            output := homalgSendBlocking( [ db!.pointer, ".", name, "()" ], db!.stream, "need_output" );
+            
+            return EvalString( output );
+            
+        end;
+        
+    elif name in [ "_name", "_id", "_path" ] then
+        
+        return
+          function( )
+            local output;
+            
+            return homalgSendBlocking( [ db!.pointer, ".", name, "()" ], db!.stream, "need_output" );
+            
+        end;
+        
     elif name in [ "_databases" ] then
         
         return
@@ -349,6 +371,20 @@ InstallMethod( \.,
             ext_obj!.database := db;
             
             return CreateDatabaseArray( ext_obj );
+            
+        end;
+        
+    elif name in [ "_engineStats" ] then
+        
+        return
+          function( )
+            local ext_obj;
+            
+            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "()" ], db!.stream );
+            
+            ext_obj!.database := db;
+            
+            return CreateDatabaseDocument( ext_obj );
             
         end;
         
