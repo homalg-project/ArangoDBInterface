@@ -5,15 +5,15 @@ LoadPackage( "ArangoDBInterface" );
 #! @Example
 db := AttachAnArangoDatabase( );
 #! [object ArangoDatabase "example"]
-db._drop( "examples" );
+db._drop( "test" );
 #! true
-coll := db._create( "examples" );
-#! [ArangoCollection "examples"]
-db.examples;
-#! [ArangoCollection "examples"]
+coll := db._create( "test" );
+#! [ArangoCollection "test"]
+db.test;
+#! [ArangoCollection "test"]
 coll.count();
 #! 0
-db.examples.count();
+db.test.count();
 #! 0
 InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );;
 coll.count();
@@ -37,7 +37,7 @@ coll.count();
 UpdateDatabase( "3", rec( TP := "x+y" ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
-t := db._createStatement( rec( query := "FOR e IN examples RETURN e", count := true ) );
+t := db._createStatement( rec( query := "FOR e IN test RETURN e", count := true ) );
 #! [ArangoStatement in [object ArangoDatabase "example"]]
 c := t.execute();
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
@@ -77,7 +77,7 @@ IsRecord( r3 );
 NamesOfComponents( r3 );
 #! [ "_key", "TP", "_id", "_rev" ]
 [ r3._id, r3._key, r3.TP ];
-#! [ "examples/3", "3", "x+y" ]
+#! [ "test/3", "3", "x+y" ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP" ], coll );
@@ -92,12 +92,12 @@ RemoveFromDatabase( "2", coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.count();
 #! 1
-r := rec( collections := rec( write := [ "examples" ] ),
+r := rec( collections := rec( write := [ "test" ] ),
           action := "function () { \
           var db = require(\"@arangodb\").db;\
           for (var i = 4; i < 10; ++i)\
-            { db.examples.save({ _key: \"\" + i }); }\
-            db.examples.count();\
+            { db.test.save({ _key: \"\" + i }); }\
+            db.test.count();\
           }" );;
 db._executeTransaction( r );
 #! true
