@@ -563,7 +563,7 @@ InstallMethod( \.,
             
             pointer := statement!.pointer;
             
-            return EvalString( homalgSendBlocking( [ pointer, ".", name, "()" ], "need_output" ) );
+            return Int( homalgSendBlocking( [ pointer, ".", name, "()" ], "need_output" ) );
             
         end;
         
@@ -601,7 +601,7 @@ InstallMethod( \.,
             
             array := CreateDatabaseArray( ext_obj );
             
-            SetLength( array, EvalString( str ) );
+            SetLength( array, Int( str ) );
             
             array!.Name := Concatenation( "[ArangoArray of length ", str, "]" );
             
