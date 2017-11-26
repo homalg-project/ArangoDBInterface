@@ -206,18 +206,20 @@ InstallMethod( CreateDatabaseCollection,
         [ IshomalgExternalObjectRep ],
 
   function( ext_obj )
-    local database, collection;
+    local database, name, collection;
     
     if not IsBound( ext_obj!.name ) then
         Error( "the external object has no component called `name'\n" );
     fi;
     
+    name := ext_obj!.name;
+    
     database := _ExtractDatabase( ext_obj );
     
-    collection := rec( pointer := ext_obj, name := ext_obj!.name, database := database );
+    collection := rec( pointer := ext_obj, name := name, database := database );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
-            Name, Concatenation( "[ArangoCollection \"", ext_obj!.name, "\"]" )
+            Name, Concatenation( "[ArangoCollection \"", name, "\"]" )
             );
     
     return collection;
