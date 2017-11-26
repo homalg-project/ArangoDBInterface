@@ -409,6 +409,10 @@ InstallMethod( \.,
           function( query_string )
             local output;
             
+            if not IsString( query_string ) then
+                query_string := Concatenation( query_string );
+            fi;
+            
             ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "('", query_string, "')" ], db!.stream );
             
             ext_obj!.query := query_string;
@@ -714,7 +718,7 @@ InstallMethod( UpdateDatabase,
         Append( string, [ " OPTIONS ", GapToJsonString( options ) ] );
     fi;
     
-    return db._query( Concatenation( string ) );
+    return db._query( string );
     
 end );
 
@@ -736,7 +740,7 @@ InstallMethod( RemoveFromDatabase,
         Append( string, [ " OPTIONS ", GapToJsonString( options ) ] );
     fi;
     
-    return db._query( Concatenation( string ) );
+    return db._query( string );
     
 end );
 
