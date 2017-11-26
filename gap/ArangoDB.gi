@@ -95,7 +95,7 @@ InstallValue( HOMALG_IO_ArangoShell,
             cas := "arangosh",			## normalized name on which the user should have no control
             name := "arangosh",
             executable := [ "arangosh" ],	## this list is processed from left to right
-            options := [ "--server.username", "root@example", "--server.database", "example", "--server.password", "password" ],
+            options := [ "--console.auto-complete", "false", "--console.colors", "false", "--server.username", "root@example", "--server.database", "example", "--server.password", "password" ],
             BUFSIZE := 1024,
             READY := "!$%&/(",
             CUT_POS_BEGIN := 1,			## these are the most
