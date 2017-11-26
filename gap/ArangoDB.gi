@@ -171,7 +171,7 @@ InstallGlobalFunction( AttachAnArangoDatabase,
                name := name );
     
     ObjectifyWithAttributes( db, TheTypeArangoDatabase,
-            Name, Concatenation( "<Arango database \"", name, "\">" )
+            Name, Concatenation( "[object ArangoDatabase \"", name, "\"]" )
             );
     
     return db;
@@ -217,7 +217,7 @@ InstallMethod( CreateDatabaseCollection,
     collection := rec( pointer := ext_obj, name := ext_obj!.name, database := database );
     
     ObjectifyWithAttributes( collection, TheTypeDatabaseCollection,
-            Name, Concatenation( "<Database collection \"", ext_obj!.name, "\">" )
+            Name, Concatenation( "[ArangoCollection \"", ext_obj!.name, "\"]" )
             );
     
     return collection;
@@ -241,7 +241,7 @@ InstallMethod( CreateDatabaseStatement,
     statement := rec( pointer := ext_obj, statement := ext_obj!.statement, database := database );
     
     ObjectifyWithAttributes( statement, TheTypeDatabaseStatement,
-            Name, Concatenation( "<A statement in ", Name( database ), ">" )
+            Name, Concatenation( "[ArangoStatement in ", Name( database ), "]" )
             );
     
     return statement;
@@ -261,7 +261,7 @@ InstallMethod( CreateDatabaseCursor,
     cursor := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( cursor, TheTypeDatabaseCursor,
-            Name, Concatenation( "<A cursor in ", Name( database ), ">" )
+            Name, Concatenation( "[ArangoQueryCursor in ", Name( database ), "]" )
             );
     
     return cursor;
@@ -281,7 +281,7 @@ InstallMethod( CreateDatabaseArray,
     array := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( array, TheTypeDatabaseArray,
-            Name, Concatenation( "<An array in ", Name( database ), ">" )
+            Name, Concatenation( "[Array in ", Name( database ), "]" )
             );
     
     return array;
@@ -301,7 +301,7 @@ InstallMethod( CreateDatabaseDocument,
     document := rec( pointer := ext_obj, database := database );
     
     ObjectifyWithAttributes( document, TheTypeDatabaseDocument,
-            Name, Concatenation( "<A document in ", Name( database ), ">" )
+            Name, Concatenation( "[Document in ", Name( database ), "]" )
             );
     
     return document;
@@ -575,7 +575,7 @@ InstallMethod( \.,
             
             SetLength( array, EvalString( str ) );
             
-            array!.Name := Concatenation( "<An array of length ", str, " in ", Name( ext_obj!.database ), ">" );
+            array!.Name := Concatenation( "[Array of length ", str, " in ", Name( ext_obj!.database ), "]" );
             
             if IsBound( cursor!.conversions ) then
                 array!.conversions := cursor!.conversions;

@@ -4,13 +4,13 @@ LoadPackage( "ArangoDBInterface" );
 
 #! @Example
 db := AttachAnArangoDatabase( );
-#! <Arango database "example">
+#! [object ArangoDatabase "example"]
 db._drop( "examples" );
 #! true
 coll := db._create( "examples" );
-#! <Database collection "examples">
+#! [ArangoCollection "examples"]
 db.examples;
-#! <Database collection "examples">
+#! [ArangoCollection "examples"]
 coll.count();
 #! 0
 db.examples.count();
@@ -35,16 +35,16 @@ InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );;
 coll.count();
 #! 3
 UpdateDatabase( "3", rec( TP := "x+y" ), coll );
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));;
 t := db._createStatement( rec( query := "FOR e IN examples RETURN e", count := true ) );
-#! <A statement in <Arango database "example">>
+#! [ArangoStatement in [object ArangoDatabase "example"]]
 c := t.execute();
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 c.count();
 #! 3
 a := c.toArray();
-#! <An array of length 3 in <Arango database "example">>
+#! [Array of length 3 in [object ArangoDatabase "example"]]
 Length( a );
 #! 3
 Length( List( a ) );
@@ -56,19 +56,19 @@ a[2].TP;
 a[3].TP;
 #! "x+y"
 c := t.execute();
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 i := AsIterator( c );
 #! <iterator>
 d1 := NextIterator( i );
-#! <A document in <Arango database "example">>
+#! [Document in [object ArangoDatabase "example"]]
 d1.TP;
 #! "x-y"
 d2 := NextIterator( i );
-#! <A document in <Arango database "example">>
+#! [Document in [object ArangoDatabase "example"]]
 d2.TP;
 #! "x*y"
 d3 := NextIterator( i );
-#! <A document in <Arango database "example">>
+#! [Document in [object ArangoDatabase "example"]]
 d3.TP;
 #! "x+y"
 r3 := DatabaseDocumentToRecord( d3 );;
@@ -79,17 +79,17 @@ NamesOfComponents( r3 );
 [ r3._id, r3._key, r3.TP ];
 #! [ "examples/3", "3", "x+y" ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP" ], coll );
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 a := q.toArray();
-#! <An array of length 2 in <Arango database "example">>
+#! [Array of length 2 in [object ArangoDatabase "example"]]
 Set( List( a ) );
 #! [ rec( TP := "x+y", _key := "1" ), rec( TP := "x+y", _key := "3" ) ]
 RemoveFromDatabase( "1", coll );
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 RemoveFromDatabase( "2", coll );
-#! <A cursor in <Arango database "example">>
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.count();
 #! 1
 r := rec( collections := rec( write := [ "examples" ] ),
@@ -104,7 +104,7 @@ db._executeTransaction( r );
 coll.count();
 #! 7
 MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me1" ), coll );
-#! <A document in <Arango database "example">>
+#! [A document in [object ArangoDatabase "example"]]
 MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me2" ), coll );
-#! <A document in <Arango database "example">>
+#! [A document in [object ArangoDatabase "example"]]
 #! @EndExample
