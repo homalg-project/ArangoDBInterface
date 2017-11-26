@@ -1071,3 +1071,64 @@ InstallMethod( DisplayInArangoSh,
     fi;
     
 end );
+
+####################################
+#
+# View, Print, and Display methods:
+#
+####################################
+
+##
+InstallMethod( Display,
+        "for a database collection",
+        [ IsDatabaseCollectionRep ],
+        
+  function( collection )
+    
+    homalgDisplay( collection!.pointer );
+    
+end );
+
+##
+InstallMethod( Display,
+        "for a database statement",
+        [ IsDatabaseStatementRep ],
+        
+  function( statement )
+    
+    homalgDisplay( statement!.pointer );
+    
+end );
+
+##
+InstallMethod( Display,
+        "for a database cursor",
+        [ IsDatabaseCursorRep ],
+        
+  function( cursor )
+    
+    homalgDisplay( cursor!.pointer );
+    
+end );
+
+##
+InstallMethod( Display,
+        "for a database array",
+        [ IsDatabaseArrayRep ],
+        
+  function( array )
+    
+    homalgDisplay( array!.pointer );
+    
+end );
+
+##
+InstallMethod( Display,
+        "for a database document",
+        [ IsDatabaseDocumentRep ],
+        
+  function( document )
+    
+    homalgDisplay( document!.pointer );
+    
+end );
