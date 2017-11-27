@@ -6,8 +6,6 @@ sg := db.SmallGroups;
 
 if sg = fail then
     sg := db._create( "SmallGroups" );
-    Assert( 0, IsDatabaseCollection( sg ) );
-    Assert( 0, sg.count() = 0 );
 fi;
 
 Assert( 0, sg.count( ) = 6847 );

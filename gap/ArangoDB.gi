@@ -401,14 +401,18 @@ InstallMethod( \.,
         
         return
           function( collection_name )
-            local ext_obj;
+            local ext_obj, collection;
             
             ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "(\"", collection_name, "\")" ], db!.stream );
             
             ext_obj!.name := collection_name;
             ext_obj!.database := db;
             
-            return CreateDatabaseCollection( ext_obj );
+            collection := CreateDatabaseCollection( ext_obj );
+            
+            Assert( 0, collection.count() = 0 );
+            
+            return collection;
             
         end;
         
