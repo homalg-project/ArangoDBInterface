@@ -40,7 +40,11 @@ ComputeAttributeForSmallGroups := function( attr, collection, arg... )
       Error( "the second argument is not a database collection\n" );
   fi;
   
-  query_rec := rec( );
+  query_rec := ValueOption( "query_rec" );
+      
+  if query_rec = fail then
+      query_rec := rec( );
+  fi;
   
   query_rec.(attr) := fail;
   
