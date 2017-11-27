@@ -568,6 +568,10 @@ InstallMethod( \.,
           function( _key )
             local ext_obj;
             
+            if IsInt( _key ) then
+                _key := String( _key );
+            fi;
+            
             ext_obj := homalgSendBlocking( [ collection!.pointer, ".", name, "('", _key, "')" ] );
             
             ext_obj!.database := collection!.database;
