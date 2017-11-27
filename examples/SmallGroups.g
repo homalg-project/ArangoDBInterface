@@ -63,6 +63,7 @@ ComputeAttributeForSmallGroups := function( attr, collection, arg... )
       if d = false then
           return count;
       elif d = fail then
+          Print( "all documents with unknown attribute `", attr, "' are currently locked, sleeping for 1 second\n" );
           Sleep( 1 );
       else
           attr_rec := ShallowCopy( a_rec );
