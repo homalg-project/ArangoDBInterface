@@ -556,7 +556,7 @@ InstallMethod( \.,
             
             homalgSendBlocking( [ collection!.pointer, ".", name, "(\"", new_collection_name, "\")" ], "need_command" );
             
-            Concatenation( "[ArangoCollection \"", new_collection_name, "\"]" );
+            collection!.Name := Concatenation( "[ArangoCollection \"", new_collection_name, "\"]" );
             
             return collection;
             
