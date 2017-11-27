@@ -30,7 +30,7 @@ end;
 
 ##
 ComputeAttributeForSmallGroups := function( attr, collection, arg... )
-  local query_rec, attr_lock, lock_rec, d, a_rec, attr_rec;
+  local query_rec, attr_lock, lock_rec, count, d, a_rec, attr_rec;
   
   if not IsString( attr ) then
       Error( "the first argument is not a string\n" );
@@ -54,21 +54,25 @@ ComputeAttributeForSmallGroups := function( attr, collection, arg... )
   
   a_rec.(attr_lock) := fail;
   
+  count := 0;
+  
   while true do
       
       d := MarkFirstDocument( query_rec, lock_rec, collection );
       
       if d = false then
-          return true;
+          return count;
       elif d = fail then
           Sleep( 1 );
+      else
+          attr_rec := ShallowCopy( a_rec );
+          
+          attr_rec.(attr) := ValueGlobal( attr )( SmallGroup( d.IdGroup ) );
+          
+          UpdateDatabase( d._key, attr_rec, collection : OPTIONS := rec( keepNull := false ) );
+          
+          count := count + 1;
       fi;
-      
-      attr_rec := ShallowCopy( a_rec );
-      
-      attr_rec.(attr) := ValueGlobal( attr )( SmallGroup( d.IdGroup ) );
-      
-      UpdateDatabase( d._key, attr_rec, collection : OPTIONS := rec( keepNull := false ) );
       
   od;
   
@@ -101,5 +105,11 @@ end;
 ComputeIsSimple := function( arg... )
     
     return ComputeAttributeForSmallGroups( "IsSimple", sg, arg );
+    
+end;
+
+ComputeIsMonomial := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsMonomial", sg, arg );
     
 end;
