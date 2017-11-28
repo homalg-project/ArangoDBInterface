@@ -83,6 +83,12 @@ ComputeAttributeForSmallGroups := function( attr, collection, arg... )
   
 end;
 
+ComputeIsCyclic := function( arg... )
+    
+    return ComputeAttributeForSmallGroups( "IsCyclic", sg, arg );
+    
+end;
+
 ComputeIsAbelian := function( arg... )
     
     return ComputeAttributeForSmallGroups( "IsAbelian", sg, arg );
