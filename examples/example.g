@@ -71,6 +71,8 @@ a[3].a;
 #! 42
 a[3].b;
 #! " a\nb "
+IsBound( a[3].c );
+#! true
 a[3].c;
 #!  rec( d := [ 1, "e" ] )
 c := t.execute();
@@ -93,6 +95,10 @@ d3.a;
 #! 42
 d3.b;
 #! " a\nb "
+IsBound( d3.c );
+#! true
+d3.c;
+#! rec( d := [ 1, "e" ] )
 r3 := DatabaseDocumentToRecord( d3 );;
 IsRecord( r3 );
 #! true

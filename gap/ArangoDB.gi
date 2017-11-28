@@ -827,6 +827,17 @@ InstallMethod( \.,
 end );
 
 ##
+InstallMethod( IsBound\.,
+        "for a database document and a positive integer",
+        [ IsDatabaseDocumentRep, IsPosInt ],
+        
+  function( document, string_as_int )
+
+    return not \.( document, string_as_int ) = fail;
+    
+end );
+
+##
 InstallMethod( InsertIntoDatabase,
         "for a record and a database collection",
         [ IsRecord, IsDatabaseCollectionRep ],
