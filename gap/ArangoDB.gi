@@ -777,20 +777,41 @@ InstallMethod( \.,
         [ IsDatabaseDocumentRep, IsPosInt ],
         
   function( document, string_as_int )
-    local name, v, output, doc, func;
+    local name, v, output, undefined, o, doc, func;
     
     name := NameRNam( string_as_int );
     
     v := document!.pointer!.stream.variable_name;
     
     ## arangosh prevents you from doing both in one step
-    output := homalgSendBlocking( [ v, "_d = { \"", name, "\" : ", document!.pointer, ".", name, " }" ], "need_output" );
+    output := homalgSendBlocking( [ v, "_d = { \"", name, "\" : ", document!.pointer, ".", name, " }" ], "need_display" );
+    
+    if Length( output ) <= Length( name ) + 30 then ## only compare if reasonable
+        undefined := Concatenation( [ "{ \"", name, "\" : undefined }" ] );
+        o := ShallowCopy( output );
+        NormalizeWhitespace( o );
+        if o = undefined then
+            Error( "Document: '<doc>.", name, "' must have an assigned value\n" );
+        fi;
+    fi;
     
     doc := JsonStringToGap( output );
     
     if IsString( doc.(name) ) then
         ## get the string again through a direct method as it might be truncated
-        output := homalgSendBlocking( [ document!.pointer, ".", name ], "need_output" );
+        output := homalgSendBlocking( [ document!.pointer, ".", name ], "need_display" );
+        ## the pseudo-tty based interface is not reliable concerning
+        ## the number of trailing ENTERs which should be 3 but
+        ## too often decreases
+        while output[Length( output )] = '\n' do
+            Remove( output );
+        od;
+        ## the pseudo-tty based interface is not reliable concerning
+        ## the number of preceding ENTERs which should be 0 but
+        ## too often decreases
+        while output[1] = '\n' do
+            Remove( output, 1 );
+        od;
     else
         output := doc.(name);
     fi;
@@ -1149,7 +1170,7 @@ InstallMethod( DatabaseDocumentToRecord,
   function( document )
     local str, doc, i;
     
-    str := homalgSendBlocking( [ document!.pointer ], "need_output" );
+    str := homalgSendBlocking( [ document!.pointer ], "need_display" );
     
     doc := JsonStringToGap( str );
     
