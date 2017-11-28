@@ -1125,11 +1125,19 @@ InstallMethod( ListOp,
         [ IsDatabaseArrayRep ],
 
   function( array )
-    local str;
     
-    str := homalgSendBlocking( [ array!.pointer ], "need_output" );
+    return List( [ 1 .. Length( array ) ], i -> array[i] );
     
-    return JsonStringToGap( str );
+end );
+
+##
+InstallOtherMethod( ListOp,
+        "for a database array and a function",
+        [ IsDatabaseArrayRep, IsFunction ],
+
+  function( array, f )
+    
+    return List( [ 1 .. Length( array ) ], i -> f( array[i] ) );
     
 end );
 

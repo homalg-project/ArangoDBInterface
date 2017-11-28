@@ -98,7 +98,7 @@ q := QueryDatabase( rec( TP := "x+y" ), [ "_key", "TP", "a" ], coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 a := q.toArray();
 #! [ArangoArray of length 2]
-Set( List( a ) );
+Set( List( a, DatabaseDocumentToRecord ) );
 #! [ rec( TP := "x+y", _key := "3", a := 42 ),
 #!   rec( TP := "x+y", _key := "1", a := fail) ]
 RemoveFromDatabase( "1", coll );
