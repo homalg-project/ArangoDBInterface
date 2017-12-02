@@ -1036,7 +1036,6 @@ InstallMethod( QueryDatabase,
     
     cursor := db._query( string );
     
-    ## TODO: still need to apply func
     cursor!.conversions := func;
     
     return cursor;
