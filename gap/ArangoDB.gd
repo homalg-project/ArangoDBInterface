@@ -196,6 +196,15 @@ DeclareOperation( "ListOp",
         [ IsDatabaseArray ] );
 
 #! @Description
+#!  Convert database <A>array</A> into a &GAP; list of database documents
+#!  by applying the function <A>f</A>. <P/>
+#!  Use as <C>List</C>(<A>array</A>, <A>f</A>). <P/>
+#! @Arguments array, f
+#! @Returns a list
+DeclareOperation( "ListOp",
+        [ IsDatabaseArray, IsFunction ] );
+
+#! @Description
 #!  Convert <A>document</A> into a &GAP; record.
 #! @Arguments document
 #! @Returns a record

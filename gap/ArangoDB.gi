@@ -1163,7 +1163,7 @@ InstallMethod( ListOp,
 end );
 
 ##
-InstallOtherMethod( ListOp,
+InstallMethod( ListOp,
         "for a database array and a function",
         [ IsDatabaseArrayRep, IsFunction ],
 
