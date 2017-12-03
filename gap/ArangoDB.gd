@@ -181,7 +181,7 @@ DeclareOperation( "MarkFirstDocument",
         [ IsRecord, IsRecord, IsDatabaseCollection ] );
 
 #! @Description
-#!  Convert <A>cursor</A> into a &GAP; iterator.
+#!  Convert database <A>cursor</A> into a &GAP; iterator. <P/>
 #! @Arguments cursor
 #! @Returns an iterator
 DeclareOperation( "Iterator",
