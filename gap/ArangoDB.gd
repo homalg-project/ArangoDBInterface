@@ -184,7 +184,7 @@ DeclareOperation( "MarkFirstDocument",
 #!  Convert <A>cursor</A> into a &GAP; iterator.
 #! @Arguments cursor
 #! @Returns an iterator
-DeclareOperation( "AsIterator",
+DeclareOperation( "Iterator",
         [ IsDatabaseCursor ] );
 
 #! @Description

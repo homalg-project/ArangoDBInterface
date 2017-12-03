@@ -77,7 +77,7 @@ a[3].c;
 #!  rec( d := [ 1, "e" ] )
 c := t.execute();
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
-i := AsIterator( c );
+i := Iterator( c );
 #! <iterator>
 d1 := NextIterator( i );
 #! [ArangoDocument]

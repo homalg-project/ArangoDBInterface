@@ -1134,7 +1134,7 @@ InstallMethod( MarkFirstDocument,
 end );
 
 ##
-InstallMethod( AsIterator,
+InstallMethod( Iterator,
         "for a database cursor",
         [ IsDatabaseCursorRep ],
         
