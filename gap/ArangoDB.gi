@@ -1152,6 +1152,35 @@ InstallMethod( Iterator,
 end );
 
 ##
+InstallMethod( Iterator,
+        "for a database array",
+        [ IsDatabaseArrayRep ],
+        
+  function( array )
+    local iter;
+    
+    iter := rec(
+                counter := 1,
+                array := array,
+                NextIterator := function( iter ) local d; d := iter!.array[iter!.counter]; iter!.counter := iter!.counter + 1; return d; end,
+                IsDoneIterator := iter -> iter!.counter > Length( iter!.array ),
+                ShallowCopy := function( iter )
+                                 return
+                                   rec(
+                                       counter := iter!.counter,
+                                       array := iter!.array,
+                                       NextIterator := iter!.NextIterator,
+                                       IsDoneIterator := iter!.IsDoneIterator,
+                                       ShallowCopy := iter!.ShallowCopy
+                                       );
+                               end
+                );
+    
+    return IteratorByFunctions( iter );
+    
+end );
+
+##
 InstallMethod( ListOp,
         "for a database array",
         [ IsDatabaseArrayRep ],

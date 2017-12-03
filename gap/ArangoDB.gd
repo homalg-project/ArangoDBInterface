@@ -184,8 +184,17 @@ DeclareOperation( "MarkFirstDocument",
 #!  Convert database <A>cursor</A> into a &GAP; iterator. <P/>
 #! @Arguments cursor
 #! @Returns an iterator
+#! @Group Iterator
 DeclareOperation( "Iterator",
         [ IsDatabaseCursor ] );
+
+#! @Description
+#!  Convert database <A>array</A> into a &GAP; iterator.
+#! @Arguments array
+#! @Returns an iterator
+#! @Group Iterator
+DeclareOperation( "Iterator",
+        [ IsDatabaseArray ] );
 
 #! @Description
 #!  Convert database <A>array</A> into a &GAP; list of database documents. <P/>
