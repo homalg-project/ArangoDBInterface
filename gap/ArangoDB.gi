@@ -804,13 +804,13 @@ InstallMethod( \.,
         ## the pseudo-tty based interface is not reliable concerning
         ## the number of trailing ENTERs which should be 3 but
         ## too often decreases
-        while output[Length( output )] = '\n' do
+        while Length( output ) > 0 and output[Length( output )] = '\n' do
             Remove( output );
         od;
         ## the pseudo-tty based interface is not reliable concerning
         ## the number of preceding ENTERs which should be 0 but
         ## too often decreases
-        while output[1] = '\n' do
+        while Length( output ) > 0 and output[1] = '\n' do
             Remove( output, 1 );
         od;
     else
