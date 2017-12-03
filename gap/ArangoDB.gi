@@ -95,7 +95,8 @@ InstallValue( HOMALG_IO_ArangoShell,
             cas := "arangosh",			## normalized name on which the user should have no control
             name := "arangosh",
             executable := [ "arangosh" ],	## this list is processed from left to right
-            options := [ "--console.auto-complete", "false", "--console.colors", "false", "--server.username", "root@example", "--server.database", "example", "--server.password", "password" ],
+            credentials := [ "--server.username", "root@example", "--server.database", "example", "--server.password", "password" ],
+            options := Concatenation( [ "--console.auto-complete", "false", "--console.colors", "false" ], ~.credentials ),
             BUFSIZE := 1024,
             READY := "!$%&/(",
             CUT_POS_BEGIN := 1,			## these are the most
@@ -1204,6 +1205,84 @@ InstallMethod( DisplayInArangoSh,
     if IsBound( obj!.pointer ) then
         homalgDisplay( obj!.pointer );
     fi;
+    
+end );
+
+##
+InstallMethod( ArangoImport,
+        "for a string and a database collection",
+        [ IsString, IsDatabaseCollectionRep ],
+        
+  function( filename, collection )
+    local exec, type, pos, separator, options, show, db, credentials, i, output;
+    
+    exec := [ "arangoimp", "--file", filename ];
+    
+    Append( exec, [ "--collection", Concatenation( [ "\"", collection!.name, "\"" ] ) ] );
+    
+    type := ValueOption( "type" );
+    
+    if type = fail then
+        ## try to figure out type from suffix
+        
+        pos := Positions( filename, '.' );
+        
+        if pos = [ ] then
+            Error( "unable to read of the type as a suffix of the file named: ", filename, "\n" );
+        fi;
+        
+        type := filename{[ pos[Length( pos )] + 1 .. Length( filename ) ]};
+        
+    fi;
+    
+    Append( exec, [ "--type", type ] );
+    
+    if type in [ "csv", "tsv" ] then
+        
+        separator := ValueOption( "separator" );
+        
+        if separator = fail then
+            separator := ",";
+        fi;
+        
+        Append( exec, [ "--separator", Concatenation( [ "\'", separator, "\'" ] ) ] );
+        
+    fi;
+    
+    options := ValueOption( "options" );
+    
+    if not options = fail then
+        Add( exec, options );
+    fi;
+    
+    show := [ "# " ];
+    Append( show, exec );
+    
+    db := collection!.database;
+    
+    credentials := db!.options;
+    
+    ## get the credentials of the database
+    for i in [ 1 .. Length( credentials ) ] do
+        if Length( credentials[i] ) > 9 and credentials[i]{[ 1 .. 9 ]} = "--server." then
+            Append( exec, credentials{[ i .. i+1 ]} );
+            if not credentials[i] = "--server.password" then
+                ## do not show password
+                Append( show, credentials{[ i .. i+1 ]} );
+            fi;
+            i := i + 1;
+        fi;
+    od;
+    
+    show := JoinStringsWithSeparator( show, " " );
+    
+    Display( show );
+    
+    exec := JoinStringsWithSeparator( exec, " " );
+    
+    output := ApplyCommandToString( exec );
+    
+    Display( output );
     
 end );
 

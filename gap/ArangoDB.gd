@@ -208,3 +208,16 @@ DeclareOperation( "DatabaseDocumentToRecord",
 #! @Returns none
 DeclareOperation( "DisplayInArangoSh",
         [ IsObject ] );
+
+#! @Description
+#!  Import file named <A>filename</A> to <A>collection</A>.
+#!  Accepted options:
+#!  * type
+#!  * separator (as a string, if type is "csv" or "tsv")
+#!  * options (remaining options as a string)
+#!  
+#!  See (<URL>https://docs.arangodb.com/3.2/Manual/Administration/Arangoimp.html</URL>).
+#! @Arguments filename, collection
+#! @Returns none
+DeclareOperation( "ArangoImport",
+        [ IsString, IsDatabaseCollection ] );
