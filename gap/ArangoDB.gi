@@ -1174,6 +1174,28 @@ InstallMethod( ListOp,
 end );
 
 ##
+InstallMethod( ListOp,
+        "for a database cursor",
+        [ IsDatabaseCursorRep ],
+
+  function( cursor )
+    
+    return ListOp( cursor.toArray( ) );
+    
+end );
+
+##
+InstallMethod( ListOp,
+        "for a database cursor and a function",
+        [ IsDatabaseCursorRep, IsFunction ],
+
+  function( cursor, f )
+    
+    return ListOp( cursor.toArray( ), f );
+    
+end );
+
+##
 InstallMethod( DatabaseDocumentToRecord,
         "for a database document",
         [ IsDatabaseDocumentRep ],

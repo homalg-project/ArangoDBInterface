@@ -192,8 +192,18 @@ DeclareOperation( "AsIterator",
 #!  Use as <C>List</C>(<A>array</A>). <P/>
 #! @Arguments array
 #! @Returns a list
+#! @Group ListOp
 DeclareOperation( "ListOp",
         [ IsDatabaseArray ] );
+
+#! @Description
+#!  Convert database <A>cursor</A> into a &GAP; list of database documents. <P/>
+#!  Use as <C>List</C>(<A>cursor</A>).
+#! @Arguments cursor
+#! @Returns a list
+#! @Group ListOp
+DeclareOperation( "ListOp",
+        [ IsDatabaseCursor ] );
 
 #! @Description
 #!  Convert database <A>array</A> into a &GAP; list of database documents
@@ -201,8 +211,19 @@ DeclareOperation( "ListOp",
 #!  Use as <C>List</C>(<A>array</A>, <A>f</A>). <P/>
 #! @Arguments array, f
 #! @Returns a list
+#! @Group ListOp2
 DeclareOperation( "ListOp",
         [ IsDatabaseArray, IsFunction ] );
+
+#! @Description
+#!  Convert database <A>cursor</A> into a &GAP; list of database documents
+#!  by applying the function <A>f</A>. <P/>
+#!  Use as <C>List</C>(<A>cursor</A>, <A>f</A>).
+#! @Arguments cursor, f
+#! @Returns a list
+#! @Group ListOp2
+DeclareOperation( "ListOp",
+        [ IsDatabaseCursor, IsFunction ] );
 
 #! @Description
 #!  Convert <A>document</A> into a &GAP; record.
