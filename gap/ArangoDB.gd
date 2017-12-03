@@ -188,8 +188,8 @@ DeclareOperation( "AsIterator",
         [ IsDatabaseCursor ] );
 
 #! @Description
-#!  Convert <A>array</A> into a &GAP; list of &GAP; records. <P/>
-#!  Use as <C>List</C>(<A>array</A>).
+#!  Convert database <A>array</A> into a &GAP; list of database documents. <P/>
+#!  Use as <C>List</C>(<A>array</A>). <P/>
 #! @Arguments array
 #! @Returns a list
 DeclareOperation( "ListOp",
