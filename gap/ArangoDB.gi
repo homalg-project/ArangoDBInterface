@@ -898,7 +898,7 @@ end );
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_string,
   function( query_rec, collection )
-    local string, limit, keys, AND, i, key, value, val;
+    local string, keys, AND, i, key, value, val, limit, sort;
     
     string := [ "FOR d IN ", collection ];
     
@@ -940,6 +940,12 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
         fi;
         AND := " && ";
     od;
+    
+    sort := ValueOption( "SORT" );
+    
+    if not sort = fail then
+        Append( string, [ " SORT d.", String( sort ) ] );
+    fi;
     
     limit := ValueOption( "LIMIT" );
     
