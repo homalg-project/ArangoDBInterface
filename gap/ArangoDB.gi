@@ -1199,23 +1199,23 @@ end );
 
 ##
 InstallMethod( ListOp,
-        "for a database array and a function",
-        [ IsDatabaseArrayRep, IsFunction ],
-
-  function( array, f )
-    
-    return List( [ 1 .. Length( array ) ], i -> f( array[i] ) );
-    
-end );
-
-##
-InstallMethod( ListOp,
         "for a database cursor",
         [ IsDatabaseCursorRep ],
 
   function( cursor )
     
     return ListOp( cursor.toArray( ) );
+    
+end );
+
+##
+InstallMethod( ListOp,
+        "for a database array and a function",
+        [ IsDatabaseArrayRep, IsFunction ],
+
+  function( array, f )
+    
+    return List( [ 1 .. Length( array ) ], i -> f( array[i] ) );
     
 end );
 
