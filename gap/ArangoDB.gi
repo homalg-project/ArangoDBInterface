@@ -959,19 +959,36 @@ end );
 
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_return_string,
-  function( query_rec, result_rec, collection )
-    local string, keys, SEP, func, key, value;
+  function( query_rec, collection )
+    local string, result, result_rec, keys, SEP, func, key, value;
     
     string := _ArangoDB_create_filter_string( query_rec, collection );
     
     Add( string, " RETURN " );
     
-    if result_rec = "" then
+    result := ValueOption( "RETURN" );
+    
+    result_rec := rec( );
+    
+    if result = fail then
         Add( string, " d" );
         return Concatenation( string );
+    elif result = [ ] then
+        Error( "the option `result' is not allowed to be an empty list/string\n" );
+    elif IsString( result ) then
+        result_rec.(result) := result;
+    elif IsList( result ) then
+        Perform( result, function( key ) result_rec.(key) := key; end );
+    elif IsRecord( result ) then
+        if NamesOfComponents( result_rec ) = [ ] then
+            Error( "the option `result' is not allowed to be an empty record\n" );
+        fi;
+        result_rec := ShallowCopy( result );
     else
-        Add( string, "{ " );
+        Error( "expected for given option `result' a non empty string, a non empty list, or a nonempty record but got ", result, "\n" );
     fi;
+    
+    Add( string, "{ " );
     
     keys := NamesOfComponents( result_rec );
     
@@ -1005,13 +1022,24 @@ InstallMethod( QueryDatabase,
         [ IsRecord, IsDatabaseCollectionRep ],
 
   function( query_rec, collection )
-    local string, db;
+    local string, func, db, cursor;
     
-    string := _ArangoDB_create_filter_return_string( query_rec, "", collection!.name );
+    string := _ArangoDB_create_filter_return_string( query_rec, collection!.name );
+    
+    if not IsString( string ) and Length( string ) = 2 and IsRecord( string[2] ) then
+        func := string[2];
+        string := string[1];
+    fi;
     
     db := collection!.database;
     
-    return db._query( string );
+    cursor := db._query( string );
+    
+    if IsBound( func ) then
+        cursor!.conversions := func;
+    fi;
+    
+    return cursor;
     
 end );
 
@@ -1023,45 +1051,6 @@ InstallMethod( QueryDatabase,
   function( collection )
     
     return QueryDatabase( rec( ), collection );
-    
-end );
-
-##
-InstallMethod( QueryDatabase,
-        "for two records and a database collection",
-        [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
-
-  function( query_rec, result_rec, collection )
-    local string, func, db, cursor;
-    
-    string := _ArangoDB_create_filter_return_string( query_rec, result_rec, collection!.name );
-    
-    func := string[2];
-    string := string[1];
-    
-    db := collection!.database;
-    
-    cursor := db._query( string );
-    
-    cursor!.conversions := func;
-    
-    return cursor;
-    
-end );
-
-##
-InstallMethod( QueryDatabase,
-        "for a record, a list, and a database collection",
-        [ IsRecord, IsList, IsDatabaseCollectionRep ],
-
-  function( query_rec, result_list, collection )
-    local result_rec;
-    
-    result_rec := rec( );
-    
-    Perform( result_list, function( key ) result_rec.(key) := key; end );
-    
-    return QueryDatabase( query_rec, result_rec, collection );
     
 end );
 

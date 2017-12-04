@@ -131,6 +131,14 @@ DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 #!  given by the compoents of the record <A>query_rec</A>.
 #!  A value <C>fail</C> is translated to <C>null</C>.
 #!  This is the way to query for nonbound keys.
+#!  If the option <A>RETURN</A> (result record/list/string) is provided
+#!  then documents in the resulting cursor will
+#!  only contain the values of the components of the record <A>result</A>.
+#!  More precisely,
+#!  <A>RETURN</A><C>:= rec( new_key1_name := "key1_in_document", ... )</C>.
+#!  If instead a result list <A>RETURN</A>=<C>[ "key1", "key2", ... ]</C>
+#!  is provided then it is automatically converted into
+#!  <A>RETURN</A>:=<C>rec( key1 := "key1", key2 := "key2"... )</C>.
 #! @Arguments query_rec, collection
 #! @Returns a database cursor
 #! @Group QueryDatabase
@@ -145,28 +153,6 @@ DeclareOperation( "QueryDatabase",
 #! @Group QueryDatabase
 DeclareOperation( "QueryDatabase",
         [ IsDatabaseCollection ] );
-
-#! @Description
-#!  If the result record <A>result_rec</A> is provided
-#!  then documents in the resulting cursor will
-#!  only contain the values of the components of <A>result_rec</A>.
-#!  More precisely,
-#!  <A>result_rec</A><C>= rec( new_key1_name := "key1_in_document", ... )</C>.
-#! @Arguments query_rec, result_rec, collection
-#! @Returns a database cursor
-#! @Group QueryDatabase
-DeclareOperation( "QueryDatabase",
-        [ IsRecord, IsRecord, IsDatabaseCollection ] );
-
-#! @Description
-#!  If instead a result list <A>result_list</A>=<C>[ "key1", "key2", ... ]</C>
-#!  is provided then it is automatically converted into
-#!  <A>result_rec</A>:=<C>rec( key1 := "key1", key2 := "key2"... )</C>.
-#! @Arguments query_rec, result_list, collection
-#! @Returns a database cursor
-#! @Group QueryDatabase
-DeclareOperation( "QueryDatabase",
-        [ IsRecord, IsList, IsDatabaseCollection ] );
 
 #! @Description
 #!  Mark the first document found by

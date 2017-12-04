@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "ArangoDBInterface",
 Subtitle := "An interface to ArangoDB",
 Version := Maximum( [
-                   "2017.11.30-2", ## Mohamed's version
+                   "2017.12.01", ## Mohamed's version
                    ## this line prevents merge conflicts
                    "2017.07.21", ## Lukas's version
                    ] ),

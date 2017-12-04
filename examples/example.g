@@ -108,7 +108,7 @@ Set( NamesOfComponents( r3 ) );
 #! [ "test/3", "3", "x+y", 42, " a\nb ", rec( d := [ 1, "e" ] ) ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
-q := QueryDatabase( rec( TP := "x+y" ), ["_key","TP","a","b","c"], coll );
+q := QueryDatabase(rec(TP := "x+y"), coll : RETURN:= ["_key","TP","a","b","c"] );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 a := q.toArray();
 #! [ArangoArray of length 2]
