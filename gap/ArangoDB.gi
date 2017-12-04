@@ -1231,6 +1231,28 @@ InstallMethod( ListOp,
 end );
 
 ##
+InstallMethod( SumOp,
+        "for a database cursor and a function",
+        [ IsDatabaseCursorRep, IsFunction ],
+
+  function( cursor, f )
+    
+    return Sum( List( cursor, f ) );
+    
+end );
+
+##
+InstallMethod( SumOp,
+        "for a database array and a function",
+        [ IsDatabaseArrayRep, IsFunction ],
+
+  function( array, f )
+    
+    return Sum( List( array, f ) );
+    
+end );
+
+##
 InstallMethod( DatabaseDocumentToRecord,
         "for a database document",
         [ IsDatabaseDocumentRep ],

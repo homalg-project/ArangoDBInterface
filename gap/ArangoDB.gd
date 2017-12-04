@@ -235,6 +235,26 @@ DeclareOperation( "ListOp",
         [ IsDatabaseCursor, IsFunction ] );
 
 #! @Description
+#!  Convert database <A>cursor</A> into a &GAP; list of database documents
+#!  by applying the function <A>f</A>. <P/>
+#!  Use as <C>Sum</C>(<A>cursor</A>, <A>f</A>). <P/>
+#! @Arguments cursor, f
+#! @Returns a list
+#! @Group SumOp2
+DeclareOperation( "SumOp",
+        [ IsDatabaseCursor, IsFunction ] );
+
+#! @Description
+#!  Convert database <A>array</A> into a &GAP; list of database documents
+#!  by applying the function <A>f</A>. <P/>
+#!  Use as <C>Sum</C>(<A>array</A>, <A>f</A>).
+#! @Arguments array, f
+#! @Returns a list
+#! @Group SumOp2
+DeclareOperation( "SumOp",
+        [ IsDatabaseArray, IsFunction ] );
+
+#! @Description
 #!  Convert <A>document</A> into a &GAP; record.
 #! @Arguments document
 #! @Returns a record
