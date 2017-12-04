@@ -923,7 +923,7 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
                     val := GapToJsonString( value[2] );
                 fi;
             fi;
-            Append( string, [ AND, "d.", key, value[1], val ] );
+            Append( string, [ AND, "d.", key, " ", value[1], " ", val ] );
         elif IsString( value ) or not IsList( value ) then
             if value = fail then
                 val := "null";
@@ -934,7 +934,7 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
                     val := GapToJsonString( value );
                 fi;
             fi;
-            Append( string, [ AND, "d.", key, "==", val ] );
+            Append( string, [ AND, "d.", key, " == ", val ] );
         else
             Error( "wrong syntax of query value: ", value, "\n" );
         fi;
