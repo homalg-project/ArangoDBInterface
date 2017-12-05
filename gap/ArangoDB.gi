@@ -898,7 +898,7 @@ end );
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_string,
   function( query_rec, collection )
-    local string, keys, AND, i, key, value, val, limit, sort;
+    local string, keys, AND, i, key, value, j, val, limit, sort;
     
     string := [ "FOR d IN ", collection ];
     
@@ -913,17 +913,20 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
     for i in [ 1 .. Length( keys ) ] do
         key := keys[i];
         value := query_rec.(key);
-        if not IsString( value ) and IsList( value ) and Length( value ) = 2 then
-            if value[2] = fail then
-                val := "null";
-            else
-                if IsString( value[2] ) then
-                    val := Concatenation( [ "\"", String( value[2] ), "\"" ] );
+        if not IsString( value ) and IsList( value ) and IsEvenInt( Length( value ) ) then
+            for j in [ 1 .. Length( value ) / 2 ] do
+                if value[2*j] = fail then
+                    val := "null";
                 else
-                    val := GapToJsonString( value[2] );
+                    if IsString( value[2*j] ) then
+                        val := Concatenation( [ "\"", String( value[2*j] ), "\"" ] );
+                    else
+                        val := GapToJsonString( value[2*j] );
+                    fi;
                 fi;
-            fi;
-            Append( string, [ AND, "d.", key, " ", value[1], " ", val ] );
+                Append( string, [ AND, "d.", key, " ", value[2*j-1], " ", val ] );
+                AND := " && ";
+            od;
         elif IsString( value ) or not IsList( value ) then
             if value = fail then
                 val := "null";
@@ -935,10 +938,10 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
                 fi;
             fi;
             Append( string, [ AND, "d.", key, " == ", val ] );
+            AND := " && ";
         else
             Error( "wrong syntax of query value: ", value, "\n" );
         fi;
-        AND := " && ";
     od;
     
     sort := ValueOption( "SORT" );
