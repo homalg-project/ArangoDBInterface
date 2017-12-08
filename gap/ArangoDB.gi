@@ -594,6 +594,15 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "exists" ] then
+        
+        return
+          function( _key )
+            
+            return JsonStringToGap( homalgSendBlocking( [ collection!.pointer, ".", name, "(\"", _key, "\")" ], "need_output" ) );
+            
+        end;
+        
     elif name in [ "save", "ensureIndex" ] then
         
         return
