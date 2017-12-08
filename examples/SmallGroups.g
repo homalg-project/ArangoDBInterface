@@ -6,9 +6,9 @@ sg := db.SmallGroups;
 
 if sg = fail then
     sg := db._create( "SmallGroups" );
+else
+    Assert( 0, sg.count( ) = 6847 );
 fi;
-
-Assert( 0, sg.count( ) = 6847 );
 
 KeyIdGroup := function( G )
   local key;
