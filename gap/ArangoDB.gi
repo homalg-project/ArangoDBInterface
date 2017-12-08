@@ -509,7 +509,7 @@ InstallMethod( \.,
             
             output := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream, "need_output" );
             
-            if not output = "null" then
+            if not ( output = "null" or output = "" ) then
                 Error( output, "\n" );
             fi;
             
