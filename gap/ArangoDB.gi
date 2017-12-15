@@ -906,10 +906,16 @@ end );
 
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_string,
-  function( query_rec, collection )
-    local string, keys, AND, i, key, value, j, val, limit, sort;
+  function( collection )
+    local string, query_rec, keys, AND, i, key, value, j, val, limit, sort;
     
     string := [ "FOR d IN ", collection ];
+    
+    query_rec := ValueOption( "FILTER" );
+    
+    if query_rec = fail then
+        query_rec := rec( );
+    fi;
     
     keys := NamesOfComponents( query_rec );
     
@@ -971,10 +977,10 @@ end );
 
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_return_string,
-  function( query_rec, collection )
+  function( collection )
     local string, result, result_rec, keys, SEP, func, key, value;
     
-    string := _ArangoDB_create_filter_string( query_rec, collection );
+    string := _ArangoDB_create_filter_string( collection );
     
     Add( string, " RETURN " );
     
@@ -1030,13 +1036,13 @@ end );
 
 ##
 InstallMethod( QueryDatabase,
-        "for a record and a database collection",
-        [ IsRecord, IsDatabaseCollectionRep ],
+        "for a database collection",
+        [ IsDatabaseCollectionRep ],
 
-  function( query_rec, collection )
+  function( collection )
     local string, func, db, cursor;
     
-    string := _ArangoDB_create_filter_return_string( query_rec, collection!.name );
+    string := _ArangoDB_create_filter_return_string( collection!.name );
     
     if not IsString( string ) and Length( string ) = 2 and IsRecord( string[2] ) then
         func := string[2];
@@ -1057,12 +1063,23 @@ end );
 
 ##
 InstallMethod( QueryDatabase,
-        "for a database collection",
-        [ IsDatabaseCollectionRep ],
+        "for a record and a database collection",
+        [ IsRecord, IsDatabaseCollectionRep ],
 
-  function( collection )
+  function( query_rec, collection )
     
-    return QueryDatabase( rec( ), collection );
+    return QueryDatabase( collection : FILTER := query_rec );
+    
+end );
+
+##
+InstallMethod( QueryDatabase,
+        "for a record, an object, and a database collection",
+        [ IsRecord, IsObject, IsDatabaseCollectionRep ],
+
+  function( query_rec, result, collection )
+    
+    return QueryDatabase( collection : FILTER := query_rec, RETURN := result );
     
 end );
 
@@ -1074,7 +1091,7 @@ InstallMethod( MarkFirstDocument,
   function( query_rec, mark_rec, collection )
     local c, a, keys, key, coll, query, mark, action, r, db, trans;
     
-    c := QueryDatabase( query_rec, collection : LIMIT := 1 );
+    c := QueryDatabase( collection : FILTER := query_rec, LIMIT := 1 );
     
     a := c.toArray( );
     
@@ -1094,7 +1111,7 @@ InstallMethod( MarkFirstDocument,
     
     coll := collection!.name;
     
-    query := _ArangoDB_create_filter_string( query_rec, coll : LIMIT := 1 );
+    query := _ArangoDB_create_filter_string( coll : FILTER := query_rec, LIMIT := 1 );
     
     mark := [ " UPDATE d WITH " ];
     

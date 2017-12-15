@@ -128,17 +128,39 @@ DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 
 #! @Description
 #!  Return the cursor defined by the query within <A>collection</A>
-#!  given by the compoents of the record <A>query_rec</A>.
-#!  A value <C>fail</C> is translated to <C>null</C>.
-#!  This is the way to query for nonbound keys.
-#!  If the option <A>RETURN</A> (result record/list/string) is provided
-#!  then documents in the resulting cursor will
-#!  only contain the values of the components of the record <A>result</A>.
-#!  More precisely,
-#!  <A>RETURN</A><C>:= rec( new_key1_name := "key1_in_document", ... )</C>.
-#!  If instead a result list <A>RETURN</A>=<C>[ "key1", "key2", ... ]</C>
-#!  is provided then it is automatically converted into
-#!  <A>RETURN</A>:=<C>rec( key1 := "key1", key2 := "key2"... )</C>.
+#!  defined by the following options:
+#!  * If the option <C>FILTER</C> := <A>query_rec</A>
+#!    is provided, then the query is filtered according to
+#!    the names of components of the query record <A>query_rec</A> as keys and
+#!    the values of the components as values.
+#!    A value <C>fail</C> is translated to <C>null</C>.
+#!    This is the way to query for nonbound keys.
+#!    If a value is a list, then it is iterpreted as
+#!    [ "O1", value1, "O2", value2, ... ],
+#!    where "O1", "O2", ... are comparison operators
+#!    joined with the and operator.
+#!    (see <URL>https://docs.arangodb.com/3.2/AQL/Operators.html</URL>).
+#!    The interpretation of this list might change in future!
+#!  * If the option <C>RETURN</C> := <A>result</A> (result record/list/string)
+#!    is provided, then documents in the resulting cursor will
+#!    only contain the values of the components of the record <A>result</A>.
+#!    More precisely,
+#!    <A>RETURN</A><C>:= rec( new_key1_name := "key1_in_document", ... )</C>.
+#!    If instead a result list <A>RETURN</A>=<C>[ "key1", "key2", ... ]</C>
+#!    is provided then it is automatically converted into
+#!    <A>RETURN</A>:=<C>rec( key1 := "key1", key2 := "key2"... )</C>.
+#!    <P/>
+#! @Arguments collection
+#! @Returns a database cursor
+#! @Group QueryDatabase
+DeclareOperation( "QueryDatabase",
+        [ IsDatabaseCollection ] );
+
+#! @Description
+#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A> )
+#!  is a shorthand for
+#!  <C>QueryDatabase</C>( <A>collection</A> : <C>FILTER</C> := <A>query_rec</A> ).
+#!  <P/>
 #! @Arguments query_rec, collection
 #! @Returns a database cursor
 #! @Group QueryDatabase
@@ -146,13 +168,14 @@ DeclareOperation( "QueryDatabase",
         [ IsRecord, IsDatabaseCollection ] );
 
 #! @Description
-#!  If the record <A>query_rec</A> is not provided then
-#!  it defaults to the empty record <C>rec( )</C>.
-#! @Arguments collection
+#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>result</A>, <A>collection</A> )
+#!  is a shorthand for
+#!  <C>QueryDatabase</C>( <A>collection</A> : <C>FILTER</C> := <A>query_rec</A>, <C>RETURN</C> := <A>result</A> ).
+#! @Arguments query_rec, result, collection
 #! @Returns a database cursor
 #! @Group QueryDatabase
 DeclareOperation( "QueryDatabase",
-        [ IsDatabaseCollection ] );
+        [ IsRecord, IsObject, IsDatabaseCollection ] );
 
 #! @Description
 #!  Mark the first document found by
