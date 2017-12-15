@@ -147,3 +147,5 @@ MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me1" ), coll );
 MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me2" ), coll );
 #! [ArangoDocument]
 #! @EndExample
+
+Assert( coll.count(), 7 );
