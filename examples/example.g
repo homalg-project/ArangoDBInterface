@@ -49,7 +49,8 @@ UpdateDatabase( "3", rec( c := rec( d := [ 1, "e" ] ) ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));
 #! [ArangoDocument]
-t := db._createStatement( rec( query := "FOR e IN test SORT e._key RETURN e", count := true ) );
+t := rec( query := "FOR e IN test SORT e._key RETURN e", count := true );;
+t := db._createStatement( t );
 #! [ArangoStatement in [object ArangoDatabase "example"]]
 c := t.execute();
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
@@ -108,7 +109,7 @@ Set( NamesOfComponents( r3 ) );
 #! [ "test/3", "3", "x+y", 42, " a\nb ", rec( d := [ 1, "e" ] ) ]
 UpdateDatabase( "1", rec( TP := "x+y" ), coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
-q := QueryDatabase(rec(TP := "x+y"), coll : RETURN:= ["_key","TP","a","b","c"] );
+q := QueryDatabase(rec(TP:="x+y"), coll: RETURN:=["_key","TP","a","b","c"]);
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 a := q.toArray();
 #! [ArangoArray of length 2]
