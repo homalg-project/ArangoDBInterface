@@ -156,7 +156,7 @@ DeclareOperation( "QueryDatabase",
 
 #! @Description
 #!  Mark the first document found by
-#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A> : <C>LIMIT</C>=1 )
+#!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A> : <C>LIMIT</C> := 1 )
 #!  by the entries of <A>mark_rec</A> and return it.
 #!  If no such document exists return <C>false</C>.
 #!  If some of the markings already exist return <C>fail</C>.
