@@ -236,7 +236,7 @@ InstallMethod( CreateDatabaseStatement,
     local database, statement;
     
     if not IsBound( ext_obj!.statement ) then
-        Error( "the external object has no component called `statement_string'\n" );
+        Error( "the external object has no component called `statement'\n" );
     fi;
     
     database := _ExtractDatabase( ext_obj );
