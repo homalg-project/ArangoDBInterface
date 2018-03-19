@@ -585,6 +585,21 @@ InstallMethod( \.,
             
         end;
         
+    elif name in [ "all" ] then
+        
+        return
+          function( )
+            local ext_obj;
+            
+            ext_obj := homalgSendBlocking( [ collection!.pointer, ".", name, "()" ] );
+            
+            ext_obj!.query := Concatenation( "SimpleQueryAll(", collection!.name, ")" );
+            ext_obj!.database := collection!.database;
+            
+            return CreateDatabaseCursor( ext_obj );
+            
+        end;
+        
     elif name in [ "count" ] then
         
         return
