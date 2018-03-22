@@ -131,6 +131,10 @@ db._document( "test/3" );
 #! [ArangoDocument]
 coll.document( "3" );
 #! [ArangoDocument]
+q := QueryDatabase( rec( TP := "x+y" ), coll );
+#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
+q.count();
+#! 2
 MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me1" ), coll );
 #! [ArangoDocument]
 MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me2" ), coll );
