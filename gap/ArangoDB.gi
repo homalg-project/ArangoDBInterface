@@ -445,7 +445,7 @@ InstallMethod( \.,
         
         return
           function( keys_values_rec )
-            local string, output;
+            local string, ext_obj;
             
             string := GapToJsonString( keys_values_rec );
             
@@ -462,18 +462,21 @@ InstallMethod( \.,
         
         return
           function( query_string )
-            local output;
+            local t, cursor, ext_obj;
             
             if not IsString( query_string ) then
                 query_string := Concatenation( query_string );
             fi;
             
-            ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "('", query_string, "')" ], db!.stream );
+            t := db._createStatement( rec( query := query_string, count := true ) );
+            cursor := t.execute( );
+            
+            ext_obj := cursor!.pointer;
             
             ext_obj!.query := query_string;
             ext_obj!.database := db;
             
-            return CreateDatabaseCursor( ext_obj );
+            return cursor;
             
         end;
         
