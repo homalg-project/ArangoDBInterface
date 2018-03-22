@@ -490,6 +490,7 @@ InstallMethod( \.,
         
         return
           function( _id )
+            local ext_obj;
             
             ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "('", _id, "')" ], db!.stream );
             
