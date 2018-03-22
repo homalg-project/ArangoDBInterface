@@ -117,13 +117,13 @@ Set( List( a, DatabaseDocumentToRecord ) );
 #! [ rec( TP := "x+y", _key := "1", a := fail, b := fail, c := fail ),
 #!   rec( TP := "x+y", _key := "3", a := 42, b := " a\nb ",
 #!        c := rec( d := [ 1, "e" ] ) ) ]
-RemoveFromDatabase( "1", coll );
-#! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 RemoveFromDatabase( "2", coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.count();
-#! 1
+#! 2
 db._exists( "test/1" );
+#! true
+db._exists( "test/2" );
 #! false
 db._exists( "test/3" );
 #! true
@@ -131,21 +131,10 @@ db._document( "test/3" );
 #! [ArangoDocument]
 coll.document( "3" );
 #! [ArangoDocument]
-r := rec( collections := rec( write := [ "test" ] ),
-          action := "function () { \
-          var db = require(\"@arangodb\").db;\
-          for (var i = 4; i < 10; ++i)\
-            { db.test.save({ _key: \"\" + i }); }\
-            db.test.count();\
-          }" );;
-db._executeTransaction( r );
-#! true
-coll.count();
-#! 7
-MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me1" ), coll );
+MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me1" ), coll );
 #! [ArangoDocument]
-MarkFirstDocument( rec( TP := fail ), rec( TP_lock := "me2" ), coll );
+MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me2" ), coll );
 #! [ArangoDocument]
 #! @EndExample
 
-Assert( coll.count(), 7 );
+Assert( coll.count(), 2 );
