@@ -108,10 +108,20 @@ DeclareOperation( "InsertIntoDatabase",
         [ IsRecord, IsDatabaseCollection ] );
 
 #! @Description
+#!  Update the documents filtered by <A>query_rec</A> in <A>collection</A>
+#!  using the keys-values record <A>keys_values_rec</A>.
+#! @Arguments query_rec, keys_values_rec, collection
+#! @Returns a database cursor
+#! @Group QueryDatabase
+DeclareOperation( "UpdateDatabase",
+        [ IsRecord, IsRecord, IsDatabaseCollection ] );
+
+#! @Description
 #!  Update the document with identifier <A>id</A> in <A>collection</A>
 #!  using the keys-values record <A>keys_values_rec</A>.
 #! @Arguments id, keys_values_rec, collection
-#! @Returns none
+#! @Returns a database cursor
+#! @Group QueryDatabase
 DeclareOperation( "UpdateDatabase",
         [ IsString, IsRecord, IsDatabaseCollection ] );
 
