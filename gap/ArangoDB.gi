@@ -815,7 +815,7 @@ InstallMethod( \.,
     v := document!.pointer!.stream.variable_name;
     
     ## arangosh prevents you from doing both in one step
-    output := homalgSendBlocking( [ v, "_d = { \"", name, "\" : ", document!.pointer, ".", name, " }" ], "need_display" );
+    output := homalgSendBlocking( [ v, "d = { \"", name, "\" : ", document!.pointer, ".", name, " }" ], "need_display" );
     
     if Length( output ) <= Length( name ) + 30 then ## only compare if reasonable
         undefined := Concatenation( [ "{ \"", name, "\" : undefined }" ] );
