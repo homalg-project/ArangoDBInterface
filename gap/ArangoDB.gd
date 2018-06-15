@@ -15,6 +15,11 @@
 #! @Description
 DeclareGlobalVariable( "HOMALG_IO_ArangoShell" );
 
+#!
+DeclareInfoClass( "InfoArangoDB" );
+
+SetInfoLevel( InfoArangoDB, 1 );
+
 ####################################
 #
 #! @Section GAP categories
