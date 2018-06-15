@@ -1448,6 +1448,72 @@ InstallMethod( ArangoImport,
     
 end );
 
+##
+InstallMethod( DocumentsWithDeadLocks,
+        "for a string and a database collection",
+        [ IsString, IsDatabaseCollectionRep ],
+        
+  function( json_key, collection )
+    local json_key_lock, Hostname, zombies, process_names;
+    
+    json_key_lock := Concatenation( json_key, "_lock" );
+    
+    Hostname := IO_gethostname();
+    
+    zombies := QueryDatabase( rec( (json_key_lock) := [ "!=", fail ] ), collection ).toArray();
+    
+    zombies := List( zombies );
+    
+    Info( InfoArangoDB, 2, Length( zombies ), "\tdocuments with existing ", json_key_lock );
+    
+    zombies := Filtered( zombies, d -> d.(json_key_lock).Hostname = Hostname );
+    
+    Info( InfoArangoDB, 2, Length( zombies ), "\tof them locked by processes started here on ", Hostname );
+    
+    process_names := ValueOption( "process_names" );
+    
+    zombies := Filtered( zombies,
+                           function( d )
+                             local ucomm;
+                             ucomm := ApplyCommandToString(
+                                              Concatenation( "ps -o ucomm ", String( d.(json_key_lock).PID ),
+                                                      " | tail -1 | grep -v ^UCOMM | grep -v ^COMMAND" ) );
+                             NormalizeWhitespace( ucomm );
+                             if process_names = fail then
+                                 return ucomm = "";
+                             fi;
+                             return not ucomm in process_names;
+                         end
+                       );
+    
+    Info( InfoArangoDB, 2, Length( zombies ), "\tof them have deadlocks" );
+    
+    Perform( zombies, function( d ) d!.collection := collection; end );
+    
+    return zombies;
+    
+end );
+
+##
+InstallMethod( RemoveDeadLocksFromDocuments,
+        "for a string and a database collection",
+        [ IsString, IsDatabaseCollectionRep ],
+        
+  function( json_key, collection )
+    local zombies, json_key_lock, d;
+    
+    zombies := DocumentsWithDeadLocks( json_key, collection );
+    
+    json_key_lock := Concatenation( json_key, "_lock" );
+    
+    for d in zombies do
+        Unbind( d.(json_key_lock) );
+    od;
+    
+    return zombies;
+    
+end );
+
 ####################################
 #
 # View, Print, and Display methods:

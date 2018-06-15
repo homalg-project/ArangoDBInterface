@@ -304,3 +304,20 @@ DeclareOperation( "DisplayInArangoSh",
 #! @Returns none
 DeclareOperation( "ArangoImport",
         [ IsString, IsDatabaseCollection ] );
+
+#! @Description
+#!  Check <A>collection</A> for documents <C>d</C> with existing <C>d.(json_key_lock)</C>
+#!  created on this server but with no &GAP; process with PID=<C>d.(json_key_lock).PID</C>.
+#!  Here <C>json_key_lock := Concatenation( </C><A>json_key</A>, <C>"_lock" )</C>.
+#! @Arguments json_key, collection
+#! @Returns a list of documents
+DeclareOperation( "DocumentsWithDeadLocks",
+        [ IsString, IsDatabaseCollection ] );
+
+#! @Description
+#!  Remove the deadlocks in all documents found by
+#!  <C>DocumentsWithDeadLocks(</C> <A>json_key</A>, <A>collection</A> <C>)</C>.
+#! @Arguments json_key, collection
+#! @Returns a list of documents
+DeclareOperation( "RemoveDeadLocksFromDocuments",
+        [ IsString, IsDatabaseCollection ] );
