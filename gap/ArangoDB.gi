@@ -1149,18 +1149,16 @@ InstallMethod( QueryDatabase,
 end );
 
 ##
-InstallMethod( MarkFirstDocument,
-        "for two records and a database collection",
-        [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
+InstallMethod( MarkFirstNDocuments,
+        "for an integer, two records, and a database collection",
+        [ IsInt, IsRecord, IsRecord, IsDatabaseCollectionRep ],
 
-  function( query_rec, mark_rec, collection )
-    local c, a, keys, key, coll, query, mark, action, r, db, trans;
+  function( n, query_rec, mark_rec, collection )
+    local q, keys, key, coll, query, mark, action, r, db, trans, c;
     
-    c := QueryDatabase( collection : FILTER := query_rec, LIMIT := 1 );
+    q := QueryDatabase( collection : FILTER := query_rec, LIMIT := 1 );
     
-    a := c.toArray( );
-    
-    if Length( a ) = 0 then
+    if q.count() = 0 then
         return false;
     fi;
     
@@ -1176,7 +1174,7 @@ InstallMethod( MarkFirstDocument,
     
     coll := collection!.name;
     
-    query := _ArangoDB_create_filter_string( coll : FILTER := query_rec, LIMIT := 1 );
+    query := _ArangoDB_create_filter_string( coll : FILTER := query_rec, LIMIT := n );
     
     mark := [ " UPDATE d WITH " ];
     
@@ -1208,17 +1206,30 @@ InstallMethod( MarkFirstDocument,
         Error( "the transaction returned ", String( trans ), "\n" );
     fi;
     
-    c := QueryDatabase( mark_rec, collection );
+    q := QueryDatabase( mark_rec, collection );
     
-    a := c.toArray( );
+    c := q.count();
     
-    if Length( a ) = 0 then
+    if c = 0 then
         return fail;
-    elif not Length( a ) = 1 then
-        Error( "expected exactly one document but found ", Length( a ), "\n" );
+    elif n = 1 and not c = n then
+        Error( "expected exactly document but found ", c, "\n" );
+    elif not c <= n then
+        Error( "expected ", n, " documents (or less) but found ", c, "\n" );
     fi;
     
-    return a[1];
+    return q.toArray();
+    
+end );
+
+##
+InstallMethod( MarkFirstDocument,
+        "for two records and a database collection",
+        [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
+
+  function( query_rec, mark_rec, collection )
+    
+    return MarkFirstNDocuments( 1, query_rec, mark_rec, collection )[1];
     
 end );
 
