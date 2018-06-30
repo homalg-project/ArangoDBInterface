@@ -18,7 +18,7 @@ DeclareGlobalVariable( "HOMALG_IO_ArangoShell" );
 #!
 DeclareInfoClass( "InfoArangoDB" );
 
-SetInfoLevel( InfoArangoDB, 1 );
+SetInfoLevel( InfoArangoDB, 2 );
 
 ####################################
 #
