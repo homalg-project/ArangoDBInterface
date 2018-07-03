@@ -117,7 +117,7 @@ DeclareOperation( "InsertIntoDatabase",
 #!  using the keys-values record <A>keys_values_rec</A>.
 #! @Arguments query_rec, keys_values_rec, collection
 #! @Returns a database cursor
-#! @Group QueryDatabase
+#! @Group UpdateDatabase
 DeclareOperation( "UpdateDatabase",
         [ IsRecord, IsRecord, IsDatabaseCollection ] );
 
@@ -126,7 +126,7 @@ DeclareOperation( "UpdateDatabase",
 #!  using the keys-values record <A>keys_values_rec</A>.
 #! @Arguments id, keys_values_rec, collection
 #! @Returns a database cursor
-#! @Group QueryDatabase
+#! @Group UpdateDatabase
 DeclareOperation( "UpdateDatabase",
         [ IsString, IsRecord, IsDatabaseCollection ] );
 
