@@ -1063,7 +1063,7 @@ InstallGlobalFunction( _ArangoDB_create_filter_return_string,
     elif IsList( result ) then
         Perform( result, function( key ) result_rec.(key) := key; end );
     elif IsRecord( result ) then
-        if NamesOfComponents( result_rec ) = [ ] then
+        if NamesOfComponents( result ) = [ ] then
             Error( "the option `result' is not allowed to be an empty record\n" );
         fi;
         result_rec := ShallowCopy( result );
