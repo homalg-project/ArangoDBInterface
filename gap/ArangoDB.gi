@@ -1228,8 +1228,15 @@ InstallMethod( MarkFirstDocument,
         [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
 
   function( query_rec, mark_rec, collection )
+    local a;
     
-    return MarkFirstNDocuments( 1, query_rec, mark_rec, collection )[1];
+    a := MarkFirstNDocuments( 1, query_rec, mark_rec, collection );
+    
+    if IsDatabaseArray( a ) then return
+      a[1];
+    fi;
+    
+    return a;
     
 end );
 

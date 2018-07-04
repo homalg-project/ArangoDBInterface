@@ -197,8 +197,8 @@ DeclareOperation( "QueryDatabase",
 #!  in <A>collection</A> (1) satisfying <A>query_rec</A> and
 #!  (2) not containing values for the keys in <A>mark_rec</A>
 #!  and return them in a database array.
-#!  If (1) fails return <C>false</C>.
-#!  If (1) and (2) fail return <C>fail</C>.
+#!  If (1) fails return <C>[ false ]</C>.
+#!  If (1) and (2) fail return <C>[ fail ]</C>.
 #!  The operation is atomic.
 #! @Arguments n, query_rec, mark_rec, collection
 #! @Returns a database array, <C>false</C>, or <C>fail</C>
@@ -206,8 +206,9 @@ DeclareOperation( "MarkFirstNDocuments",
         [ IsInt, IsRecord, IsRecord, IsDatabaseCollection ] );
 
 #! @Description
-#!  Same as
-#!  <C>MarkFirstNDocuments( 1,</C> <A>query_rec</A>, <A>mark_rec</A>, <A>collection</A> <C>)[1]</C>.
+#!  Returns
+#!  <C>MarkFirstNDocuments( 1,</C> <A>query_rec</A>, <A>mark_rec</A>, <A>collection</A> <C>)[1]</C>,
+#!  or <C>false</C>, or <C>fail</C>
 #! @Arguments query_rec, mark_rec, collection
 #! @Returns a database document, <C>false</C>, or <C>fail</C>
 DeclareOperation( "MarkFirstDocument",
