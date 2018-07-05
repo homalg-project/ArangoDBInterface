@@ -1232,8 +1232,8 @@ InstallMethod( MarkFirstDocument,
     
     a := MarkFirstNDocuments( 1, query_rec, mark_rec, collection );
     
-    if IsDatabaseArray( a ) then return
-      a[1];
+    if IsDatabaseArray( a ) then
+        return a[1];
     fi;
     
     return a;
