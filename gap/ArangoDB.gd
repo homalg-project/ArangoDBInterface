@@ -137,6 +137,24 @@ DeclareOperation( "UpdateDatabase",
 DeclareOperation( "RemoveFromDatabase",
         [ IsString, IsDatabaseCollection ] );
 
+#! @Description
+#!  Remove the key with the name <A>key_name</A> from the
+#!  documents in the collection <A>coll</A> satisfying the
+#!  query record <A>query_rec</A>.
+#! @Arguments key_name, keys_values_rec, collection
+#! @Returns a database cursor
+#! @Group RemoveKeyFromCollection
+DeclareOperation( "RemoveKeyFromCollection",
+        [ IsString, IsRecord, IsDatabaseCollection ] );
+
+#! @Description
+#!  If not specified <A>query_rec</A> defaults to the empty record.
+#! @Arguments key_name, collection
+#! @Returns a database cursor
+#! @Group RemoveKeyFromCollection
+DeclareOperation( "RemoveKeyFromCollection",
+        [ IsString, IsDatabaseCollection ] );
+
 DeclareGlobalFunction( "_ArangoDB_create_filter_string" );
 
 DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );

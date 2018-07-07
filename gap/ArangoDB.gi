@@ -970,6 +970,39 @@ InstallMethod( Unbind\.,
 end );
 
 ##
+InstallMethod( RemoveKeyFromCollection,
+        "for a string and a database collection",
+        [ IsString, IsDatabaseCollectionRep ],
+        
+  function( name, coll )
+    local query_rec;
+    
+    query_rec := ValueOption( "query_rec" );
+    
+    if IsRecord( query_rec ) then
+        query_rec := ShallowCopy( query_rec );
+    else
+        query_rec := rec( );
+    fi;
+    
+    query_rec.(name) := [ "!=", fail ];
+    
+    return UpdateDatabase( query_rec, rec( (name) := fail ), coll : OPTIONS := rec( keepNull := false ) );
+    
+end );
+
+##
+InstallMethod( RemoveKeyFromCollection,
+        "for a string, a record, and a database collection",
+        [ IsString, IsRecord, IsDatabaseCollectionRep ],
+        
+  function( name, query_rec, coll )
+    
+    return RemoveKeyFromCollection( name, coll : query_rec := query_rec );
+    
+end );
+
+##
 InstallGlobalFunction( _ArangoDB_create_filter_string,
   function( collection )
     local string, query_rec, keys, AND, i, key, value, j, val, limit, sort;
