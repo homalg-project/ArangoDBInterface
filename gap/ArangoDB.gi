@@ -869,24 +869,6 @@ InstallMethod( IsBound\.,
 end );
 
 ##
-InstallMethod( Unbind\.,
-        "for a database document and a positive integer",
-        [ IsDatabaseDocumentRep, IsPosInt ],
-        
-  function( document, string_as_int )
-    local name;
-    
-    name := NameRNam( string_as_int );
-    
-    if not IsBound( document!.collection ) then
-        Error( "document has no component called `collection'\n" );
-    fi;
-    
-    UpdateDatabase( rec( _id := document._id, (name) := [ "!=", fail ] ), rec( (name) := fail ), document!.collection : OPTIONS := rec( keepNull := false ) );
-    
-end );
-
-##
 InstallMethod( InsertIntoDatabase,
         "for a record and a database collection",
         [ IsRecord, IsDatabaseCollectionRep ],
@@ -966,6 +948,24 @@ InstallMethod( RemoveFromDatabase,
     fi;
     
     return db._query( string );
+    
+end );
+
+##
+InstallMethod( Unbind\.,
+        "for a database document and a positive integer",
+        [ IsDatabaseDocumentRep, IsPosInt ],
+        
+  function( document, string_as_int )
+    local name;
+    
+    name := NameRNam( string_as_int );
+    
+    if not IsBound( document!.collection ) then
+        Error( "document has no component called `collection'\n" );
+    fi;
+    
+    UpdateDatabase( rec( _id := document._id, (name) := [ "!=", fail ] ), rec( (name) := fail ), document!.collection : OPTIONS := rec( keepNull := false ) );
     
 end );
 
