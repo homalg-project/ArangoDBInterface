@@ -141,7 +141,7 @@ DeclareOperation( "RemoveFromDatabase",
 #!  Remove the key with the name <A>key_name</A> from the
 #!  documents in the collection <A>coll</A> satisfying the
 #!  query record <A>query_rec</A>.
-#! @Arguments key_name, keys_values_rec, collection
+#! @Arguments key_name, query_rec, collection
 #! @Returns a database cursor
 #! @Group RemoveKeyFromCollection
 DeclareOperation( "RemoveKeyFromCollection",
