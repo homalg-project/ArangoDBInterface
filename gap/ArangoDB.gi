@@ -1511,7 +1511,7 @@ InstallMethod( DocumentsWithDeadLocks,
     
     Hostname := IO_gethostname();
     
-    zombies := QueryDatabase( rec( (json_key_lock) := [ "!=", fail ] ), collection ).toArray();
+    zombies := QueryDatabase( rec( (json_key_lock) := [ "!=", fail ] ), collection : LIMIT := 1000 ).toArray();
     
     zombies := List( zombies );
     
