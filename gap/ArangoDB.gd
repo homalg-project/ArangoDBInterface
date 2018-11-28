@@ -109,8 +109,15 @@ DeclareOperation( "CreateDatabaseDocument",
 #!  given by the record <A>keys_values_rec</A>.
 #! @Arguments keys_values_rec, collection
 #! @Returns none
+#! @Group InsertIntoDatabase
 DeclareOperation( "InsertIntoDatabase",
         [ IsRecord, IsDatabaseCollection ] );
+
+#! @Arguments keys_values_rec, collection
+#! @Returns none
+#! @Group InsertIntoDatabase
+DeclareOperation( "InsertIntoDatabase",
+        [ IsDatabaseDocument, IsDatabaseCollection ] );
 
 #! @Description
 #!  Update the document(s) filtered by the record <A>query_rec</A>

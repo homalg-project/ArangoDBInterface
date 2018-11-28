@@ -880,6 +880,17 @@ InstallMethod( InsertIntoDatabase,
 end );
 
 ##
+InstallMethod( InsertIntoDatabase,
+        "for a database document and a database collection",
+        [ IsDatabaseDocumentRep, IsDatabaseCollectionRep ],
+
+  function( document, collection )
+    
+    return InsertIntoDatabase( DatabaseDocumentToRecord( document ), collection );
+    
+end );
+
+##
 InstallMethod( UpdateDatabase,
         "for two records and a database collection",
         [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
