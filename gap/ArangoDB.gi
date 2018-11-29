@@ -1526,11 +1526,11 @@ InstallMethod( DocumentsWithDeadLocks,
     
     zombies := List( zombies );
     
-    Info( InfoArangoDB, 2, Length( zombies ), "\tdocuments with existing ", json_key_lock );
+    Info( InfoArangoDB, 2, Length( zombies ), "\t   documents with existing ", json_key_lock );
     
     zombies := Filtered( zombies, d -> d.(json_key_lock).Hostname = Hostname );
     
-    Info( InfoArangoDB, 2, Length( zombies ), "\tof them locked by processes started here on ", Hostname );
+    Info( InfoArangoDB, 2, Length( zombies ), "\t   of them locked by processes started here on ", Hostname );
     
     process_names := ValueOption( "process_names" );
     
@@ -1548,7 +1548,7 @@ InstallMethod( DocumentsWithDeadLocks,
                          end
                        );
     
-    Info( InfoArangoDB, 2, Length( zombies ), "\tof them have deadlocks" );
+    Info( InfoArangoDB, 2, Length( zombies ), "\t   of them have deadlocks" );
     
     Perform( zombies, function( d ) d!.collection := collection; end );
     
