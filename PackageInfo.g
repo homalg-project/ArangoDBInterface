@@ -11,7 +11,7 @@ SetPackageInfo( rec(
 PackageName := "ArangoDBInterface",
 Subtitle := "An interface to ArangoDB",
 Version := Maximum( [
-                   "2018.11.29", ## Mohamed's version
+                   "2018.11.30", ## Mohamed's version
                    ## this line prevents merge conflicts
                    "2017.07.21", ## Lukas's version
                    ] ),
@@ -76,9 +76,10 @@ Dependencies := rec(
   GAP := ">= 4.8",
   NeededOtherPackages := [
                    [ "GAPDoc", ">= 1.5" ],
-                   [  "JSON", ">= 1.2.0" ],
-                   [  "HomalgToCAS", ">= 2017.11.26" ],
-                   [  "IO_ForHomalg", ">= 2017.07.01" ],
+                   [ "JSON", ">= 1.2.0" ],
+                   [ "ToolsForHomalg", ">= 2018.11.30" ],
+                   [ "HomalgToCAS", ">= 2018.11.30" ],
+                   [ "IO_ForHomalg", ">= 2017.07.01" ],
                    ],
   SuggestedOtherPackages := [ ],
   ExternalConditions := [ ],

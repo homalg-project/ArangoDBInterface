@@ -1504,7 +1504,7 @@ InstallMethod( ArangoImport,
     
     exec := JoinStringsWithSeparator( exec, " " );
     
-    output := ApplyCommandToString( exec );
+    output := ExecForHomalg( exec );
     
     Display( output );
     
@@ -1537,7 +1537,7 @@ InstallMethod( DocumentsWithDeadLocks,
     zombies := Filtered( zombies,
                            function( d )
                              local ucomm;
-                             ucomm := ApplyCommandToString(
+                             ucomm := ExecForHomalg(
                                               Concatenation( "ps -o ucomm ", String( d.(json_key_lock).PID ),
                                                       " | tail -1 | grep -v ^UCOMM | grep -v ^COMMAND" ) );
                              NormalizeWhitespace( ucomm );
