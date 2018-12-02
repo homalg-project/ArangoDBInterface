@@ -1016,7 +1016,7 @@ end );
 ##
 InstallGlobalFunction( _ArangoDB_create_filter_string,
   function( collection )
-    local string, query_rec, keys, AND, i, key, value, j, val, limit, sort;
+    local string, query_rec, keys, AND, i, key, value, j, val, limit, sort, desc;
     
     string := [ "FOR d IN ", collection ];
     
@@ -1072,6 +1072,12 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
     
     if not sort = fail then
         Append( string, [ " SORT d.", String( sort ) ] );
+    fi;
+    
+    desc := ValueOption( "DESC" );
+    
+    if desc = true then
+        Append( string, [ " DESC" ] );
     fi;
     
     limit := ValueOption( "LIMIT" );
