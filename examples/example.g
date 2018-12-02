@@ -123,7 +123,11 @@ coll.count();
 #! 2
 db._exists( "test/1" );
 #! true
+IsRecord( coll.exists( "1" ) );
+#! true
 db._exists( "test/2" );
+#! false
+coll.exists( "2" );
 #! false
 db._exists( "test/3" );
 #! true
