@@ -106,6 +106,7 @@ InstallValue( HOMALG_IO_ArangoShell,
             remove_enter := true,			## an arangosh specific
             error_stdout := "JavaScript exception",	## an arangosh specific
             define := "=",
+            delete := function( var, stream ) homalgSendBlocking( [ "delete(", var, ")" ], "need_command", stream, HOMALG_IO.Pictograms.delete ); end,
             prompt := "\033[01marangosh>\033[0m ",
             output_prompt := "\033[1;30;43m<arangosh\033[0m ",
             display_color := "\033[0;30;47m",
