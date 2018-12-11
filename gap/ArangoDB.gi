@@ -863,8 +863,11 @@ InstallMethod( IsBound\.,
         [ IsDatabaseDocumentRep, IsPosInt ],
         
   function( document, string_as_int )
-
-    return not \.( document, string_as_int ) = fail;
+    local name;
+    
+    name := NameRNam( string_as_int );
+    
+    return not EvalString( homalgSendBlocking( [ document!.pointer, ".", name, " == null" ], "need_output" ) );
     
 end );
 
