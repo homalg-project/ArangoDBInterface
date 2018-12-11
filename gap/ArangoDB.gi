@@ -96,7 +96,7 @@ InstallValue( HOMALG_IO_ArangoShell,
             name := "arangosh",
             executable := [ "arangosh" ],	## this list is processed from left to right
             credentials := [ "--server.username", "root@example", "--server.database", "example", "--server.password", "password" ],
-            options := Concatenation( [ "--console.auto-complete", "false", "--console.colors", "false" ], ~.credentials ),
+            options := Concatenation( [ "--console.auto-complete", "false", "--console.colors", "false", "--console.pretty-print", "false" ], ~.credentials ),
             BUFSIZE := 1024,
             READY := "!$%&/(",
             CUT_POS_BEGIN := 1,			## these are the most
