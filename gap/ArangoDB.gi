@@ -1000,7 +1000,9 @@ InstallMethod( RemoveKeyFromCollection,
         query_rec := rec( );
     fi;
     
-    query_rec.(name) := [ "!=", fail ];
+    if not IsBound( query_rec.(name) ) then
+        query_rec.(name) := [ "!=", fail ];
+    fi;
     
     return UpdateDatabase( query_rec, rec( (name) := fail ), coll : OPTIONS := rec( keepNull := false ) );
     
