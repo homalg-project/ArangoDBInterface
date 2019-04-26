@@ -578,7 +578,7 @@ InstallMethod( \.,
         
         return
           function( _key )
-            local ext_obj;
+            local ext_obj, d;
             
             if IsInt( _key ) then
                 _key := String( _key );
@@ -588,7 +588,11 @@ InstallMethod( \.,
             
             ext_obj!.database := collection!.database;
             
-            return CreateDatabaseDocument( ext_obj );
+            d := CreateDatabaseDocument( ext_obj );
+            
+            d!.collection := collection;
+            
+            return d;
             
         end;
         
