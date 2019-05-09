@@ -173,8 +173,9 @@ DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 #! @Description
 #!  Return the cursor defined by the query within <A>collection</A>
 #!  defined by the following options:
-#!  * If the option <C>FILTER</C> := <A>query_rec</A>
-#!    is provided, then the query is filtered according to
+#!  * If the option <C>FILTER</C> := <A>query_str</A> or
+#!    <C>FILTER</C> := <A>query_rec</A> is provided,
+#!    then the query is filtered according to <A>query_str</A> or according to
 #!    the names of components of the query record <A>query_rec</A> as keys and
 #!    the values of the components as values.
 #!    A value <C>fail</C> is translated to <C>null</C>.
@@ -201,6 +202,17 @@ DeclareOperation( "QueryDatabase",
         [ IsDatabaseCollection ] );
 
 #! @Description
+#!  <C>QueryDatabase</C>( <A>query_str</A>, <A>collection</A> )
+#!  is a shorthand for
+#!  <C>QueryDatabase</C>( <A>collection</A> : <C>FILTER</C> := <A>query_str</A> ).
+#!  <P/>
+#! @Arguments query_str, collection
+#! @Returns a database cursor
+#! @Group QueryDatabase
+DeclareOperation( "QueryDatabase",
+        [ IsString, IsDatabaseCollection ] );
+
+#! @Description
 #!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>collection</A> )
 #!  is a shorthand for
 #!  <C>QueryDatabase</C>( <A>collection</A> : <C>FILTER</C> := <A>query_rec</A> ).
@@ -210,6 +222,16 @@ DeclareOperation( "QueryDatabase",
 #! @Group QueryDatabase
 DeclareOperation( "QueryDatabase",
         [ IsRecord, IsDatabaseCollection ] );
+
+#! @Description
+#!  <C>QueryDatabase</C>( <A>query_str</A>, <A>result</A>, <A>collection</A> )
+#!  is a shorthand for
+#!  <C>QueryDatabase</C>( <A>collection</A> : <C>FILTER</C> := <A>query_str</A>, <C>RETURN</C> := <A>result</A> ).
+#! @Arguments query_str, result, collection
+#! @Returns a database cursor
+#! @Group QueryDatabase
+DeclareOperation( "QueryDatabase",
+        [ IsString, IsObject, IsDatabaseCollection ] );
 
 #! @Description
 #!  <C>QueryDatabase</C>( <A>query_rec</A>, <A>result</A>, <A>collection</A> )

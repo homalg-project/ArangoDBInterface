@@ -1065,13 +1065,18 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
         query_rec := rec( );
     fi;
     
-    keys := NamesOfComponents( query_rec );
-    
-    if not keys = [ ] then
-        Add( string, " FILTER " );
+    if IsRecord( query_rec ) then
+        keys := NamesOfComponents( query_rec );
+        if not keys = [ ] then
+            Add( string, " FILTER " );
+        fi;
+        AND := "";
+    else
+        keys := [ ];
+        if not query_rec = [ ] then
+            Append( string, [ " FILTER ", query_rec ] );
+        fi;
     fi;
-    
-    AND := "";
     
     for i in [ 1 .. Length( keys ) ] do
         key := keys[i];
@@ -1217,12 +1222,34 @@ end );
 
 ##
 InstallMethod( QueryDatabase,
+        "for a string and a database collection",
+        [ IsString and IsStringRep, IsDatabaseCollectionRep ],
+
+  function( query_str, collection )
+    
+    return QueryDatabase( collection : FILTER := query_str );
+    
+end );
+
+##
+InstallMethod( QueryDatabase,
         "for a record and a database collection",
         [ IsRecord, IsDatabaseCollectionRep ],
 
   function( query_rec, collection )
     
     return QueryDatabase( collection : FILTER := query_rec );
+    
+end );
+
+##
+InstallMethod( QueryDatabase,
+        "for a string, an object, and a database collection",
+        [ IsString and IsStringRep, IsObject, IsDatabaseCollectionRep ],
+
+  function( query_str, result, collection )
+    
+    return QueryDatabase( collection : FILTER := query_str, RETURN := result );
     
 end );
 
