@@ -900,10 +900,10 @@ end );
 
 ##
 InstallMethod( UpdateDatabase,
-        "for two records and a database collection",
-        [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
-
-  function( query_rec, keys_values_rec, collection )
+        "for a record, a string, and a database collection",
+        [ IsRecord, IsString and IsStringRep, IsDatabaseCollectionRep ],
+        
+  function( query_rec, str, collection )
     local db, update, coll, options;
     
     db := collection!.database;
@@ -912,7 +912,7 @@ InstallMethod( UpdateDatabase,
     
     update := _ArangoDB_create_filter_string( coll : FILTER := query_rec );
     
-    Append( update, [ " UPDATE d WITH ", GapToJsonString( keys_values_rec ), " IN ", collection!.name ] );
+    Append( update, [ " UPDATE d WITH ", str, " IN ", collection!.name ] );
     
     options := ValueOption( "OPTIONS" );
     
@@ -921,6 +921,17 @@ InstallMethod( UpdateDatabase,
     fi;
     
     return db._query( update );
+    
+end );
+
+##
+InstallMethod( UpdateDatabase,
+        "for two records and a database collection",
+        [ IsRecord, IsRecord, IsDatabaseCollectionRep ],
+        
+  function( query_rec, keys_values_rec, collection )
+    
+    return UpdateDatabase( query_rec, GapToJsonString( keys_values_rec ), collection );
     
 end );
 

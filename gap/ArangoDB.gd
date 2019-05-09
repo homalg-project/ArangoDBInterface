@@ -122,9 +122,16 @@ DeclareOperation( "InsertIntoDatabase",
 #! @Description
 #!  Update the document(s) filtered by the record <A>query_rec</A>
 #!  or with the identifier string <A>id</A> in <A>collection</A>
-#!  using the keys-values record <A>keys_values_rec</A>.
-#! @Arguments query_rec, keys_values_rec, collection
+#!  using the keys-values record <A>keys_values_rec</A> of which
+#!  <A>str</A> = <C>GapToJsonString</C>( <A>keys_values_rec</A> ).
+#!  The option to directly provide a string <A>str</A> is for experts.
+#! @Arguments query_rec, str, collection
 #! @Returns a database cursor
+#! @Group UpdateDatabase
+DeclareOperation( "UpdateDatabase",
+        [ IsRecord, IsString, IsDatabaseCollection ] );
+
+#! @Arguments query_rec, keys_values_rec, collection
 #! @Group UpdateDatabase
 DeclareOperation( "UpdateDatabase",
         [ IsRecord, IsRecord, IsDatabaseCollection ] );
