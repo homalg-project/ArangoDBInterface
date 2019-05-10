@@ -147,7 +147,7 @@ end );
 ##
 InstallGlobalFunction( AttachAnArangoDatabase,
   function( arg )
-    local nargs, save, options, stream, name, db;
+    local nargs, save, options, stream, client, name, split, db;
     
     nargs := Length( arg );
     
@@ -160,12 +160,21 @@ InstallGlobalFunction( AttachAnArangoDatabase,
     
     stream := LaunchCAS( "HOMALG_IO_ArangoShell" );
     
+    client := HOMALG_IO_ArangoShell.name;
+    
     if IsBound( save ) then
         HOMALG_IO_ArangoShell.options := save;
     fi;
     
-    name := homalgSendBlocking( [ "db" ], "need_output", stream );
-    name := SplitString( name, "\"" )[2];
+    name := homalgSendBlocking( [ "db" ], "need_display", stream );
+    
+    split := SplitString( name, "\"" );
+    
+    if Length( split ) > 2 and split[3] = " : [object ArangoConnection:,unconnected], " then
+        Error( client, " is unable to connect to the database server: ", name );
+    fi;
+    
+    name := split[2];
     
     db := rec( stream := stream,
                options := options,
