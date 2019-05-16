@@ -1,4 +1,4 @@
-#! @System example
+#! @Chunk example
 
 LoadPackage( "ArangoDBInterface" );
 
