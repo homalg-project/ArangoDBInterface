@@ -9,12 +9,20 @@ fi;
 
 AutoDoc( 
         rec(
-            scaffold := rec( gapdoc_latex_options := rec( 
-                             LateExtraPreamble := "\\usepackage{amsmath}\\usepackage[T1]{fontenc}\n\\usepackage{tikz}\n\\usetikzlibrary{shapes,arrows,matrix}\n\\usepackage{faktor}" 
-                                                        ),
-                             entities := [ "GAP4", "CAP" ],
-                             ),
-            
+            scaffold := rec(
+                gapdoc_latex_options := rec(
+                LateExtraPreamble := """
+                    \usepackage{amsmath}
+                    \usepackage[T1]{fontenc}
+                    \usepackage{tikz}
+                    \usetikzlibrary{shapes,arrows,matrix}
+                    \usepackage{faktor}
+                    \RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+                    """
+                ),
+                entities := [ "GAP4", "CAP" ],
+            ),
+
             autodoc := rec( files := [ "doc/Doc.autodoc" ] ),
 
             maketest := rec( folder := ".",
