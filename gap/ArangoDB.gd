@@ -170,6 +170,8 @@ DeclareGlobalFunction( "_ArangoDB_create_filter_string" );
 
 DeclareGlobalFunction( "_ArangoDB_create_filter_return_string" );
 
+DeclareGlobalFunction( "GapToJsonStringForArangoDB" );
+
 #! @Description
 #!  Return the cursor defined by the query within <A>collection</A>
 #!  defined by the following options:

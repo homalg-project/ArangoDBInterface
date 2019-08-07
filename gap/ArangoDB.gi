@@ -110,6 +110,7 @@ InstallValue( HOMALG_IO_ArangoShell,
             prompt := "\033[01marangosh>\033[0m ",
             output_prompt := "\033[1;30;43m<arangosh\033[0m ",
             display_color := "\033[0;30;47m",
+            max_chars_per_line := 7000,
 #            init_string := "",
 #            InitializeCASMacros := InitializeArangoDBMacros,
 #            time := function( stream, t ) return Int( homalgSendBlocking( [ "" ], "need_output", stream, HOMALG_IO.Pictograms.time ) ) - t; end,
@@ -136,6 +137,47 @@ function(o, b)
   else
       Error("Invalid Boolean");
   fi;
+end );
+
+##
+InstallGlobalFunction( GapToJsonStringForArangoDB,
+  function( r )
+    local string, l, s, i, str, chunk, c;
+    
+    string := GapToJsonString( r );
+    
+    l := HOMALG_IO_ArangoShell.max_chars_per_line;
+    
+    s := Length( string );
+    
+    if s <= l then
+        return string;
+    fi;
+    
+    i := 0;
+    str := "";
+    c := 0;
+    
+    repeat
+        
+        chunk := string{[ (i * l + 1) .. ( (i+1) * l ) ]};
+        
+        c := c + Length( Positions( chunk, '\"' ) );
+        
+        if IsEvenInt( c ) then
+            Error( "splitting the input line for arangosh in the middle of a non-string is not supported yet\n" );
+        fi;
+        
+        ## ASSUMPTION: only works if we are splitting a string
+        Append( str, Concatenation( chunk, "\\\n" ) );
+        i := i + 1;
+        
+    until (i+1) * l > s;
+    
+    Append( str, string{[ (i * l + 1) .. s ]} );
+    
+    return str;
+    
 end );
 
 ####################################
@@ -457,7 +499,7 @@ InstallMethod( \.,
           function( keys_values_rec )
             local string, ext_obj;
             
-            string := GapToJsonString( keys_values_rec );
+            string := GapToJsonStringForArangoDB( keys_values_rec );
             
             ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
             
@@ -519,7 +561,7 @@ InstallMethod( \.,
           function( keys_values_rec )
             local string, output;
             
-            string := GapToJsonString( keys_values_rec );
+            string := GapToJsonStringForArangoDB( keys_values_rec );
             
             output := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream, "need_output" );
             
@@ -537,7 +579,7 @@ InstallMethod( \.,
           function( keys_values_rec )
             local string;
             
-            string := GapToJsonString( keys_values_rec );
+            string := GapToJsonStringForArangoDB( keys_values_rec );
             
             return homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
             
@@ -644,7 +686,7 @@ InstallMethod( \.,
           function( keys_values_rec )
             local string, ext_obj;
             
-            string := GapToJsonString( keys_values_rec );
+            string := GapToJsonStringForArangoDB( keys_values_rec );
             
             ext_obj := homalgSendBlocking( [ collection!.pointer, ".", name, "(", string, ")" ] );
             
@@ -940,7 +982,7 @@ InstallMethod( UpdateDatabase,
         
   function( query_rec, keys_values_rec, collection )
     
-    return UpdateDatabase( query_rec, GapToJsonString( keys_values_rec ), collection );
+    return UpdateDatabase( query_rec, GapToJsonStringForArangoDB( keys_values_rec ), collection );
     
 end );
 
@@ -954,7 +996,7 @@ InstallMethod( UpdateDatabase,
     
     db := collection!.database;
     
-    string := GapToJsonString( keys_values_rec );
+    string := GapToJsonStringForArangoDB( keys_values_rec );
     
     string := [ "UPDATE \"", id, "\" WITH ", string, " IN ", collection!.name ];
     
@@ -1098,7 +1140,7 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
                     if IsString( value[2*j] ) then
                         val := Concatenation( [ "\"", String( value[2*j] ), "\"" ] );
                     else
-                        val := GapToJsonString( value[2*j] );
+                        val := GapToJsonStringForArangoDB( value[2*j] );
                     fi;
                 fi;
                 Append( string, [ AND, "d.", key, " ", value[2*j-1], " ", val ] );
@@ -1111,7 +1153,7 @@ InstallGlobalFunction( _ArangoDB_create_filter_string,
                 if IsString( value ) then
                     val := Concatenation( [ "\"", String( value ), "\"" ] );
                 else
-                    val := GapToJsonString( value );
+                    val := GapToJsonStringForArangoDB( value );
                 fi;
             fi;
             Append( string, [ AND, "d.", key, " == ", val ] );
