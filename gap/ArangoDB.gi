@@ -142,7 +142,7 @@ end );
 ##
 InstallGlobalFunction( GapToJsonStringForArangoDB,
   function( r )
-    local string, l, s, i, str, chunk, c;
+    local string, l, s, i, str, chunk, c, k;
     
     string := GapToJsonString( r );
     
@@ -165,13 +165,17 @@ InstallGlobalFunction( GapToJsonStringForArangoDB,
         c := c + Length( Positions( chunk, '\"' ) );
         
         if IsEvenInt( c ) then
-            Error( "splitting the input line for arangosh in the middle of a non-string is not supported yet\n" );
+            k := PositionNthOccurrence(Reversed(chunk), ',', 1);
+            if k = fail then
+                Error( "splitting the input line for arangosh in the middle of a non-string is not supported yet\n" );
+            fi;
+            Append(str, Concatenation(chunk{[1..l-k+1]}, "\n", chunk{[l-k+2..l]}));
+        else
+            ## ASSUMPTION: only works if we are splitting a string
+            Append( str, Concatenation( chunk, "\\\n" ) );
         fi;
-        
-        ## ASSUMPTION: only works if we are splitting a string
-        Append( str, Concatenation( chunk, "\\\n" ) );
         i := i + 1;
-        
+    
     until (i+1) * l > s;
     
     Append( str, string{[ (i * l + 1) .. s ]} );
