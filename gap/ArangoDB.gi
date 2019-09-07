@@ -142,7 +142,7 @@ end );
 ##
 InstallGlobalFunction( GapToJsonStringForArangoDB,
   function( r )
-    local string, l, s, i, str, chunk, c, k;
+    local string, l, s, i, str, chunk, c, k, rev;
     
     string := GapToJsonString( r );
     
@@ -160,25 +160,35 @@ InstallGlobalFunction( GapToJsonStringForArangoDB,
     
     repeat
         
-        chunk := string{[ (i * l + 1) .. ( (i+1) * l ) ]};
+        chunk := string{[ (i + 1) .. ( i + l ) ]};
         
         c := c + Length( Positions( chunk, '\"' ) );
         
         if IsEvenInt( c ) then
-            k := PositionNthOccurrence(Reversed(chunk), ',', 1);
+            # if we can't split the input line inside a string, we try to split
+            # it after one of the characters ',' ':' ' '
+            rev := Reversed(chunk);
+            k := PositionNthOccurrence(rev, ',', 1);
             if k = fail then
-                Error( "splitting the input line for arangosh in the middle of a non-string is not supported yet\n" );
+                k := PositionNthOccurrence(rev, ' ', 1);
+                if k = fail then
+                    k := PositionNthOccurrence(rev, ':', 1);
+                    if k = fail then
+                        Error( "splitting the input line for arangosh in the middle of a non-string is not supported yet\n" );
+                    fi;
+                fi;
             fi;
-            Append(str, Concatenation(chunk{[1..l-k+1]}, "\n", chunk{[l-k+2..l]}));
+            Append(str, Concatenation(chunk{[1..l-k+1]}, "\n"));
+            i := i+l-k+1;
         else
             ## ASSUMPTION: only works if we are splitting a string
             Append( str, Concatenation( chunk, "\\\n" ) );
+            i := i + l;
         fi;
-        i := i + 1;
-    
-    until (i+1) * l > s;
-    
-    Append( str, string{[ (i * l + 1) .. s ]} );
+        
+    until i + l > s;
+
+    Append( str, string{[ (i + 1) .. s ]} );
     
     return str;
     
