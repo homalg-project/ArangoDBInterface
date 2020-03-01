@@ -1713,6 +1713,17 @@ InstallMethod( RemoveDeadLocksFromDocuments,
     
 end );
 
+##
+InstallOtherMethod( homalgStream,
+        "for a database",
+        [ IsArangoDatabase ],
+        
+  function( db )
+    
+    return db!.stream;
+    
+end );
+
 ####################################
 #
 # View, Print, and Display methods:
