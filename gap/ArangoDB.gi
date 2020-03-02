@@ -142,7 +142,7 @@ end );
 ##
 InstallGlobalFunction( GapToJsonStringForArangoDB,
   function( r )
-    local string, l, s, i, str, chunk, c, k, rev;
+    local string, l, s, i, str, c, already_splitting_a_string, chunk, n, rev, k, p;
     
     string := GapToJsonString( r );
     
@@ -156,39 +156,83 @@ InstallGlobalFunction( GapToJsonStringForArangoDB,
     
     i := 0;
     str := "";
-    c := 0;
+
+    c := ValueOption( "offset" );
+    if not IsInt( c ) then
+        c := 0;
+    fi;
+    
+    already_splitting_a_string := false;
     
     repeat
         
         chunk := string{[ (i + 1) .. ( i + l ) ]};
         
-        c := c + Length( Positions( chunk, '\"' ) );
+        ## ASSUMPTION: Only works if the strings do not themselves include a '\"'
+        
+        n := Length( Positions( chunk, '\"' ) );
+        
+        c := c + n;
         
         if IsEvenInt( c ) then
-            # if we can't split the input line inside a string, we try to split
-            # it after one of the characters ',' ':' ' '
-            rev := Reversed(chunk);
-            k := PositionNthOccurrence(rev, ',', 1);
+            # outside a string we try to split after one of the characters ',' ':' ' '
+            
+            rev := Reversed( chunk );
+            
+            k := Position( rev, ',' );
             if k = fail then
-                k := PositionNthOccurrence(rev, ' ', 1);
+                k := Position( rev, ' ' );
                 if k = fail then
-                    k := PositionNthOccurrence(rev, ':', 1);
+                    k := Position( rev, ':' );
                     if k = fail then
-                        Error( "splitting the input line for arangosh in the middle of a non-string is not supported yet\n" );
+                        Error( "splitting the input line for arangosh in the middle of a non-string is not fully supported yet\n" );
                     fi;
                 fi;
             fi;
-            Append(str, Concatenation(chunk{[1..l-k+1]}, "\n"));
-            i := i+l-k+1;
-        else
-            ## ASSUMPTION: only works if we are splitting a string
-            Append( str, Concatenation( chunk, "\\\n" ) );
-            i := i + l;
+            
+            chunk := chunk{[1..l-k+1]};
+            i := i - k + 1;
+            
+            c := c - n + Length( Positions( chunk, '\"' ) );
+            
+            if not IsEvenInt( c ) then
+                Error( "we were unable to split the chunk properly\n" );
+            fi;
+            
         fi;
         
-    until i + l > s;
+        i := i + l;
+        
+        ## Now use JavaScript's temaplate literals to split a string over multiple lines,
+        ## see https://github.com/arangodb/arangodb/issues/9651#issuecomment-545385037
 
-    Append( str, string{[ (i + 1) .. s ]} );
+        ## the order of the following two if-statements is important
+        
+        if already_splitting_a_string then
+            p := Position( chunk, '\"' );
+            if not p = fail then
+                already_splitting_a_string := false;
+            else
+                Append( chunk, "\\" );
+            fi;
+        fi;
+        
+        if not already_splitting_a_string and IsOddInt( c ) then
+            rev := Reversed( chunk );
+            p := Position( rev, '\"' );
+            if not p = fail then
+                already_splitting_a_string := true;
+                Append( chunk, "\\" );
+            fi;
+        fi;
+        
+        Append( str, Concatenation( chunk, "\n" ) );
+        
+    until i + l > s;
+    
+    chunk := string{[ (i + 1) .. s ]};
+    
+    Append( str, chunk );
     
     return str;
     
@@ -513,7 +557,9 @@ InstallMethod( \.,
           function( keys_values_rec )
             local string, ext_obj;
             
-            string := GapToJsonStringForArangoDB( keys_values_rec );
+            ## we have to increase the offset by 1 because they value of the key query is a string itself containing '\"'
+            ## db._createStatement({"count" : true,"query" : "UPDATE \"649949b17039ec733c29165a7c0976b028e2d830\" WITH {\"dimension\" : 8, ...
+            string := GapToJsonStringForArangoDB( keys_values_rec : offset := 1 );
             
             ext_obj := homalgSendBlocking( [ db!.pointer, ".", name, "(", string, ")" ], db!.stream );
             
@@ -996,7 +1042,7 @@ InstallMethod( UpdateDatabase,
         
   function( query_rec, keys_values_rec, collection )
     
-    return UpdateDatabase( query_rec, GapToJsonStringForArangoDB( keys_values_rec ), collection );
+    return UpdateDatabase( query_rec, GapToJsonString( keys_values_rec ), collection );
     
 end );
 
@@ -1010,7 +1056,7 @@ InstallMethod( UpdateDatabase,
     
     db := collection!.database;
     
-    string := GapToJsonStringForArangoDB( keys_values_rec );
+    string := GapToJsonString( keys_values_rec );
     
     string := [ "UPDATE \"", id, "\" WITH ", string, " IN ", collection!.name ];
     
