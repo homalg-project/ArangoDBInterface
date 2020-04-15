@@ -944,7 +944,7 @@ InstallMethod( \.,
     
     doc := JsonStringToGap( output );
     
-    if IsString( doc.(name) ) then
+    if IsStringRep( doc.(name) ) then
         ## get the string again through a direct method as it might be truncated
         output := homalgSendBlocking( [ document!.pointer, ".", name ], "need_display" );
         ## the pseudo-tty based interface is not reliable concerning
