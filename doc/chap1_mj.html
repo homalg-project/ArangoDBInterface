@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (ArangoDBInterface) - Chapter 1: ArangoDB</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap1"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapInd_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap1.html">[MathJax off]</a></p>
+<p><a id="X87F304E7830AC658" name="X87F304E7830AC658"></a></p>
+<div class="ChapSects"><a href="chap1_mj.html#X87F304E7830AC658">1 <span class="Heading">ArangoDB</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7A489A5D79DA9E5C">1.1 <span class="Heading">Examples</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7D9044767BEB1523">1.2 <span class="Heading">Global variables</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X78EAA61A7C893B36">1.2-1 HOMALG_IO_ArangoShell</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X87C52E0B787FEC49">1.2-2 InfoArangoDB</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7D03633A7D98026B">1.3 <span class="Heading">GAP categories</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X8428456D79410EFF">1.3-1 IsArangoDatabase</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X87714F4D84BF0088">1.3-2 IsDatabaseCollection</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X84333A59781C5B7D">1.3-3 IsDatabaseStatement</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X820B3C8A7AE98648">1.3-4 IsDatabaseCursor</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7F3083357F51348B">1.3-5 IsDatabaseArray</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7C234A7B7DEC509E">1.3-6 IsDatabaseDocument</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X86EC0F0A78ECBC10">1.4 <span class="Heading">Constructors</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X85C935577B4A7F12">1.4-1 AttachAnArangoDatabase</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X804D5A507E605905">1.5 <span class="Heading">Query operations</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X8646DD928711D5B9">1.5-1 InsertIntoDatabase</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X852BB35C79E72661">1.5-2 UpdateDatabase</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X8077C00985DE077C">1.5-3 RemoveFromDatabase</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X82249E9E8118218F">1.5-4 RemoveKeyFromCollection</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7FA10DBF876FA9EC">1.5-5 QueryDatabase</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7EA38DD5810E4B3F">1.5-6 MarkFirstNDocuments</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7833145079DF9E60">1.5-7 MarkFirstDocument</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X839E5A8384B6071C">1.5-8 Iterator</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7B8CE64378A6455D">1.5-9 ListOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7DB44983795713E2">1.5-10 ListOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7EDDD69086CE3B5B">1.5-11 SumOp</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X837EE95780B0C0A5">1.5-12 DatabaseDocumentToRecord</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X85F6F5C380D82A4A">1.5-13 DisplayInArangoSh</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X84783A4B7D4C3DA1">1.5-14 ArangoImport</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X8384C90B824CDD50">1.5-15 DocumentsWithDeadLocks</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X790D871980F6ACBF">1.5-16 RemoveDeadLocksFromDocuments</a></span>
+</div></div>
+</div>
+
+<h3>1 <span class="Heading">ArangoDB</span></h3>
+
+<p><a id="X7A489A5D79DA9E5C" name="X7A489A5D79DA9E5C"></a></p>
+
+<h4>1.1 <span class="Heading">Examples</span></h4>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db := AttachAnArangoDatabase( );</span>
+[object ArangoDatabase "example"]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._isSystem();</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._name();</span>
+"example"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._drop( "test" );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll := db._create( "test" );</span>
+[ArangoCollection "test"]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db.test;</span>
+[ArangoCollection "test"]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db.test.count();</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._truncate( coll );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.save( rec( _key := "1", TP := "x-y" ) );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._truncate( coll );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.save( rec( _key := "1", TP := "x-y" ) );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.save( rec( _key := "2", TP := "x*y" ) );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UpdateDatabase( "3", rec( TP := "x+y", a := 42, b := " a\nb " ), coll );</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UpdateDatabase( "3", rec( c := rec( d := [ 1, "e" ] ) ), coll );</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t := rec( query := "FOR e IN test SORT e._key RETURN e", count := true );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t := db._createStatement( t );</span>
+[ArangoStatement in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">c := t.execute();</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">c.count();</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a := c.toArray();</span>
+[ArangoArray of length 3]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length( a );</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length( List( a ) );</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a[1].TP;</span>
+"x-y"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a[2].TP;</span>
+"x*y"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a[3].TP;</span>
+"x+y"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a[3].a;</span>
+42
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a[3].b;</span>
+" a\nb "
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBound( a[3].c );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a[3].c;</span>
+rec( d := [ 1, "e" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">c := t.execute();</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">i := Iterator( c );</span>
+&lt;iterator&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d1 := NextIterator( i );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d1.TP;</span>
+"x-y"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d2 := NextIterator( i );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d2.TP;</span>
+"x*y"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d3 := NextIterator( i );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d3.TP;</span>
+"x+y"
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d3.a;</span>
+42
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d3.b;</span>
+" a\nb "
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBound( d3.c );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">d3.c;</span>
+rec( d := [ 1, "e" ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">r3 := DatabaseDocumentToRecord( d3 );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRecord( r3 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Set( NamesOfComponents( r3 ) );</span>
+[ "TP", "_id", "_key", "_rev", "a", "b", "c" ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">[ r3._id, r3._key, r3.TP, r3.a, r3.b, r3.c ];</span>
+[ "test/3", "3", "x+y", 42, " a\nb ", rec( d := [ 1, "e" ] ) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UpdateDatabase( "1", rec( TP := "x+y" ), coll );</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">q := QueryDatabase( rec( TP := "x+y" ), ["_key","TP","a","b","c"], coll );</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">a := q.toArray();</span>
+[ArangoArray of length 2]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Set( List( a, DatabaseDocumentToRecord ) );</span>
+[ rec( TP := "x+y", _key := "1", a := fail, b := fail, c := fail ), 
+  rec( TP := "x+y", _key := "3", a := 42, b := " a\nb ", 
+      c := rec( d := [ 1, "e" ] ) ) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RemoveFromDatabase( "2", coll );</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.count();</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._exists( "test/1" );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRecord( coll.exists( "1" ) );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._exists( "test/2" );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.exists( "2" );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._exists( "test/3" );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">db._document( "test/3" );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">coll.document( "3" );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">q := QueryDatabase( rec( TP := "x+y" ), coll );</span>
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">q.count();</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me1" ), coll );</span>
+[ArangoDocument]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me2" ), coll );</span>
+[ArangoDocument]
+</pre></div>
+
+<p><a id="X7D9044767BEB1523" name="X7D9044767BEB1523"></a></p>
+
+<h4>1.2 <span class="Heading">Global variables</span></h4>
+
+<p><a id="X78EAA61A7C893B36" name="X78EAA61A7C893B36"></a></p>
+
+<h5>1.2-1 HOMALG_IO_ArangoShell</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; HOMALG_IO_ArangoShell</code></td><td class="tdright">(&nbsp;global variable&nbsp;)</td></tr></table></div>
+<p><a id="X87C52E0B787FEC49" name="X87C52E0B787FEC49"></a></p>
+
+<h5>1.2-2 InfoArangoDB</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InfoArangoDB</code></td><td class="tdright">(&nbsp;info class&nbsp;)</td></tr></table></div>
+<p><a id="X7D03633A7D98026B" name="X7D03633A7D98026B"></a></p>
+
+<h4>1.3 <span class="Heading">GAP categories</span></h4>
+
+<p><a id="X8428456D79410EFF" name="X8428456D79410EFF"></a></p>
+
+<h5>1.3-1 IsArangoDatabase</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsArangoDatabase</code>( <var class="Arg">arg</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="code">true</code> or <code class="code">false</code></p>
+
+<p>The <strong class="pkg">GAP</strong> category of Arango databases.</p>
+
+<p><a id="X87714F4D84BF0088" name="X87714F4D84BF0088"></a></p>
+
+<h5>1.3-2 IsDatabaseCollection</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDatabaseCollection</code>( <var class="Arg">arg</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="code">true</code> or <code class="code">false</code></p>
+
+<p>The <strong class="pkg">GAP</strong> category of collections in a database.</p>
+
+<p><a id="X84333A59781C5B7D" name="X84333A59781C5B7D"></a></p>
+
+<h5>1.3-3 IsDatabaseStatement</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDatabaseStatement</code>( <var class="Arg">arg</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="code">true</code> or <code class="code">false</code></p>
+
+<p>The <strong class="pkg">GAP</strong> category of database statements.</p>
+
+<p><a id="X820B3C8A7AE98648" name="X820B3C8A7AE98648"></a></p>
+
+<h5>1.3-4 IsDatabaseCursor</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDatabaseCursor</code>( <var class="Arg">arg</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="code">true</code> or <code class="code">false</code></p>
+
+<p>The <strong class="pkg">GAP</strong> category of database cursors.</p>
+
+<p><a id="X7F3083357F51348B" name="X7F3083357F51348B"></a></p>
+
+<h5>1.3-5 IsDatabaseArray</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDatabaseArray</code>( <var class="Arg">arg</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="code">true</code> or <code class="code">false</code></p>
+
+<p>The <strong class="pkg">GAP</strong> category of database arrays.</p>
+
+<p><a id="X7C234A7B7DEC509E" name="X7C234A7B7DEC509E"></a></p>
+
+<h5>1.3-6 IsDatabaseDocument</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDatabaseDocument</code>( <var class="Arg">arg</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="code">true</code> or <code class="code">false</code></p>
+
+<p>The <strong class="pkg">GAP</strong> category of documents in a database collecton.</p>
+
+<p><a id="X86EC0F0A78ECBC10" name="X86EC0F0A78ECBC10"></a></p>
+
+<h4>1.4 <span class="Heading">Constructors</span></h4>
+
+<p><a id="X85C935577B4A7F12" name="X85C935577B4A7F12"></a></p>
+
+<h5>1.4-1 AttachAnArangoDatabase</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AttachAnArangoDatabase</code>( <var class="Arg">opts</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: an Arango database</p>
+
+<p>Attach an existing database by invoking <code class="code">arangosh</code> with an optional list of options <var class="Arg">opts</var> which if not provided defaults to <code class="code">HOMALG_IO_ArangoShell.options</code>.</p>
+
+<p><a id="X804D5A507E605905" name="X804D5A507E605905"></a></p>
+
+<h4>1.5 <span class="Heading">Query operations</span></h4>
+
+<p><a id="X8646DD928711D5B9" name="X8646DD928711D5B9"></a></p>
+
+<h5>1.5-1 InsertIntoDatabase</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InsertIntoDatabase</code>( <var class="Arg">keys_values_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InsertIntoDatabase</code>( <var class="Arg">keys_values_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: none</p>
+
+<p>Insert a new document into <var class="Arg">collection</var> with keys and values given by the record <var class="Arg">keys_values_rec</var>.</p>
+
+<p><a id="X852BB35C79E72661" name="X852BB35C79E72661"></a></p>
+
+<h5>1.5-2 UpdateDatabase</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UpdateDatabase</code>( <var class="Arg">query_rec</var>, <var class="Arg">str</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UpdateDatabase</code>( <var class="Arg">query_rec</var>, <var class="Arg">keys_values_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UpdateDatabase</code>( <var class="Arg">id</var>, <var class="Arg">keys_values_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a database cursor</p>
+
+<p>Update the document(s) filtered by the record <var class="Arg">query_rec</var> or with the identifier string <var class="Arg">id</var> in <var class="Arg">collection</var> using the keys-values record <var class="Arg">keys_values_rec</var> of which <var class="Arg">str</var> = <code class="code">GapToJsonString</code>( <var class="Arg">keys_values_rec</var> ). The option to directly provide a string <var class="Arg">str</var> is for experts.</p>
+
+<p><a id="X8077C00985DE077C" name="X8077C00985DE077C"></a></p>
+
+<h5>1.5-3 RemoveFromDatabase</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveFromDatabase</code>( <var class="Arg">id</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: none</p>
+
+<p>Remove the document with identifier <var class="Arg">id</var> from <var class="Arg">collection</var>.</p>
+
+<p><a id="X82249E9E8118218F" name="X82249E9E8118218F"></a></p>
+
+<h5>1.5-4 RemoveKeyFromCollection</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveKeyFromCollection</code>( <var class="Arg">key_name</var>, <var class="Arg">query_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveKeyFromCollection</code>( <var class="Arg">key_name</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a database cursor</p>
+
+<p>Remove the key with the name <var class="Arg">key_name</var> from the documents in the collection <var class="Arg">coll</var> satisfying the query record <var class="Arg">query_rec</var>. If not specified <var class="Arg">query_rec</var> defaults to the empty record.</p>
+
+<p><a id="X7FA10DBF876FA9EC" name="X7FA10DBF876FA9EC"></a></p>
+
+<h5>1.5-5 QueryDatabase</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; QueryDatabase</code>( <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; QueryDatabase</code>( <var class="Arg">query_str</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; QueryDatabase</code>( <var class="Arg">query_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; QueryDatabase</code>( <var class="Arg">query_str</var>, <var class="Arg">result</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; QueryDatabase</code>( <var class="Arg">query_rec</var>, <var class="Arg">result</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a database cursor</p>
+
+<p>Return the cursor defined by the query within <var class="Arg">collection</var> defined by the following options:</p>
+
+
+<ul>
+<li><p>If the option <code class="code">FILTER</code> := <var class="Arg">query_str</var> or <code class="code">FILTER</code> := <var class="Arg">query_rec</var> is provided, then the query is filtered according to <var class="Arg">query_str</var> or according to the names of components of the query record <var class="Arg">query_rec</var> as keys and the values of the components as values. A value <code class="code">fail</code> is translated to <code class="code">null</code>. This is the way to query for nonbound keys. If a value is a list, then it is iterpreted as [ "O1", value1, "O2", value2, ... ], where "O1", "O2", ... are comparison operators joined with the and operator. (see <span class="URL"><a href="https://docs.arangodb.com/3.2/AQL/Operators.html">https://docs.arangodb.com/3.2/AQL/Operators.html</a></span>). The interpretation of this list might change in future!</p>
+
+</li>
+<li><p>If the option <code class="code">RETURN</code> := <var class="Arg">result</var> (result record/list/string) is provided, then documents in the resulting cursor will only contain the values of the components of the record <var class="Arg">result</var>. More precisely, <var class="Arg">RETURN</var><code class="code">:= rec( new_key1_name := "key1_in_document", ... )</code>. If instead a result list <var class="Arg">RETURN</var>=<code class="code">[ "key1", "key2", ... ]</code> is provided then it is automatically converted into <var class="Arg">RETURN</var>:=<code class="code">rec( key1 := "key1", key2 := "key2"... )</code>.</p>
+
+<p><code class="code">QueryDatabase</code>( <var class="Arg">query_str</var>, <var class="Arg">collection</var> ) is a shorthand for <code class="code">QueryDatabase</code>( <var class="Arg">collection</var> : <code class="code">FILTER</code> := <var class="Arg">query_str</var> ).</p>
+
+<p><code class="code">QueryDatabase</code>( <var class="Arg">query_rec</var>, <var class="Arg">collection</var> ) is a shorthand for <code class="code">QueryDatabase</code>( <var class="Arg">collection</var> : <code class="code">FILTER</code> := <var class="Arg">query_rec</var> ).</p>
+
+<p><code class="code">QueryDatabase</code>( <var class="Arg">query_str</var>, <var class="Arg">result</var>, <var class="Arg">collection</var> ) is a shorthand for <code class="code">QueryDatabase</code>( <var class="Arg">collection</var> : <code class="code">FILTER</code> := <var class="Arg">query_str</var>, <code class="code">RETURN</code> := <var class="Arg">result</var> ). <code class="code">QueryDatabase</code>( <var class="Arg">query_rec</var>, <var class="Arg">result</var>, <var class="Arg">collection</var> ) is a shorthand for <code class="code">QueryDatabase</code>( <var class="Arg">collection</var> : <code class="code">FILTER</code> := <var class="Arg">query_rec</var>, <code class="code">RETURN</code> := <var class="Arg">result</var> ).</p>
+
+</li>
+</ul>
+<p><a id="X7EA38DD5810E4B3F" name="X7EA38DD5810E4B3F"></a></p>
+
+<h5>1.5-6 MarkFirstNDocuments</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MarkFirstNDocuments</code>( <var class="Arg">n</var>, <var class="Arg">query_rec</var>, <var class="Arg">mark_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a database array, <code class="code">false</code>, or <code class="code">fail</code></p>
+
+<p>Mark by the entries of <var class="Arg">mark_rec</var> the first <var class="Arg">n</var> (or less) documents in <var class="Arg">collection</var> (1) satisfying <var class="Arg">query_rec</var> and (2) not containing values for the keys in <var class="Arg">mark_rec</var> and return them in a database array. If (1) fails return <code class="code">[ false ]</code>. If (1) and (2) fail return <code class="code">[ fail ]</code>. The operation is atomic.</p>
+
+<p><a id="X7833145079DF9E60" name="X7833145079DF9E60"></a></p>
+
+<h5>1.5-7 MarkFirstDocument</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MarkFirstDocument</code>( <var class="Arg">query_rec</var>, <var class="Arg">mark_rec</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a database document, <code class="code">false</code>, or <code class="code">fail</code></p>
+
+<p>Returns <code class="code">MarkFirstNDocuments( 1,</code> <var class="Arg">query_rec</var>, <var class="Arg">mark_rec</var>, <var class="Arg">collection</var> <code class="code">)[1]</code>, or <code class="code">false</code>, or <code class="code">fail</code></p>
+
+<p><a id="X839E5A8384B6071C" name="X839E5A8384B6071C"></a></p>
+
+<h5>1.5-8 Iterator</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Iterator</code>( <var class="Arg">cursor</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Iterator</code>( <var class="Arg">array</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: an iterator</p>
+
+<p>Convert database <var class="Arg">cursor</var> into a <strong class="pkg">GAP</strong> iterator.</p>
+
+<p>Convert database <var class="Arg">array</var> into a <strong class="pkg">GAP</strong> iterator.</p>
+
+<p><a id="X7B8CE64378A6455D" name="X7B8CE64378A6455D"></a></p>
+
+<h5>1.5-9 ListOp</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ListOp</code>( <var class="Arg">array</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ListOp</code>( <var class="Arg">cursor</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Convert database <var class="Arg">array</var> into a <strong class="pkg">GAP</strong> list of database documents.</p>
+
+<p>Use as <code class="code">List</code>(<var class="Arg">array</var>).</p>
+
+<p>Convert database <var class="Arg">cursor</var> into a <strong class="pkg">GAP</strong> list of database documents.</p>
+
+<p>Use as <code class="code">List</code>(<var class="Arg">cursor</var>).</p>
+
+<p><a id="X7DB44983795713E2" name="X7DB44983795713E2"></a></p>
+
+<h5>1.5-10 ListOp</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ListOp</code>( <var class="Arg">array</var>, <var class="Arg">f</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ListOp</code>( <var class="Arg">cursor</var>, <var class="Arg">f</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Convert database <var class="Arg">array</var> into a <strong class="pkg">GAP</strong> list of database documents by applying the function <var class="Arg">f</var>.</p>
+
+<p>Use as <code class="code">List</code>(<var class="Arg">array</var>, <var class="Arg">f</var>).</p>
+
+<p>Convert database <var class="Arg">cursor</var> into a <strong class="pkg">GAP</strong> list of database documents by applying the function <var class="Arg">f</var>.</p>
+
+<p>Use as <code class="code">List</code>(<var class="Arg">cursor</var>, <var class="Arg">f</var>).</p>
+
+<p><a id="X7EDDD69086CE3B5B" name="X7EDDD69086CE3B5B"></a></p>
+
+<h5>1.5-11 SumOp</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SumOp</code>( <var class="Arg">cursor</var>, <var class="Arg">f</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SumOp</code>( <var class="Arg">array</var>, <var class="Arg">f</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Convert database <var class="Arg">cursor</var> into a <strong class="pkg">GAP</strong> list of database documents by applying the function <var class="Arg">f</var>.</p>
+
+<p>Use as <code class="code">Sum</code>(<var class="Arg">cursor</var>, <var class="Arg">f</var>).</p>
+
+<p>Convert database <var class="Arg">array</var> into a <strong class="pkg">GAP</strong> list of database documents by applying the function <var class="Arg">f</var>.</p>
+
+<p>Use as <code class="code">Sum</code>(<var class="Arg">array</var>, <var class="Arg">f</var>).</p>
+
+<p><a id="X837EE95780B0C0A5" name="X837EE95780B0C0A5"></a></p>
+
+<h5>1.5-12 DatabaseDocumentToRecord</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DatabaseDocumentToRecord</code>( <var class="Arg">document</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Convert <var class="Arg">document</var> into a <strong class="pkg">GAP</strong> record.</p>
+
+<p><a id="X85F6F5C380D82A4A" name="X85F6F5C380D82A4A"></a></p>
+
+<h5>1.5-13 DisplayInArangoSh</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DisplayInArangoSh</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: none</p>
+
+<p>Display in <code class="code">arangosh</code>, the Arango shell.</p>
+
+<p><a id="X84783A4B7D4C3DA1" name="X84783A4B7D4C3DA1"></a></p>
+
+<h5>1.5-14 ArangoImport</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ArangoImport</code>( <var class="Arg">filename</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: none</p>
+
+<p>Import file named <var class="Arg">filename</var> to <var class="Arg">collection</var>. Accepted options:</p>
+
+
+<ul>
+<li><p>type</p>
+
+</li>
+<li><p>separator (as a string, if type is "csv" or "tsv")</p>
+
+</li>
+<li><p>options (remaining options as a string)</p>
+
+</li>
+</ul>
+<p>See (<span class="URL"><a href="https://docs.arangodb.com/3.2/Manual/Administration/Arangoimp.html">https://docs.arangodb.com/3.2/Manual/Administration/Arangoimp.html</a></span>).</p>
+
+<p><a id="X8384C90B824CDD50" name="X8384C90B824CDD50"></a></p>
+
+<h5>1.5-15 DocumentsWithDeadLocks</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DocumentsWithDeadLocks</code>( <var class="Arg">json_key</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of documents</p>
+
+<p>Check <var class="Arg">collection</var> for documents <code class="code">d</code> with existing <code class="code">d.(json_key_lock)</code> created on this server but with no <strong class="pkg">GAP</strong> process with PID=<code class="code">d.(json_key_lock).PID</code>. Here <code class="code">json_key_lock := Concatenation( </code><var class="Arg">json_key</var>, <code class="code">"_lock" )</code>.</p>
+
+<p><a id="X790D871980F6ACBF" name="X790D871980F6ACBF"></a></p>
+
+<h5>1.5-16 RemoveDeadLocksFromDocuments</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveDeadLocksFromDocuments</code>( <var class="Arg">json_key</var>, <var class="Arg">collection</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of documents</p>
+
+<p>Remove the deadlocks in all documents found by <code class="code">DocumentsWithDeadLocks(</code> <var class="Arg">json_key</var>, <var class="Arg">collection</var> <code class="code">)</code>.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapInd_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

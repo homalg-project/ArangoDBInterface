@@ -1,0 +1,419 @@
+  
+  [1X1 [33X[0;0YArangoDB[133X[101X
+  
+  
+  [1X1.1 [33X[0;0YExamples[133X[101X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdb := AttachAnArangoDatabase( );[127X[104X
+    [4X[28X[object ArangoDatabase "example"][128X[104X
+    [4X[25Xgap>[125X [27Xdb._isSystem();[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27Xdb._name();[127X[104X
+    [4X[28X"example"[128X[104X
+    [4X[25Xgap>[125X [27Xdb._drop( "test" );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xcoll := db._create( "test" );[127X[104X
+    [4X[28X[ArangoCollection "test"][128X[104X
+    [4X[25Xgap>[125X [27Xdb.test;[127X[104X
+    [4X[28X[ArangoCollection "test"][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27Xdb.test.count();[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27XInsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27Xdb._truncate( coll );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27Xcoll.save( rec( _key := "1", TP := "x-y" ) );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27Xdb._truncate( coll );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27Xcoll.save( rec( _key := "1", TP := "x-y" ) );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.save( rec( _key := "2", TP := "x*y" ) );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27XInsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XUpdateDatabase( "3", rec( TP := "x+y", a := 42, b := " a\nb " ), coll );[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27XUpdateDatabase( "3", rec( c := rec( d := [ 1, "e" ] ) ), coll );[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xt := rec( query := "FOR e IN test SORT e._key RETURN e", count := true );;[127X[104X
+    [4X[25Xgap>[125X [27Xt := db._createStatement( t );[127X[104X
+    [4X[28X[ArangoStatement in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xc := t.execute();[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xc.count();[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27Xa := c.toArray();[127X[104X
+    [4X[28X[ArangoArray of length 3][128X[104X
+    [4X[25Xgap>[125X [27XLength( a );[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XLength( List( a ) );[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27Xa[1].TP;[127X[104X
+    [4X[28X"x-y"[128X[104X
+    [4X[25Xgap>[125X [27Xa[2].TP;[127X[104X
+    [4X[28X"x*y"[128X[104X
+    [4X[25Xgap>[125X [27Xa[3].TP;[127X[104X
+    [4X[28X"x+y"[128X[104X
+    [4X[25Xgap>[125X [27Xa[3].a;[127X[104X
+    [4X[28X42[128X[104X
+    [4X[25Xgap>[125X [27Xa[3].b;[127X[104X
+    [4X[28X" a\nb "[128X[104X
+    [4X[25Xgap>[125X [27XIsBound( a[3].c );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xa[3].c;[127X[104X
+    [4X[28Xrec( d := [ 1, "e" ] )[128X[104X
+    [4X[25Xgap>[125X [27Xc := t.execute();[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xi := Iterator( c );[127X[104X
+    [4X[28X<iterator>[128X[104X
+    [4X[25Xgap>[125X [27Xd1 := NextIterator( i );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xd1.TP;[127X[104X
+    [4X[28X"x-y"[128X[104X
+    [4X[25Xgap>[125X [27Xd2 := NextIterator( i );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xd2.TP;[127X[104X
+    [4X[28X"x*y"[128X[104X
+    [4X[25Xgap>[125X [27Xd3 := NextIterator( i );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xd3.TP;[127X[104X
+    [4X[28X"x+y"[128X[104X
+    [4X[25Xgap>[125X [27Xd3.a;[127X[104X
+    [4X[28X42[128X[104X
+    [4X[25Xgap>[125X [27Xd3.b;[127X[104X
+    [4X[28X" a\nb "[128X[104X
+    [4X[25Xgap>[125X [27XIsBound( d3.c );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xd3.c;[127X[104X
+    [4X[28Xrec( d := [ 1, "e" ] )[128X[104X
+    [4X[25Xgap>[125X [27Xr3 := DatabaseDocumentToRecord( d3 );;[127X[104X
+    [4X[25Xgap>[125X [27XIsRecord( r3 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XSet( NamesOfComponents( r3 ) );[127X[104X
+    [4X[28X[ "TP", "_id", "_key", "_rev", "a", "b", "c" ][128X[104X
+    [4X[25Xgap>[125X [27X[ r3._id, r3._key, r3.TP, r3.a, r3.b, r3.c ];[127X[104X
+    [4X[28X[ "test/3", "3", "x+y", 42, " a\nb ", rec( d := [ 1, "e" ] ) ][128X[104X
+    [4X[25Xgap>[125X [27XUpdateDatabase( "1", rec( TP := "x+y" ), coll );[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xq := QueryDatabase( rec( TP := "x+y" ), ["_key","TP","a","b","c"], coll );[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xa := q.toArray();[127X[104X
+    [4X[28X[ArangoArray of length 2][128X[104X
+    [4X[25Xgap>[125X [27XSet( List( a, DatabaseDocumentToRecord ) );[127X[104X
+    [4X[28X[ rec( TP := "x+y", _key := "1", a := fail, b := fail, c := fail ), [128X[104X
+    [4X[28X  rec( TP := "x+y", _key := "3", a := 42, b := " a\nb ", [128X[104X
+    [4X[28X      c := rec( d := [ 1, "e" ] ) ) ][128X[104X
+    [4X[25Xgap>[125X [27XRemoveFromDatabase( "2", coll );[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.count();[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27Xdb._exists( "test/1" );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsRecord( coll.exists( "1" ) );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xdb._exists( "test/2" );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27Xcoll.exists( "2" );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27Xdb._exists( "test/3" );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xdb._document( "test/3" );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xcoll.document( "3" );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27Xq := QueryDatabase( rec( TP := "x+y" ), coll );[127X[104X
+    [4X[28X[ArangoQueryCursor in [object ArangoDatabase "example"]][128X[104X
+    [4X[25Xgap>[125X [27Xq.count();[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XMarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me1" ), coll );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+    [4X[25Xgap>[125X [27XMarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me2" ), coll );[127X[104X
+    [4X[28X[ArangoDocument][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.2 [33X[0;0YGlobal variables[133X[101X
+  
+  [1X1.2-1 HOMALG_IO_ArangoShell[101X
+  
+  [33X[1;0Y[29X[2XHOMALG_IO_ArangoShell[102X[32X global variable[133X
+  
+  [1X1.2-2 InfoArangoDB[101X
+  
+  [33X[1;0Y[29X[2XInfoArangoDB[102X[32X info class[133X
+  
+  
+  [1X1.3 [33X[0;0YGAP categories[133X[101X
+  
+  [1X1.3-1 IsArangoDatabase[101X
+  
+  [33X[1;0Y[29X[2XIsArangoDatabase[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of Arango databases.[133X
+  
+  [1X1.3-2 IsDatabaseCollection[101X
+  
+  [33X[1;0Y[29X[2XIsDatabaseCollection[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of collections in a database.[133X
+  
+  [1X1.3-3 IsDatabaseStatement[101X
+  
+  [33X[1;0Y[29X[2XIsDatabaseStatement[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of database statements.[133X
+  
+  [1X1.3-4 IsDatabaseCursor[101X
+  
+  [33X[1;0Y[29X[2XIsDatabaseCursor[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of database cursors.[133X
+  
+  [1X1.3-5 IsDatabaseArray[101X
+  
+  [33X[1;0Y[29X[2XIsDatabaseArray[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of database arrays.[133X
+  
+  [1X1.3-6 IsDatabaseDocument[101X
+  
+  [33X[1;0Y[29X[2XIsDatabaseDocument[102X( [3Xarg[103X ) [32X filter[133X
+  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  
+  [33X[0;0YThe [5XGAP[105X category of documents in a database collecton.[133X
+  
+  
+  [1X1.4 [33X[0;0YConstructors[133X[101X
+  
+  [1X1.4-1 AttachAnArangoDatabase[101X
+  
+  [33X[1;0Y[29X[2XAttachAnArangoDatabase[102X( [3Xopts[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Yan Arango database[133X
+  
+  [33X[0;0YAttach  an  existing  database by invoking [10Xarangosh[110X with an optional list of
+  options      [3Xopts[103X      which     if     not     provided     defaults     to
+  [10XHOMALG_IO_ArangoShell.options[110X.[133X
+  
+  
+  [1X1.5 [33X[0;0YQuery operations[133X[101X
+  
+  [1X1.5-1 InsertIntoDatabase[101X
+  
+  [33X[1;0Y[29X[2XInsertIntoDatabase[102X( [3Xkeys_values_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XInsertIntoDatabase[102X( [3Xkeys_values_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ynone[133X
+  
+  [33X[0;0YInsert  a  new  document  into  [3Xcollection[103X with keys and values given by the
+  record [3Xkeys_values_rec[103X.[133X
+  
+  [1X1.5-2 UpdateDatabase[101X
+  
+  [33X[1;0Y[29X[2XUpdateDatabase[102X( [3Xquery_rec[103X, [3Xstr[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XUpdateDatabase[102X( [3Xquery_rec[103X, [3Xkeys_values_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XUpdateDatabase[102X( [3Xid[103X, [3Xkeys_values_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya database cursor[133X
+  
+  [33X[0;0YUpdate  the  document(s)  filtered  by  the  record  [3Xquery_rec[103X  or  with the
+  identifier   string   [3Xid[103X   in   [3Xcollection[103X   using  the  keys-values  record
+  [3Xkeys_values_rec[103X  of  which  [3Xstr[103X  =  [10XGapToJsonString[110X(  [3Xkeys_values_rec[103X ). The
+  option to directly provide a string [3Xstr[103X is for experts.[133X
+  
+  [1X1.5-3 RemoveFromDatabase[101X
+  
+  [33X[1;0Y[29X[2XRemoveFromDatabase[102X( [3Xid[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ynone[133X
+  
+  [33X[0;0YRemove the document with identifier [3Xid[103X from [3Xcollection[103X.[133X
+  
+  [1X1.5-4 RemoveKeyFromCollection[101X
+  
+  [33X[1;0Y[29X[2XRemoveKeyFromCollection[102X( [3Xkey_name[103X, [3Xquery_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRemoveKeyFromCollection[102X( [3Xkey_name[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya database cursor[133X
+  
+  [33X[0;0YRemove  the  key with the name [3Xkey_name[103X from the documents in the collection
+  [3Xcoll[103X  satisfying  the  query  record  [3Xquery_rec[103X.  If not specified [3Xquery_rec[103X
+  defaults to the empty record.[133X
+  
+  [1X1.5-5 QueryDatabase[101X
+  
+  [33X[1;0Y[29X[2XQueryDatabase[102X( [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XQueryDatabase[102X( [3Xquery_str[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XQueryDatabase[102X( [3Xquery_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XQueryDatabase[102X( [3Xquery_str[103X, [3Xresult[103X, [3Xcollection[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XQueryDatabase[102X( [3Xquery_rec[103X, [3Xresult[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya database cursor[133X
+  
+  [33X[0;0YReturn  the  cursor  defined  by  the query within [3Xcollection[103X defined by the
+  following options:[133X
+  
+  [30X    [33X[0;6YIf  the option [10XFILTER[110X := [3Xquery_str[103X or [10XFILTER[110X := [3Xquery_rec[103X is provided,
+        then  the query is filtered according to [3Xquery_str[103X or according to the
+        names  of  components  of  the  query record [3Xquery_rec[103X as keys and the
+        values  of  the  components  as  values. A value [10Xfail[110X is translated to
+        [10Xnull[110X.  This  is  the  way  to query for nonbound keys. If a value is a
+        list,  then  it  is iterpreted as [ "O1", value1, "O2", value2, ... ],
+        where  "O1",  "O2",  ...  are comparison operators joined with the and
+        operator.  (see [7Xhttps://docs.arangodb.com/3.2/AQL/Operators.html[107X). The
+        interpretation of this list might change in future![133X
+  
+  [30X    [33X[0;6YIf   the  option  [10XRETURN[110X  :=  [3Xresult[103X  (result  record/list/string)  is
+        provided, then documents in the resulting cursor will only contain the
+        values  of  the  components  of  the  record  [3Xresult[103X.  More precisely,
+        [3XRETURN[103X[10X:= rec( new_key1_name := "key1_in_document", ... )[110X. If instead a
+        result  list  [3XRETURN[103X=[10X[  "key1",  "key2",  ... ][110X is provided then it is
+        automatically  converted  into  [3XRETURN[103X:=[10Xrec(  key1  := "key1", key2 :=
+        "key2"... )[110X.[133X
+  
+        [33X[0;6Y[10XQueryDatabase[110X(   [3Xquery_str[103X,   [3Xcollection[103X   )   is   a   shorthand  for
+        [10XQueryDatabase[110X( [3Xcollection[103X : [10XFILTER[110X := [3Xquery_str[103X ).[133X
+  
+        [33X[0;6Y[10XQueryDatabase[110X(   [3Xquery_rec[103X,   [3Xcollection[103X   )   is   a   shorthand  for
+        [10XQueryDatabase[110X( [3Xcollection[103X : [10XFILTER[110X := [3Xquery_rec[103X ).[133X
+  
+        [33X[0;6Y[10XQueryDatabase[110X(  [3Xquery_str[103X,  [3Xresult[103X,  [3Xcollection[103X  )  is a shorthand for
+        [10XQueryDatabase[110X(  [3Xcollection[103X  : [10XFILTER[110X := [3Xquery_str[103X, [10XRETURN[110X := [3Xresult[103X ).
+        [10XQueryDatabase[110X(  [3Xquery_rec[103X,  [3Xresult[103X,  [3Xcollection[103X  )  is a shorthand for
+        [10XQueryDatabase[110X( [3Xcollection[103X : [10XFILTER[110X := [3Xquery_rec[103X, [10XRETURN[110X := [3Xresult[103X ).[133X
+  
+  [1X1.5-6 MarkFirstNDocuments[101X
+  
+  [33X[1;0Y[29X[2XMarkFirstNDocuments[102X( [3Xn[103X, [3Xquery_rec[103X, [3Xmark_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya database array, [10Xfalse[110X, or [10Xfail[110X[133X
+  
+  [33X[0;0YMark  by  the  entries  of  [3Xmark_rec[103X  the  first  [3Xn[103X  (or  less) documents in
+  [3Xcollection[103X  (1)  satisfying  [3Xquery_rec[103X and (2) not containing values for the
+  keys  in [3Xmark_rec[103X and return them in a database array. If (1) fails return [10X[
+  false ][110X. If (1) and (2) fail return [10X[ fail ][110X. The operation is atomic.[133X
+  
+  [1X1.5-7 MarkFirstDocument[101X
+  
+  [33X[1;0Y[29X[2XMarkFirstDocument[102X( [3Xquery_rec[103X, [3Xmark_rec[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya database document, [10Xfalse[110X, or [10Xfail[110X[133X
+  
+  [33X[0;0YReturns  [10XMarkFirstNDocuments(  1,[110X  [3Xquery_rec[103X,  [3Xmark_rec[103X, [3Xcollection[103X [10X)[1][110X, or
+  [10Xfalse[110X, or [10Xfail[110X[133X
+  
+  [1X1.5-8 Iterator[101X
+  
+  [33X[1;0Y[29X[2XIterator[102X( [3Xcursor[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIterator[102X( [3Xarray[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Yan iterator[133X
+  
+  [33X[0;0YConvert database [3Xcursor[103X into a [5XGAP[105X iterator.[133X
+  
+  [33X[0;0YConvert database [3Xarray[103X into a [5XGAP[105X iterator.[133X
+  
+  [1X1.5-9 ListOp[101X
+  
+  [33X[1;0Y[29X[2XListOp[102X( [3Xarray[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XListOp[102X( [3Xcursor[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YConvert database [3Xarray[103X into a [5XGAP[105X list of database documents.[133X
+  
+  [33X[0;0YUse as [10XList[110X([3Xarray[103X).[133X
+  
+  [33X[0;0YConvert database [3Xcursor[103X into a [5XGAP[105X list of database documents.[133X
+  
+  [33X[0;0YUse as [10XList[110X([3Xcursor[103X).[133X
+  
+  [1X1.5-10 ListOp[101X
+  
+  [33X[1;0Y[29X[2XListOp[102X( [3Xarray[103X, [3Xf[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XListOp[102X( [3Xcursor[103X, [3Xf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YConvert database [3Xarray[103X into a [5XGAP[105X list of database documents by applying the
+  function [3Xf[103X.[133X
+  
+  [33X[0;0YUse as [10XList[110X([3Xarray[103X, [3Xf[103X).[133X
+  
+  [33X[0;0YConvert  database  [3Xcursor[103X  into a [5XGAP[105X list of database documents by applying
+  the function [3Xf[103X.[133X
+  
+  [33X[0;0YUse as [10XList[110X([3Xcursor[103X, [3Xf[103X).[133X
+  
+  [1X1.5-11 SumOp[101X
+  
+  [33X[1;0Y[29X[2XSumOp[102X( [3Xcursor[103X, [3Xf[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSumOp[102X( [3Xarray[103X, [3Xf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YConvert  database  [3Xcursor[103X  into a [5XGAP[105X list of database documents by applying
+  the function [3Xf[103X.[133X
+  
+  [33X[0;0YUse as [10XSum[110X([3Xcursor[103X, [3Xf[103X).[133X
+  
+  [33X[0;0YConvert database [3Xarray[103X into a [5XGAP[105X list of database documents by applying the
+  function [3Xf[103X.[133X
+  
+  [33X[0;0YUse as [10XSum[110X([3Xarray[103X, [3Xf[103X).[133X
+  
+  [1X1.5-12 DatabaseDocumentToRecord[101X
+  
+  [33X[1;0Y[29X[2XDatabaseDocumentToRecord[102X( [3Xdocument[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YConvert [3Xdocument[103X into a [5XGAP[105X record.[133X
+  
+  [1X1.5-13 DisplayInArangoSh[101X
+  
+  [33X[1;0Y[29X[2XDisplayInArangoSh[102X( [3Xobject[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ynone[133X
+  
+  [33X[0;0YDisplay in [10Xarangosh[110X, the Arango shell.[133X
+  
+  [1X1.5-14 ArangoImport[101X
+  
+  [33X[1;0Y[29X[2XArangoImport[102X( [3Xfilename[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ynone[133X
+  
+  [33X[0;0YImport file named [3Xfilename[103X to [3Xcollection[103X. Accepted options:[133X
+  
+  [30X    [33X[0;6Ytype[133X
+  
+  [30X    [33X[0;6Yseparator (as a string, if type is "csv" or "tsv")[133X
+  
+  [30X    [33X[0;6Yoptions (remaining options as a string)[133X
+  
+  [33X[0;0YSee ([7Xhttps://docs.arangodb.com/3.2/Manual/Administration/Arangoimp.html[107X).[133X
+  
+  [1X1.5-15 DocumentsWithDeadLocks[101X
+  
+  [33X[1;0Y[29X[2XDocumentsWithDeadLocks[102X( [3Xjson_key[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of documents[133X
+  
+  [33X[0;0YCheck  [3Xcollection[103X for documents [10Xd[110X with existing [10Xd.(json_key_lock)[110X created on
+  this  server  but  with  no [5XGAP[105X process with PID=[10Xd.(json_key_lock).PID[110X. Here
+  [10Xjson_key_lock := Concatenation( [110X[3Xjson_key[103X, [10X"_lock" )[110X.[133X
+  
+  [1X1.5-16 RemoveDeadLocksFromDocuments[101X
+  
+  [33X[1;0Y[29X[2XRemoveDeadLocksFromDocuments[102X( [3Xjson_key[103X, [3Xcollection[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of documents[133X
+  
+  [33X[0;0YRemove  the  deadlocks  in  all  documents  found by [10XDocumentsWithDeadLocks([110X
+  [3Xjson_key[103X, [3Xcollection[103X [10X)[110X.[133X
+  

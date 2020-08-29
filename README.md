@@ -1,267 +1,170 @@
-# GitHubPagesForGAP
-
-This repository can be used to quickly set up a website hosted by
-[GitHub](https://github.com/) for GAP packages using a GitHub repository.
-Specifically, this uses [GitHub pages](https://pages.github.com/)
-by adding a `gh-pages` branch to your package repository which
-contains data generated from the `PackageInfo.g` file of your package.
-
-## Initial setup
-
-The easiest way to do this is to run the `setup-gh-pages` shell script
-provided in the [GitHubPagesForGAP]() from within a git clone of your
-package's GitHub repository.
-
-In case this does not work, or if you want to really know what's going
-on, you can also follow the manual instructions described after the fold.
-
-------
-
-The following instructions assume you do not already have a `gh-pages`
-branch in your repository. If you do have one, you should delete it before
-following these instructions.
-
-1. Go into your clone of your package repository.
-
-2. Setup a `gh-pages` branch in a `gh-pages` subdirectory.
-
-   Users with a recent enough git version (recommended is >= 2.7.0)
-   can do this using a "worktree", via the following commands:
-
-   ```sh
-   # Add a new remote pointing to the GitHubPagesForGAP repository
-   git remote add -f gh-gap https://github.com/gap-system/GitHubPagesForGAP
-
-   # Create a fresh gh-pages branch from the new remote
-   git branch gh-pages gh-gap/gh-pages --no-track
-
-   # Create a new worktree and change into it
-   git worktree add gh-pages gh-pages
-   cd gh-pages
-   ```
-
-   Everybody else should instead do the following, with the URL
-   in the initial clone command suitably adjusted:
-
-   ```sh
-   # Create a fresh clone of your repository, and change into it
-   git clone https://github.com/USERNAME/REPOSITORY gh-pages
-   cd gh-pages
-
-   # Add a new remote pointing to the GitHubPagesForGAP repository
-   git remote add gh-gap https://github.com/gap-system/GitHubPagesForGAP
-   git fetch gh-gap
-
-   # Create a fresh gh-pages branch from the new remote
-   git checkout -b gh-pages gh-gap/gh-pages --no-track
-   ```
-
-5. Add in copies of your `PackageInfo.g`, `README` (or `README.md`) and manual:
-
-   ```
-   cp -f ../PackageInfo.g ../README* .
-   cp -f ../doc/*.{css,html,js,txt} doc/
-   ```
-
-6. Now run the `update.g` GAP script. This extracts data from your
-   `PackageInfo.g` file and puts that data into `_data/package.yml`.
-   From this, the website template can populate the web pages with
-   some sensible default values.
-
-   ```
-   gap update.g
-   ```
-
-7. Commit and push everything.
-
-   ```
-   git add PackageInfo.g README* doc/ _data/package.yml
-   git commit -m "Setup gh-pages based on GitHubPagesForGAP"
-   git push --set-upstream origin gh-pages
-   ```
-
-That's it. You can now see your new package website under
-https://USERNAME.github.io/REPOSITORY/ (of course after
-adjusting USERNAME and REPOSITORY suitably).
-
-
-## Using an existing gh-pages branch
-
-If you previously set up [GitHubPagesForGAP]() and thus already have a `gh-pages`
-branch, you may on occasion have need to make a fresh clone of your package
-repository, and then also would like to recreate the `gh-pages` directory.
-
-The easiest way to do this is to run the `setup-gh-pages` shell script
-provided in the [GitHubPagesForGAP]() from within a git clone of your
-package's GitHub repository.
-
-In case this does not work, or if you want to really know what's going
-on, you can also follow the manual instructions described after the fold.
-
-------
-
-Users with a recent enough git version (recommended is >= 2.7)
-can do this using a "worktree", via the following commands:
-
-   ```sh
-   git branch gh-pages origin/gh-pages
-   git worktree add gh-pages gh-pages
-   ```
-
-If you are using an older version of git, you can instead use a second clone
-of your repository instead:
-
-   ```sh
-   git clone -b gh-pages https://github.com/USERNAME/REPOSITORY gh-pages
-   ```
-
-
-## Adjusting the content and layout
-
-[GitHubPagesForGAP]() tries to automatically provide good defaults for
-most packages. However, you can tweak everything about it:
-
-* To adjust the page layout, edit the files `stylesheets/styles.css`
-and `_layouts/default.html`.
-
-* To adjust the content of the front page, edit `index.md` (resp.
-  for the content of the sidebar, edit `_layouts/default.html`
-
-* You can also add additional pages, in various formats (HTML,
-Markdown, Textile, ...).
-
-For details, please consult the [Jekyll](http://jekyllrb.com/)
-manual.
-
-
-## Testing the site locally
-
-If you would like to test your site on your own machine, without
-uploading it to GitHub (where it is visible to the public), you can do
-so by installing [Jekyll](http://jekyllrb.com/), the static web site
-generator used by GitHub to power GitHub Pages.
-
-Once you have installed Jekyll as described on its homepage, you can
-test the website locally as follows:
-
-1. Go to the `gh-pages` directory we created above.
-
-2. Run jekyll (this launches a tiny web server on your machine):
-
-   ```
-   jekyll serve -w
-   ```
-
-3. Visit the URL http://localhost:4000 in a web browser.
-
-
-## Updating after you made a release
-
-Whenever you make a release of your package (and perhaps more often than
-that), you will want to update your website. The easiest way is to use
-the `release` script from the [ReleaseTools][], which performs all
-the necessary steps for you, except for the very last of actually
-publishing the package (and it can do even that for you, if you
-pass the `-p` option to it).
-
-However, you can also do it manually. The steps for doing it are quite
-similar to the above:
-
-1. Go to the `gh-pages` directory we created above.
-
-2. Add in copies of your `PackageInfo.g`, `README` (or `README.md`) and manual:
-
-   ```
-   cp -f ../PackageInfo.g ../README* .
-   cp -f ../doc/*.{css,html,js,txt} doc/
-   ```
-
-3. Now run the `update.g` GAP script.
-
-4. Commit and push the work we have just done.
-
-   ```
-   git add PackageInfo.g README* doc/ _data/package.yml
-   git commit -m "Update web pages"
-   git push
-   ```
-
-A few seconds after you have done this, your changes will be online
-under https://USERNAME.github.io/REPOSITORY/ .
-
-
-## Updating to a newer version of GitHubPagesForGAP
-
-Normally you should not have to ever do this. However, if you really want to,
-you can attempt to update to the most recent version of [GitHubPagesForGAP]() via
-the following instructions. The difficulty of such an update depends on how
-much you tweaked the site after initially cloning [GitHubPagesForGAP]().
-
-1. Go to the `gh-pages` directory we created above.
-   Make sure that there are no uncommitted changes, as they will be lost
-   when following these instructions.
-
-2. Make sure the `gh-gap` remote exists and has the correct URL. If in doubt,
-   just re-add it:
-   ```
-   git remote remove gh-gap
-   git remote add gh-gap https://github.com/gap-system/GitHubPagesForGAP
-   ```
-
-3. Attempt to merge the latest GitHubPagesForGAP.
-   ```
-   git pull gh-gap gh-pages
-   ```
-
-4. If this produced no errors and just worked, skip to the next step.
-   But it is quite likely that you will have conflicts in the file
-   `_data/package.yml`, or in your `README` or `PackageInfo.g` files.
-   These can usually be resolved by entering this:
-   ```
-   cp ../PackageInfo.g ../README* .
-   gap update.g
-   git add PackageInfo.g README* _data/package.yml
-   ```
-   If you are lucky, these were the only conflicts (check with `git status`).
-   If no merge conflicts remain, finish with this command:
-   ```
-   git commit -m "Merge gh-gap/gh-pages"
-   ```
-   If you still have merge conflicts, and don't know how to resolve them, or
-   get stuck some other way, you can abort the merge process and revert to the
-   original state by issuing this command:
-   ```
-   git merge --abort
-   ```
-
-5. You should be done now. Don't forget to push your changes if you want them
-   to become public.
-
-
-## Packages using GitHubPagesForGAP
-
-The majority of packages listed on <https://gap-packages.github.io> use
-[GitHubPagesForGAP](). If you want some specific examples, here are some:
-
-* <https://gap-packages.github.io/anupq>
-* <https://gap-packages.github.io/cvec>
-* <https://gap-packages.github.io/genss>
-* <https://gap-packages.github.io/io>
-* <https://gap-packages.github.io/NormalizInterface>
-* <https://gap-packages.github.io/nq>
-* <https://gap-packages.github.io/orb>
-* <https://gap-packages.github.io/polenta>
-* <https://gap-packages.github.io/recog>
-
-
-## Contact
-
-Please submit bug reports, suggestions for improvements and patches via
-the [issue tracker](https://github.com/gap-system/GitHubPagesForGAP/issues).
-
-You can also contact me directly via [email](max@quendi.de).
-
-Copyright (c) 2013-2019 Max Horn
-
-[GitHubPagesForGAP]: https://github.com/gap-system/GitHubPagesForGAP
-[ReleaseTools]: https://github.com/gap-system/ReleaseTools
+# ArangoDBInterface
+
+| **Documentation**                        |
+|:----------------------------------------:|
+| [![][docs-stable-img]][docs-stable-url]  |
+
+[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
+[docs-stable-url]: https://homalg-project.github.io/ArangoDBInterface/doc/chap0.html
+
+[tests-img]: https://github.com/homalg-project/ArangoDBInterface/workflows/Tests/badge.svg
+[tests-url]: https://github.com/homalg-project/ArangoDBInterface/
+
+[codecov-img]: https://codecov.io/gh/homalg-project/ArangoDBInterface/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/homalg-project/ArangoDBInterface
+
+The following example requires a running `arangod` on your system with a database having the following specifications:
+
+* database: `example`
+* username: `root@example`
+* password: `password`
+
+Before you can run the example check you can run this command:
+```
+arangosh --server.username root@example --server.database example --server.password password
+```
+
+```gap
+gap> LoadPackage( "ArangoDBInterface" );
+true
+gap> db := AttachAnArangoDatabase( );
+[object ArangoDatabase "example"]
+gap> db._isSystem();
+false
+gap> db._name();
+"example"
+gap> db._drop( "test" );
+true
+gap> coll := db._create( "test" );
+[ArangoCollection "test"]
+gap> db.test;
+[ArangoCollection "test"]
+gap> coll.count();
+0
+gap> db.test.count();
+0
+gap> InsertIntoDatabase( rec( _key := "1", TP := "x-y" ), coll );
+[ArangoDocument]
+gap> coll.count();
+1
+gap> db._truncate( coll );
+true
+gap> coll.count();
+0
+gap> coll.save( rec( _key := "1", TP := "x-y" ) );
+[ArangoDocument]
+gap> coll.count();
+1
+gap> db._truncate( coll );
+true
+gap> coll.count();
+0
+gap> coll.save( rec( _key := "1", TP := "x-y" ) );
+[ArangoDocument]
+gap> coll.save( rec( _key := "2", TP := "x*y" ) );
+[ArangoDocument]
+gap> InsertIntoDatabase( rec( _key := "3", TP := "x+2*y" ), coll );
+[ArangoDocument]
+gap> coll.count();
+3
+gap> UpdateDatabase( "3", rec( TP := "x+y", a := 42, b := " a\nb " ), coll );
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> UpdateDatabase( "3", rec( c := rec( d := [ 1, "e" ] ) ), coll );
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> coll.ensureIndex(rec( type := "hash", fields := [ "TP" ] ));
+[ArangoDocument]
+gap> t := rec( query := "FOR e IN test SORT e._key RETURN e", count := true );;
+gap> t := db._createStatement( t );
+[ArangoStatement in [object ArangoDatabase "example"]]
+gap> c := t.execute();
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> c.count();
+3
+gap> a := c.toArray();
+[ArangoArray of length 3]
+gap> Length( a );
+3
+gap> Length( List( a ) );
+3
+gap> a[1].TP;
+"x-y"
+gap> a[2].TP;
+"x*y"
+gap> a[3].TP;
+"x+y"
+gap> a[3].a;
+42
+gap> a[3].b;
+" a\nb "
+gap> IsBound( a[3].c );
+true
+gap> a[3].c;
+ rec( d := [ 1, "e" ] )
+gap> c := t.execute();
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> i := Iterator( c );
+<iterator>
+gap> d1 := NextIterator( i );
+[ArangoDocument]
+gap> d1.TP;
+"x-y"
+gap> d2 := NextIterator( i );
+[ArangoDocument]
+gap> d2.TP;
+"x*y"
+gap> d3 := NextIterator( i );
+[ArangoDocument]
+gap> d3.TP;
+"x+y"
+gap> d3.a;
+42
+gap> d3.b;
+" a\nb "
+gap> IsBound( d3.c );
+true
+gap> d3.c;
+rec( d := [ 1, "e" ] )
+gap> r3 := DatabaseDocumentToRecord( d3 );;
+gap> IsRecord( r3 );
+true
+gap> Set( NamesOfComponents( r3 ) );
+[ "TP", "_id", "_key", "_rev", "a", "b", "c" ]
+gap> [ r3._id, r3._key, r3.TP, r3.a, r3.b, r3.c ];
+[ "test/3", "3", "x+y", 42, " a\nb ", rec( d := [ 1, "e" ] ) ]
+gap> UpdateDatabase( "1", rec( TP := "x+y" ), coll );
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> q := QueryDatabase( rec( TP := "x+y" ), ["_key","TP","a","b","c"], coll );
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> a := q.toArray();
+[ArangoArray of length 2]
+gap> Set( List( a, DatabaseDocumentToRecord ) );
+[ rec( TP := "x+y", _key := "1", a := fail, b := fail, c := fail ),
+  rec( TP := "x+y", _key := "3", a := 42, b := " a\nb ",
+       c := rec( d := [ 1, "e" ] ) ) ]
+gap> RemoveFromDatabase( "2", coll );
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> coll.count();
+2
+gap> db._exists( "test/1" );
+true
+gap> IsRecord( coll.exists( "1" ) );
+true
+gap> db._exists( "test/2" );
+false
+gap> coll.exists( "2" );
+false
+gap> db._exists( "test/3" );
+true
+gap> db._document( "test/3" );
+[ArangoDocument]
+gap> coll.document( "3" );
+[ArangoDocument]
+gap> q := QueryDatabase( rec( TP := "x+y" ), coll );
+[ArangoQueryCursor in [object ArangoDatabase "example"]]
+gap> q.count();
+2
+gap> MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me1" ), coll );
+[ArangoDocument]
+gap> MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me2" ), coll );
+[ArangoDocument]    
+```

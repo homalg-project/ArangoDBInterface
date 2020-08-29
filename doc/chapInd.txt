@@ -1,0 +1,44 @@
+  
+  
+  [1XIndex[101X
+  
+  [2XArangoImport[102X, for IsString, IsDatabaseCollection 1.5-14 
+  [2XAttachAnArangoDatabase[102X 1.4-1 
+  [2XDatabaseDocumentToRecord[102X, for IsDatabaseDocument 1.5-12 
+  [2XDisplayInArangoSh[102X, for IsObject 1.5-13 
+  [2XDocumentsWithDeadLocks[102X, for IsString, IsDatabaseCollection 1.5-15 
+  [2XHOMALG_IO_ArangoShell[102X 1.2-1 
+  [2XInfoArangoDB[102X 1.2-2 
+  [2XInsertIntoDatabase[102X, for IsDatabaseDocument, IsDatabaseCollection 1.5-1 
+      for IsRecord, IsDatabaseCollection 1.5-1 
+  [2XIsArangoDatabase[102X, for IsAttributeStoringRep 1.3-1 
+  [2XIsDatabaseArray[102X, for IsAttributeStoringRep 1.3-5 
+  [2XIsDatabaseCollection[102X, for IsAttributeStoringRep 1.3-2 
+  [2XIsDatabaseCursor[102X, for IsAttributeStoringRep 1.3-4 
+  [2XIsDatabaseDocument[102X, for IsAttributeStoringRep 1.3-6 
+  [2XIsDatabaseStatement[102X, for IsAttributeStoringRep 1.3-3 
+  [2XIterator[102X, for IsDatabaseArray 1.5-8 
+      for IsDatabaseCursor 1.5-8 
+  [2XListOp[102X, for IsDatabaseArray 1.5-9 
+      for IsDatabaseArray, IsFunction 1.5-10 
+      for IsDatabaseCursor 1.5-9 
+      for IsDatabaseCursor, IsFunction 1.5-10 
+  [2XMarkFirstDocument[102X, for IsRecord, IsRecord, IsDatabaseCollection 1.5-7 
+  [2XMarkFirstNDocuments[102X, for IsInt, IsRecord, IsRecord, IsDatabaseCollection 1.5-6 
+  [2XQueryDatabase[102X, for IsDatabaseCollection 1.5-5 
+      for IsRecord, IsDatabaseCollection 1.5-5 
+      for IsRecord, IsObject, IsDatabaseCollection 1.5-5 
+      for IsString, IsDatabaseCollection 1.5-5 
+      for IsString, IsObject, IsDatabaseCollection 1.5-5 
+  [2XRemoveDeadLocksFromDocuments[102X, for IsString, IsDatabaseCollection 1.5-16 
+  [2XRemoveFromDatabase[102X, for IsString, IsDatabaseCollection 1.5-3 
+  [2XRemoveKeyFromCollection[102X, for IsString, IsDatabaseCollection 1.5-4 
+      for IsString, IsRecord, IsDatabaseCollection 1.5-4 
+  [2XSumOp[102X, for IsDatabaseArray, IsFunction 1.5-11 
+      for IsDatabaseCursor, IsFunction 1.5-11 
+  [2XUpdateDatabase[102X, for IsRecord, IsRecord, IsDatabaseCollection 1.5-2 
+      for IsRecord, IsString, IsDatabaseCollection 1.5-2 
+      for IsString, IsRecord, IsDatabaseCollection 1.5-2 
+  
+  
+  -------------------------------------------------------
