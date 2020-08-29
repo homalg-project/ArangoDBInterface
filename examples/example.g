@@ -75,7 +75,7 @@ a[3].b;
 IsBound( a[3].c );
 #! true
 a[3].c;
-#!  rec( d := [ 1, "e" ] )
+#! rec( d := [ 1, "e" ] )
 c := t.execute();
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 i := Iterator( c );
@@ -114,9 +114,9 @@ q := QueryDatabase( rec( TP := "x+y" ), ["_key","TP","a","b","c"], coll );
 a := q.toArray();
 #! [ArangoArray of length 2]
 Set( List( a, DatabaseDocumentToRecord ) );
-#! [ rec( TP := "x+y", _key := "1", a := fail, b := fail, c := fail ),
-#!   rec( TP := "x+y", _key := "3", a := 42, b := " a\nb ",
-#!        c := rec( d := [ 1, "e" ] ) ) ]
+#! [ rec( TP := "x+y", _key := "1", a := fail, b := fail, c := fail ), 
+#!   rec( TP := "x+y", _key := "3", a := 42, b := " a\nb ", 
+#!       c := rec( d := [ 1, "e" ] ) ) ]
 RemoveFromDatabase( "2", coll );
 #! [ArangoQueryCursor in [object ArangoDatabase "example"]]
 coll.count();
