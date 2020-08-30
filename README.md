@@ -16,12 +16,12 @@
 The following example requires a running `arangod` on your system with a database having the following specifications:
 
 * database: `example`
-* username: `root@example`
+* username: `root_example`
 * password: `password`
 
 Before you can run the example check you can run this command:
 ```
-arangosh --server.username root@example --server.database example --server.password password
+arangosh --server.username root_example --server.database example --server.password password
 ```
 
 ```gap
