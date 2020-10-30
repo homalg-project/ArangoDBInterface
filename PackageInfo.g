@@ -1,5 +1,5 @@
-#
-# ArangoDBInterface: An interface to ArangoDB
+# SPDX-License-Identifier: GPL-2.0-or-later
+# ArangoDBInterface: A GAP interface to ArangoDB
 #
 # This file contains package meta data. For additional information on
 # the meaning and correct usage of these fields, please consult the
@@ -9,15 +9,15 @@
 SetPackageInfo( rec(
 
 PackageName := "ArangoDBInterface",
-Subtitle := "An interface to ArangoDB",
+Subtitle := "A GAP interface to ArangoDB",
 Version := Maximum( [
-                   "2020.04.16", ## Mohamed's version
+                   "2020.10-01", ## Mohamed's version
                    ## this line prevents merge conflicts
-                   "2017.07.21", ## Lukas's version
+                   "2017.07-21", ## Lukas's version
                    ] ),
 
-Date := ~.Version{[ 1 .. 10 ]},
-Date := Concatenation( ~.Date{[ 9, 10 ]}, "/", ~.Date{[ 6, 7 ]}, "/", ~.Date{[ 1 .. 4 ]} ),
+Date := "30/10/2020",
+Date := "30/10/2020",
 License := "GPL-2.0-or-later",
 
 
@@ -38,19 +38,19 @@ Persons := [
   ),
 ],
 
+# BEGIN URLS
 SourceRepository := rec(
     Type := "git",
-    URL := Concatenation( "https://github.com/homalg-project/", ~.PackageName ),
+    URL := "https://github.com/homalg-project/ArangoDBInterface",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://homalg-project.github.io/", ~.PackageName ),
-PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
-README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
-ArchiveURL      := Concatenation( ~.SourceRepository.URL,
-                                 "/releases/download/v", ~.Version,
-                                 "/", ~.PackageName, "-", ~.Version ),
+PackageWWWHome  := "https://homalg-project.github.io/ArangoDBInterface",
+PackageInfoURL  := "https://homalg-project.github.io/ArangoDBInterface/PackageInfo.g",
+README_URL      := "https://homalg-project.github.io/ArangoDBInterface/README.md",
+ArchiveURL      := Concatenation( "https://github.com/homalg-project/ArangoDBInterface/releases/download/v", ~.Version, "/ArangoDBInterface-", ~.Version ),
+# END URLS
 
-ArchiveFormats := ".tar.gz",
+ArchiveFormats := ".tar.gz .zip",
 
 ##  Status information. Currently the following cases are recognized:
 ##    "accepted"      for successfully refereed packages
@@ -70,7 +70,7 @@ PackageDoc := rec(
   HTMLStart := "doc/chap0.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "An interface to ArangoDB",
+  LongTitle := "A GAP interface to ArangoDB",
 ),
 
 Dependencies := rec(

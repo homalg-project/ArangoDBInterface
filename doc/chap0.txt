@@ -3,13 +3,13 @@
                               [1X ArangoDBInterface [101X
   
   
-                           [1X An interface to ArangoDB [101X
+                         [1X A [5XGAP[105X interface to ArangoDB [101X
   
   
-                                   2020.04.16
+                                   2020.10-01
   
   
-                                 16 April 2020
+                                30 October 2020
   
   
                                 Mohamed Barakat
