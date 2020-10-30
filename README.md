@@ -1,17 +1,13 @@
+<!-- BEGIN HEADER -->
 # ArangoDBInterface
 
-| **Documentation**                        |
-|:----------------------------------------:|
-| [![][docs-stable-img]][docs-stable-url]  |
+### A GAP interface to ArangoDB
 
-[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: https://homalg-project.github.io/ArangoDBInterface/doc/chap0.html
+| Documentation | Latest Release |
+| ------------- | -------------- |
+| [![HTML stable documentation][html-img]][html-url] [![PDF stable documentation][pdf-img]][pdf-url] | [![version][version-img]][version-url] [![date][date-img]][date-url] |
 
-[tests-img]: https://github.com/homalg-project/ArangoDBInterface/workflows/Tests/badge.svg
-[tests-url]: https://github.com/homalg-project/ArangoDBInterface/
-
-[codecov-img]: https://codecov.io/gh/homalg-project/ArangoDBInterface/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/homalg-project/ArangoDBInterface
+<!-- END HEADER -->
 
 The following example requires a running `arangod` on your system with a database having the following specifications:
 
@@ -168,3 +164,32 @@ gap> MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me1" ), coll );
 gap> MarkFirstDocument( rec( TP := "x+y" ), rec( TP_lock := "me2" ), coll );
 [ArangoDocument]    
 ```
+<!-- BEGIN FOOTER -->
+---
+
+### Dependencies
+
+To obtain current versions of all dependencies, `git clone` (or `git pull` to update) the following repositories:
+
+|    | Repository | git URL |
+|--- | ---------- | ------- |
+| 1. | [**homalg_project**](https://github.com/homalg-project/homalg_project#readme) | https://github.com/homalg-project/homalg_project.git |
+
+[html-img]: https://img.shields.io/badge/HTML-stable-blue.svg
+[html-url]: https://homalg-project.github.io/ArangoDBInterface/doc/chap0_mj.html
+
+[pdf-img]: https://img.shields.io/badge/PDF-stable-blue.svg
+[pdf-url]: https://homalg-project.github.io/ArangoDBInterface/download_pdf.html
+
+[version-img]: https://img.shields.io/endpoint?url=https://homalg-project.github.io/ArangoDBInterface/badge_version.json
+[version-url]: https://homalg-project.github.io/ArangoDBInterface/view_release.html
+
+[date-img]: https://img.shields.io/endpoint?url=https://homalg-project.github.io/ArangoDBInterface/badge_date.json
+[date-url]: https://homalg-project.github.io/ArangoDBInterface/view_release.html
+
+[tests-img]: https://github.com/homalg-project/ArangoDBInterface/workflows/Tests/badge.svg?branch=master
+[tests-url]: https://github.com/homalg-project/ArangoDBInterface/actions?query=workflow%3ATests+branch%3Amaster
+
+[codecov-img]: https://codecov.io/gh/homalg-project/ArangoDBInterface/branch/master/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/homalg-project/ArangoDBInterface
+<!-- END FOOTER -->

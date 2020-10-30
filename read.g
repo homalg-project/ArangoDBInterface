@@ -1,5 +1,5 @@
-#
-# ArangoDBInterface: An interface to ArangoDB
+# SPDX-License-Identifier: GPL-2.0-or-later
+# ArangoDBInterface: A GAP interface to ArangoDB
 #
 # Reading the implementation part of the package.
 #
