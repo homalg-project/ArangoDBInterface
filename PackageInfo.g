@@ -44,7 +44,7 @@ SourceRepository := rec(
     URL := "https://github.com/homalg-project/ArangoDBInterface",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := "https://homalg-project.github.io/ArangoDBInterface",
+PackageWWWHome  := "https://homalg-project.github.io/pkg/ArangoDBInterface",
 PackageInfoURL  := "https://homalg-project.github.io/ArangoDBInterface/PackageInfo.g",
 README_URL      := "https://homalg-project.github.io/ArangoDBInterface/README.md",
 ArchiveURL      := Concatenation( "https://github.com/homalg-project/ArangoDBInterface/releases/download/v", ~.Version, "/ArangoDBInterface-", ~.Version ),
