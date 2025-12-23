@@ -10,14 +10,9 @@ SetPackageInfo( rec(
 
 PackageName := "ArangoDBInterface",
 Subtitle := "A GAP interface to ArangoDB",
-Version := Maximum( [
-                   "2020.10-01", ## Mohamed's version
-                   ## this line prevents merge conflicts
-                   "2017.07-21", ## Lukas's version
-                   ] ),
-
+Version := "2025.12-01",
 Date := ~.Version{[ 1 .. 10 ]},
-Date := Concatenation( "01/", ~.Version{[ 6, 7 ]}, "/", ~.Version{[ 1 .. 4 ]} ),
+Date := (function ( ) if IsBound( GAPInfo.SystemEnvironment.GAP_PKG_RELEASE_DATE ) then return GAPInfo.SystemEnvironment.GAP_PKG_RELEASE_DATE; else return Concatenation( ~.Version{[ 1 .. 4 ]}, "-", ~.Version{[ 6, 7 ]}, "-01" ); fi; end)( ),
 License := "GPL-2.0-or-later",
 
 
@@ -74,7 +69,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.9.1",
+  GAP := ">= 4.13.0",
   NeededOtherPackages := [
                    [ "GAPDoc", ">= 1.5" ],
                    [ "JSON", ">= 1.2.0" ],
