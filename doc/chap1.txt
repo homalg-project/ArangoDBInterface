@@ -152,11 +152,11 @@
   
   [1X1.2-1 HOMALG_IO_ArangoShell[101X
   
-  [33X[1;0Y[29X[2XHOMALG_IO_ArangoShell[102X[32X global variable[133X
+  [33X[1;0Y[29X[2XHOMALG_IO_ArangoShell[102X [32X global variable[133X
   
   [1X1.2-2 InfoArangoDB[101X
   
-  [33X[1;0Y[29X[2XInfoArangoDB[102X[32X info class[133X
+  [33X[1;0Y[29X[2XInfoArangoDB[102X [32X info class[133X
   
   
   [1X1.3 [33X[0;0YGAP categories[133X[101X
@@ -164,42 +164,42 @@
   [1X1.3-1 IsArangoDatabase[101X
   
   [33X[1;0Y[29X[2XIsArangoDatabase[102X( [3Xarg[103X ) [32X filter[133X
-  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YThe [5XGAP[105X category of Arango databases.[133X
   
   [1X1.3-2 IsDatabaseCollection[101X
   
   [33X[1;0Y[29X[2XIsDatabaseCollection[102X( [3Xarg[103X ) [32X filter[133X
-  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YThe [5XGAP[105X category of collections in a database.[133X
   
   [1X1.3-3 IsDatabaseStatement[101X
   
   [33X[1;0Y[29X[2XIsDatabaseStatement[102X( [3Xarg[103X ) [32X filter[133X
-  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YThe [5XGAP[105X category of database statements.[133X
   
   [1X1.3-4 IsDatabaseCursor[101X
   
   [33X[1;0Y[29X[2XIsDatabaseCursor[102X( [3Xarg[103X ) [32X filter[133X
-  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YThe [5XGAP[105X category of database cursors.[133X
   
   [1X1.3-5 IsDatabaseArray[101X
   
   [33X[1;0Y[29X[2XIsDatabaseArray[102X( [3Xarg[103X ) [32X filter[133X
-  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YThe [5XGAP[105X category of database arrays.[133X
   
   [1X1.3-6 IsDatabaseDocument[101X
   
   [33X[1;0Y[29X[2XIsDatabaseDocument[102X( [3Xarg[103X ) [32X filter[133X
-  [6XReturns:[106X  [33X[0;10Y[10Xtrue[110X or [10Xfalse[110X[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
   
   [33X[0;0YThe [5XGAP[105X category of documents in a database collecton.[133X
   

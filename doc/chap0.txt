@@ -6,10 +6,10 @@
                          [1X A [5XGAP[105X interface to ArangoDB [101X
   
   
-                                   2020.10-01
+                                   2025.12-01
   
   
-                                30 October 2020
+                                23 December 2025
   
   
                                 Mohamed Barakat

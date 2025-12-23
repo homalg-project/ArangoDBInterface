@@ -10,14 +10,9 @@ SetPackageInfo( rec(
 
 PackageName := "ArangoDBInterface",
 Subtitle := "A GAP interface to ArangoDB",
-Version := Maximum( [
-                   "2020.10-01", ## Mohamed's version
-                   ## this line prevents merge conflicts
-                   "2017.07-21", ## Lukas's version
-                   ] ),
-
-Date := "30/10/2020",
-Date := "30/10/2020",
+Version := "2025.12-01",
+Date := "2025-12-23",
+Date := "2025-12-23",
 License := "GPL-2.0-or-later",
 
 
@@ -44,7 +39,7 @@ SourceRepository := rec(
     URL := "https://github.com/homalg-project/ArangoDBInterface",
 ),
 IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := "https://homalg-project.github.io/ArangoDBInterface",
+PackageWWWHome  := "https://homalg-project.github.io/pkg/ArangoDBInterface",
 PackageInfoURL  := "https://homalg-project.github.io/ArangoDBInterface/PackageInfo.g",
 README_URL      := "https://homalg-project.github.io/ArangoDBInterface/README.md",
 ArchiveURL      := Concatenation( "https://github.com/homalg-project/ArangoDBInterface/releases/download/v", ~.Version, "/ArangoDBInterface-", ~.Version ),
@@ -74,7 +69,7 @@ PackageDoc := rec(
 ),
 
 Dependencies := rec(
-  GAP := ">= 4.9.1",
+  GAP := ">= 4.13.0",
   NeededOtherPackages := [
                    [ "GAPDoc", ">= 1.5" ],
                    [ "JSON", ">= 1.2.0" ],
